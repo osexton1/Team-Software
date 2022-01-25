@@ -1,0 +1,50 @@
+@options
+@packages
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+-sourcepath
+'/Users/stash/IdeaProjects/Team-Software/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2022. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/stash/IdeaProjects/Team-Software/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Team-Software 1.0 API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' '/Users/stash/IdeaProjects/Team-Software/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Team-Software 1.0 API'
+com.CambrianAdventure.app.combat
+com.CambrianAdventure.app.Mechanics
+com.CambrianAdventure.app.exploration
+com.CambrianAdventure.app
+com.CambrianAdventure.app.enemies
+/Users/stash/IdeaProjects/Team-Software/src/main/java/.DS_Store = 1643121078325
+/Users/stash/IdeaProjects/Team-Software/src/main/java = 1643121078324
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/tag-search-index.js = 1643122452724
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/overview-tree.html = 1643122452697
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/module-search-index.js = 1643122452722
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/index.html = 1643122452702
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/package-search-index.js = 1643122452722
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/jquery-ui.overrides.css = 1643122452760
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/index-all.html = 1643122452740
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/allpackages-index.html = 1643122452721
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/member-search-index.js = 1643122452723
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/script.js = 1643122452747
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/stylesheet.css = 1643122452746
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/overview-summary.html = 1643122452741
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/help-doc.html = 1643122452745
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/element-list = 1643122452601
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/allclasses-index.html = 1643122452719
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/type-search-index.js = 1643122452723
+/Users/stash/IdeaProjects/Team-Software/target/apidocs/search.js = 1643122452748

@@ -9,5 +9,7 @@ public class Main{
         System.out.println("Welcome to Cambrian Adventure!\ncool");
         EnviromentBase t = new EnviromentBase("beach", "hallucigenia");
         t.setup();
+        String inputText = System.console().readLine();
+        System.out.println(inputText);
     }
 }
