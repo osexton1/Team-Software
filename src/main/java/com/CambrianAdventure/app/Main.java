@@ -11,5 +11,7 @@ public class Main{
         t.setup();
         String inputText = System.console().readLine();
         System.out.println(inputText);
+        Generate test = new Generate();
+        System.out.println(test.GenerateBiome(2));
     }
 }
