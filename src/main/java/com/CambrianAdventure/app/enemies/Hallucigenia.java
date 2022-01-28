@@ -1,5 +1,7 @@
 package com.CambrianAdventure.app.enemies;
 
-public class Hallucigenia {
-
+public class Hallucigenia extends Base {
+    public Hallucigenia() {
+        super("Hallucigenia", "Brawny");
+    }
 }

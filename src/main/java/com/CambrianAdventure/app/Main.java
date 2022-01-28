@@ -1,17 +1,18 @@
 package com.CambrianAdventure.app;
 import com.CambrianAdventure.app.Mechanics.*;
-import com.CambrianAdventure.app.exploration.*;
-import com.CambrianAdventure.app.enemies.*;
-import com.CambrianAdventure.app.combat.*;
+import com.CambrianAdventure.app.Mechanics.Environments.*;
 
 public class Main{
     public static void main(String[] args){
-        System.out.println("Welcome to Cambrian Adventure!\ncool");
-        EnviromentBase t = new EnviromentBase("beach", "hallucigenia");
-        t.setup();
-        String inputText = System.console().readLine();
-        System.out.println(inputText);
-        Generate test = new Generate();
-        System.out.println(test.GenerateBiome(2));
+//        String inputText = System.console().readLine();
+//        System.out.println(inputText);
+        // Generate test = new Generate(); // used for randomizing the next zone
+        // System.out.println(test.GenerateBiome(2));
+        Player Char = new Player();
+        Environment Beach = new Beach();
+
+        System.out.println(Beach);
+        Char.Move();
+
     }
 }
