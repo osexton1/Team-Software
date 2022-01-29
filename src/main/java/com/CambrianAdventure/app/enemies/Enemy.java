@@ -1,13 +1,15 @@
 package com.CambrianAdventure.app.enemies;
 
-public class Base {
+import com.CambrianAdventure.app.enemies.Personalitys.*;
+
+public class Enemy {
     public String name;
     public int health;
     public int food;
     public int evolutionLevel;
     public String inventorySpot;
-    public String personality;
-    public Base(String Name, String Persona){
+    public Persona personality;
+    public Enemy(String Name, Persona Persona){
         name = Name;
         health = 50;
         food = 20;

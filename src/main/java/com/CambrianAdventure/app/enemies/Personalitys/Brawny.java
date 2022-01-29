@@ -1,4 +1,7 @@
 package com.CambrianAdventure.app.enemies.Personalitys;
 
-public class Brawny {
+public class Brawny extends Persona {
+    public Brawny(){
+        super("Brawny", +10);
+    }
 }
