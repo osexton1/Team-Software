@@ -4,13 +4,13 @@ import com.CambrianAdventure.app.enemies.*;
 public class Environment {
     public String Descript;
     public Enemy Enemy;
-    public int type;
+    public int biome;
     public Environment leftPath;
     public Environment rightPath;
 
-    public Environment(String description, int Type, Enemy enemy) {
+    public Environment(String description, int Biome, Enemy enemy) {
         Descript = description;
-        type = Type;
+        biome = Biome;
         Enemy = enemy;
         leftPath = null;
         rightPath = null;
@@ -30,8 +30,8 @@ public class Environment {
 
     public void LoadBiomes(){
         Generate Generator = new Generate();
-        leftPath = Generator.GenerateBiome(type);
-        rightPath = Generator.GenerateBiome(type);
+        leftPath = Generator.GenerateBiome(biome);
+        rightPath = Generator.GenerateBiome(biome);
     }
 
 }
