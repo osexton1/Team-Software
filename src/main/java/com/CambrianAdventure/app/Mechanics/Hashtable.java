@@ -1,14 +1,12 @@
 package com.CambrianAdventure.app.Mechanics;
 import java.util.*;
-import java.io.*;
-import java.lang.*;
 
 class My_Dictionaries {
     public static void main(String[] args) {
 
         Hashtable<Integer, String> randdesc = new Hashtable<Integer, String>();
-        randdesc.put(1, "You come across a flatbed within the coral. The clearing is teeming with small critters foraging for food in thew sediment.");
-        randdesc.put(2, "The frosty waters have calmed slightly, but not to a point of comfort. The remains of behemoths that couldn't handle the temperatures litter the seabed.");
+        randdesc.put(0, "You come across a flatbed within the coral. The clearing is teeming with small critters foraging for food in thew sediment.");
+        randdesc.put(1, "The frosty waters have calmed slightly, but not to a point of comfort. The remains of behemoths that couldn't handle the temperatures litter the seabed.");
 
         Hashtable<Integer, String> Events = new Hashtable<Integer, String>();
         Events.put(0, "Event - Something feels different.");
