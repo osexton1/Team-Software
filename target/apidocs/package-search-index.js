@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.CambrianAdventure.app"},{"l":"com.CambrianAdventure.app.combat"},{"l":"com.CambrianAdventure.app.enemies"},{"l":"com.CambrianAdventure.app.exploration"},{"l":"com.CambrianAdventure.app.Mechanics"}];updateSearchResults();
