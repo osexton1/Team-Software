@@ -11,10 +11,14 @@ public class Hashtable<v,k> extends Dictionary<v,k> implements Map<v,k>, Cloneab
 
 
         Hashtable<Integer, String> Events = new Hashtable<Integer, String>();
-        Events.put(0, "Event - Something feels different");
-        Events.put(1, "Puzzle - May the luck be with you");
-        Events.put(2, "Encounter - There appears to be a large shadow darkening the room");
+        Events.put(0, "Event - Something feels different.");
+        Events.put(1, "Puzzle - May the luck be with you.");
+        Events.put(2, "Encounter - There appears to be a large shadow darkening the room.");
 
+        Hashtable<Integer, String> NumPaths = new Hashtable<>();
+        NumPaths.put(1, "There is only one exit out of the room. You will have to take it and travel that direction.");
+        NumPaths.put(2, "There are two exits from the room. You may only follow one, and not the other.");
+        NumPaths.put(3, "There are three possible exits from the room. You will have to pick one and follow your instincts");
     }
 }
-    
+
