@@ -8,7 +8,13 @@ public class Hashtable<v,k> extends Dictionary<v,k> implements Map<v,k>, Cloneab
         Hashtable<Integer, String> randdesc = new Hashtable<Integer, String>();
         randdesc.put(1, "You come across a flatbed within the coral. The clearing is teeming with small critters foraging for food in thew sediment.");
         randdesc.put(2, "The frosty waters have calmed slightly, but not to a point of comfort. The remains of behemoths that couldn't handle the temperatures litter the seabed.");
-           
+
+
+        Hashtable<Integer, String> Events = new Hashtable<Integer, String>();
+        Events.put(0, "Event - Something feels different");
+        Events.put(1, "Puzzle - May the luck be with you");
+        Events.put(2, "Encounter - There appears to be a large shadow darkening the room");
+
     }
 }
     
