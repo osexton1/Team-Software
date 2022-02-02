@@ -4,12 +4,17 @@ import com.CambrianAdventure.app.Mechanics.Environments.Shallows;
 import java.util.Objects;
 
 public class Player {
-    public int health;
+    public Integer health;
+    public String healthOutput;
+    public String healthStr;
+
     public Integer food;
-    public int evolutionLevel;
-    public Environment Current;
     public String foodOutput;
     public String foodStr;
+
+    public Integer evolutionLevel;
+
+    public Environment Current;
 
     public Player(){
         health = 3;
@@ -38,16 +43,31 @@ public class Player {
             Current.LoadBiomes();
         }
     }
-    public String FoodLvl(String input){
+
+    public void HealthLvl(String input){
+        if (Objects.equals(input, "0")) {
+            healthStr = health.toString();
+            healthOutput = "You are at "+healthStr+" HP.";
+            if (health == 3) {
+                healthOutput += "You are feeling healthy.";
+            } else if (health == 2) {
+                healthOutput += "You feel weak.";
+            } else if (health == 1) {
+                healthOutput += "Your vision clouds. You will not last much longer.";
+            }
+            System.out.println(healthOutput);
+        }
+    }
+    public void FoodLvl(String input){
         if (Objects.equals(input, "9")) {
             foodStr = food.toString();
-            foodOutput += "You have "+foodStr+" food left.";
+            foodOutput = "You have "+foodStr+" food left.";
             if (food >= 25) {
                 foodOutput += " Hunger pangs.";
-            } if (food <= 75) {
+            } else if (food <= 75) {
                 foodOutput += " You are feeling well fed.";
             }
+            System.out.println(foodOutput);
         }
-        return foodOutput;
     }
 }
