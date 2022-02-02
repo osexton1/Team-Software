@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Open extends Environment {
     public Open(){
-        super("Open Sea", 3, new Generate().GenerateRoom(2));
+        super("Open Sea", 3);
     }
 }

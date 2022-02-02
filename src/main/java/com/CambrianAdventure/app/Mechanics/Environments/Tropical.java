@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.exploration.Scenarios.*;
 
 public class Tropical extends Environment {
     public Tropical(){
-        super("Tropical Ocean", 6, new Generate().GenerateRoom(2));
+        super("Tropical Ocean", 6);
     }
 }

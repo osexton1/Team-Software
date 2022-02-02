@@ -4,6 +4,6 @@ import com.CambrianAdventure.app.exploration.Scenario;
 
 public class Event extends Scenario {
     public Event(){
-        super(0);
+        super(0, "Event");
     }
 }

@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Deep extends Environment {
     public Deep(){
-        super("Deep Ocean", 2, new Generate().GenerateRoom(2));
+        super("Deep Ocean", 2);
     }
 }

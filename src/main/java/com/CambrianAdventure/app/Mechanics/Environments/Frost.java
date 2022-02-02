@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Frost extends Environment {
     public Frost(){
-        super("Frost Spires", 0, new Generate().GenerateRoom(2));
+        super("Frost Spires", 0);
     }
 }

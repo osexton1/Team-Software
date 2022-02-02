@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.exploration.Scenarios.*;
 
 public class Caves extends Environment {
     public Caves(){
-        super("Cave entrance", 1, new Generate().GenerateRoom(2));
+        super("Cave entrance", 1);
     }
 }
