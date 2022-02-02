@@ -1,28 +1,37 @@
 package com.CambrianAdventure.app.Mechanics;
-import com.CambrianAdventure.app.enemies.*;
+import com.CambrianAdventure.app.exploration.*;
+
 
 public class Environment {
-    public String Descript;
-    public Enemy Enemy;
+    public String Name;
+    public Scenario scenario;
     public int type;
+    public int numPaths;
     public Environment leftPath;
+    public Environment middlePath;
     public Environment rightPath;
+    public Boolean completed;
 
-    public Environment(String description, int Type, Enemy enemy) {
-        Descript = description;
+    public Environment(String Description, int Type, Scenario event) {
+        Name = Description;
         type = Type;
-        Enemy = enemy;
+        scenario = event;
         leftPath = null;
+        middlePath = null;
         rightPath = null;
+        completed = false;
     }
 
     public String toString(){
-        String output = "You are currently located in a " + Descript + ", there is a " + Enemy;
+        String output = "\nYou are currently located in a " + Name + ", there is a " + scenario;
+        if(middlePath != null) {
+            output += "\nstraight ahead of you, there is a " + middlePath.Name + " and there seems to be a " + middlePath.scenario;
+        }
         if(leftPath != null){
-            output += "\nahead of you to your left, there is a " + leftPath.Descript + " and there seems to be a " + leftPath.Enemy;
+            output += "\nahead of you to your left, there is a " + leftPath.Name + " and there seems to be a " + leftPath.scenario;
         }
         if(rightPath != null){
-            output += "\nahead of you to your right, there is a " + rightPath.Descript + " and there seems to be a " + rightPath.Enemy;
+            output += "\nahead of you to your right, there is a " + rightPath.Name + " and there seems to be a " + rightPath.scenario;
         }
         return output;
 
@@ -30,8 +39,13 @@ public class Environment {
 
     public void LoadBiomes(){
         Generate Generator = new Generate();
-        leftPath = Generator.GenerateBiome(type);
-        rightPath = Generator.GenerateBiome(type);
+        numPaths = Generator.Paths();//generate int number of paths
+        if (numPaths > 1){
+            rightPath = Generator.GenerateBiome(type);
+        }
+        if (numPaths > 0){
+            leftPath = Generator.GenerateBiome(type);
+        }
+        middlePath = Generator.GenerateBiome(type);
     }
-
 }
