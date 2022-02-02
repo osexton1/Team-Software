@@ -10,7 +10,9 @@ public class MyDictionaries {
         randdesc = new Hashtable<>();
         Events = new Hashtable<>();
         NumPaths = new Hashtable<>();
-        
+
+        // Biomes: 0 - Frost, 1 - Caves, 2 - Deep, 3 - Open,
+        // 4 - Shallows, 5 - Meadow, 6 - Tropical, 7 - Volcano
         randdesc.put(0, "You come across a flatbed within the coral. The clearing is teeming with small critters foraging for food in the sediment.");
         randdesc.put(1, "The frosty waters have calmed slightly, but not to a point of comfort. The remains of behemoths that couldn't handle the temperatures litter the seabed.");
         Events.put(0, "Something feels unusual in this area. You feel that if you take a closer look around you will discover something.");
