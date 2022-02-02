@@ -30,7 +30,7 @@ public class Main{
         //random descriptor
         System.out.println(Dict.randdesc.get(0)); //Used for Hashtables
         System.out.println(Dict.NumPaths.get(room.numPaths));
-        System.out.println(Dict.roomType.get(room.type));
+        //System.out.println(Dict.roomType.get(room.type));
     }
 
     public static void pathRooms(Player Char){

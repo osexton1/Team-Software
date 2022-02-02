@@ -3,23 +3,21 @@ import java.util.Objects;
 
 public class Player {
     public Integer health;
-    public String healthStr;
-
     public Integer food;
-    public String foodStr;
-
     public Integer evolutionLevel;
-
-    public Environment Current;
     public Integer playerClass;
     //this can just be an integer thinking about it as opposed to 3 seperate classes.
     //0 = Shelled, 1 = Finned, 2 = Spiked
     public Integer biomeCount = 1;
     public Integer roomCount = 1;
     public Integer globalRoomCount = 1;
+
+    public Environment Current;
+
     public Player(){
         health = 3;
         //max of 3
+        //will never increase
         food = 20;
         //default of 20, max of 50
         evolutionLevel = 0;
@@ -73,8 +71,7 @@ public class Player {
 
     public void HealthLvl(String input){
         if (Objects.equals(input, "0")) {
-            healthStr = health.toString();
-            System.out.println("You are at "+healthStr+" HP.");
+            System.out.println("You are at "+health.toString()+" HP.");
             if (health == 3) {
                 System.out.println("You are feeling healthy.");
             } else if (health == 2) {
@@ -96,8 +93,7 @@ public class Player {
 
     public void FoodLvl(String input){
         if (Objects.equals(input, "9")) {
-            foodStr = food.toString();
-            System.out.println("You have "+foodStr+" food left.");
+            System.out.println("You have "+food.toString()+" food left.");
             if (food >= 25) {
                 System.out.println("Hunger pangs.");
             } else if (food <= 75) {
@@ -110,9 +106,8 @@ public class Player {
     public void Wait() {
         if (this.health < 3) {
             this.health+= 1;
-            healthStr = health.toString();
             System.out.println("After taking a well deserved break, you feel rejuvenated and enjoy a burst of energy.");
-            System.out.println("You now have " +healthStr+ " health remaining.");
+            System.out.println("You now have " +health.toString()+ " health remaining.");
         } else {
             System.out.println("Although you have rested, you feel no different. It's as if you were already full of vitality.");
             System.out.println("You still have 3 health remaining");
