@@ -22,12 +22,10 @@ public class Player {
         health = 3;
         //max of 3
         food = 20;
-        foodStr = "";
         //default of 20, max of 50
         evolutionLevel = 0;
         Current = null;
         //default of 0, max not determined
-        foodOutput = "";
     }
 
     public void Move(String input, boolean room){
