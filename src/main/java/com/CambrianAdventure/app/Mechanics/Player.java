@@ -3,17 +3,15 @@ import java.util.Objects;
 
 public class Player {
     public Integer health;
-    public String healthOutput;
     public String healthStr;
 
     public Integer food;
-    public String foodOutput;
     public String foodStr;
 
     public Integer evolutionLevel;
 
     public Environment Current;
-    public int playerClass;
+    public Integer playerClass;
     //this can just be an integer thinking about it as opposed to 3 seperate classes.
     //0 = Shelled, 1 = Finned, 2 = Spiked
     public Integer biomeCount = 1;
@@ -76,15 +74,14 @@ public class Player {
     public void HealthLvl(String input){
         if (Objects.equals(input, "0")) {
             healthStr = health.toString();
-            healthOutput = "You are at "+healthStr+" HP.";
+            System.out.println("You are at "+healthStr+" HP.");
             if (health == 3) {
-                healthOutput += "You are feeling healthy.";
+                System.out.println("You are feeling healthy.");
             } else if (health == 2) {
-                healthOutput += "You feel weak.";
+                System.out.println("You feel weak.");
             } else if (health == 1) {
-                healthOutput += "Your vision clouds. You will not last much longer.";
+                System.out.println("Your vision clouds. You will not last much longer.");
             }
-            System.out.println(healthOutput);
             //while this isn't a hack, we could implement it in a cooler way when 
             //we realise what the fuck a hashtable is
 
@@ -100,14 +97,13 @@ public class Player {
     public void FoodLvl(String input){
         if (Objects.equals(input, "9")) {
             foodStr = food.toString();
-            foodOutput = "You have "+foodStr+" food left.";
+            System.out.println("You have "+foodStr+" food left.");
             if (food >= 25) {
-                foodOutput += " Hunger pangs.";
+                System.out.println("Hunger pangs.");
             } else if (food <= 75) {
-                foodOutput += " You are feeling well fed.";
+                System.out.println("You are feeling well fed.");
             }
-            System.out.println(foodOutput);
-            //see the comment on lines 83-84
+            //see the comment on lines 85-86
         }
     }
 }

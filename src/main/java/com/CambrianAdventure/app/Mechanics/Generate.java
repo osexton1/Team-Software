@@ -8,15 +8,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Generate {
-    public int int_random;
-    public Generate(int upperbound){
+    public Integer int_random;
+    public Generate(Integer upperbound){
         Random rand = new Random();
-        int_random = rand.nextInt(upperbound); //generate an int upto input upperbounds
+        int_random = rand.nextInt(upperbound); //generate an int up to input upperbounds
     }
     public Generate(){
-        int_random = new Generate(100).int_random; // default int generator upto 100
+        int_random = new Generate(100).int_random; // default int generator up to 100
     }
-    public Generate(int upperbound, int lowerbound) {
+    public Generate(Integer upperbound, Integer lowerbound) {
         Random rand = new Random();
         int_random = rand.nextInt((upperbound - lowerbound) + 1)+lowerbound;
     }
@@ -25,11 +25,11 @@ public class Generate {
         return new Generate(2).int_random == 1;
     }
 
-    public int Paths(){
+    public Integer Paths(){
         return (new Generate(3)).int_random;
     }
 
-    public Scenario GenerateRoom(int currentRoom){
+    public Scenario GenerateRoom(Integer currentRoom){
         List<Integer> rooms = new ArrayList<>(Arrays.asList(0, 1, 2)); //list of possible room types
         List<Integer> weightedList = new ArrayList<>();
         for (Integer room : rooms) { //create weighted list
@@ -48,7 +48,7 @@ public class Generate {
         return outputroom;
     }
 
-    public Environment GenerateBiome(int currentBiome){
+    public Environment GenerateBiome(Integer currentBiome){
         List<Integer> biomes = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7)); //list of possible biome types
         List<Integer> weightedList = new ArrayList<>();
         for (Integer biome : biomes) { //create weighted list
