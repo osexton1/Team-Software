@@ -15,6 +15,9 @@ public class Player {
     public Integer evolutionLevel;
 
     public Environment Current;
+    public int playerClass;
+    //this can just be an integer thinking about it as opposed to 3 seperate classes.
+    //0 = Shelled, 1 = Finned, 2 = Spiked
 
     public Player(){
         health = 3;
@@ -58,7 +61,7 @@ public class Player {
             System.out.println(healthOutput);
         }
     }
-    
+
     public void FoodLvl(String input){
         if (Objects.equals(input, "9")) {
             foodStr = food.toString();
