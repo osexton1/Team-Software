@@ -18,6 +18,7 @@ public class Player {
     //0 = Shelled, 1 = Finned, 2 = Spiked
     public Integer biomeCount = 1;
     public Integer roomCount = 1;
+    public Integer globalRoomCount = 1;
     public Player(){
         health = 3;
         //max of 3
@@ -34,16 +35,19 @@ public class Player {
                 Current.scenario = Current.scenario.middlePath;
                 Current.LoadRoom();
                 roomCount += 1;
+                globalRoomCount += 1;
             }
             else if (Objects.equals(input, "2") && Current.scenario.leftPath != null) {
                 Current.scenario = Current.scenario.leftPath;
                 Current.LoadRoom();
                 roomCount += 1;
+                globalRoomCount += 1;
             }
             else if (Objects.equals(input, "3") && Current.scenario.rightPath != null) {
                 Current.scenario = Current.scenario.rightPath;
                 Current.LoadRoom();
                 roomCount += 1;
+                globalRoomCount += 1;
             }
         }
         else {
@@ -52,16 +56,19 @@ public class Player {
                 Current.LoadBiomes();
                 biomeCount += 1;
                 roomCount = 1;
+                globalRoomCount += 1;
             } else if (Objects.equals(input, "2") && Current.scenario.rightPath != null) {
                 Current = Current.rightPath;
                 Current.LoadBiomes();
                 biomeCount += 1;
                 roomCount = 1;
+                globalRoomCount += 1;
             } else if (Objects.equals(input, "3") && Current.scenario.leftPath != null) {
                 Current = Current.leftPath;
                 Current.LoadBiomes();
                 biomeCount += 1;
                 roomCount = 1;
+                globalRoomCount += 1;
             }
         }
     }
