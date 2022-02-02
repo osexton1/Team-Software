@@ -11,30 +11,36 @@ public class Main{
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
         while(true) {
-            System.out.println(Char.Current.scenario);
-            pathRooms(Char);
-
 //            Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
 //            pathBiomes(Char);
 
+//            System.out.println(Char.Current.scenario);
+            pathRooms(Char);
+
 //        String inputText = System.console().readLine();
-//            Scanner myObj = new Scanner(System.in);
-//            String inputText = myObj.nextLine();  // Read user input
-//            Inputting(Char, inputText);
+            Scanner myObj = new Scanner(System.in);
+            String inputText = myObj.nextLine();  // Read user input
+            Inputting(Char, inputText);
         }
     }
 
+    public static void biomechangeDesc(Scenario room) {
+        MyDictionaries Dict = new MyDictionaries(); //hashtable
+        System.out.println(Dict.roomType.get(room.type));
+        System.out.println(Dict.NumPaths.get(room.type));
+    }
+//    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
+//    because that fits better with how I made the hashtables.
     public static void roomdesc(Scenario room){
         MyDictionaries Dict = new MyDictionaries(); //Used for Hashtables
         //random descriptor
         System.out.println(Dict.randdesc.get(0)); //Used for Hashtables
         System.out.println(Dict.NumPaths.get(room.numPaths));
-        //System.out.println(Dict.roomType.get(room.type));
     }
 
     public static void pathRooms(Player Char){
-        String output = "Enter a number for a room to travel to: (1. " + Char.Current.scenario.middlePath.Name;
+        String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
         if (Char.Current.scenario.leftPath != null) {
             output += "/2. " + Char.Current.scenario.leftPath.Name;
         }
@@ -46,7 +52,7 @@ public class Main{
     }
 
     public static void pathBiomes(Player Char){
-        String output = "Enter a number for a biome to travel to: (1. " + Char.Current.middlePath.Name;
+        String output = "Enter a number to move to a new location: (1. " + Char.Current.middlePath.Name;
         if (Char.Current.leftPath != null) {
             output += "/2. " + Char.Current.leftPath.Name;
         }

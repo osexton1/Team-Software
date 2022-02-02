@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Meadow extends Environment {
     public Meadow(){
-        super("Ocean Meadow", 5);
+        super("Ocean Meadows", 5);
     }
 }

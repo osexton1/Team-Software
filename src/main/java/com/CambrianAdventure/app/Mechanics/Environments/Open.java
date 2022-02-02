@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Open extends Environment {
     public Open(){
-        super("Open Sea", 3);
+        super("Open Ocean", 3);
     }
 }

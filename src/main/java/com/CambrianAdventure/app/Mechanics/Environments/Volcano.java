@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Volcano extends Environment {
     public Volcano(){
-        super("Volcano", 7);
+        super("Volcanic Depths", 7);
     }
 }
