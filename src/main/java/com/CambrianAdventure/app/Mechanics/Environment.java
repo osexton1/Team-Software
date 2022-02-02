@@ -5,14 +5,14 @@ import com.CambrianAdventure.app.exploration.*;
 public class Environment {
     public String Name;
     public Scenario scenario;
-    public int type;
-    public int numPaths;
+    public Integer type;
+    public Integer numPaths;
     public Environment leftPath;
     public Environment middlePath;
     public Environment rightPath;
     public Boolean completed;
 
-    public Environment(String Description, int Type) {
+    public Environment(String Description, Integer Type) {
         Name = Description;
         type = Type;
         scenario = null;

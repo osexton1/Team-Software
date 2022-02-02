@@ -11,7 +11,7 @@ public class Player {
     public Integer evolutionLevel;
 
     public Environment Current;
-    public int playerClass;
+    public Integer playerClass;
     //this can just be an integer thinking about it as opposed to 3 seperate classes.
     //0 = Shelled, 1 = Finned, 2 = Spiked
     public Integer biomeCount = 1;
@@ -103,7 +103,7 @@ public class Player {
             } else if (food <= 75) {
                 System.out.println("You are feeling well fed.");
             }
-            //see the comment on lines 83-84
+            //see the comment on lines 85-86
         }
     }
 }
