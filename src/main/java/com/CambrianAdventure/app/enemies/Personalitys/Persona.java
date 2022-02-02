@@ -1,6 +1,6 @@
 package com.CambrianAdventure.app.enemies.Personalitys;
 
-public class Persona {
+public abstract class Persona {
     String Name;
     int Bonus;
     public Persona(String name, int bonus){
