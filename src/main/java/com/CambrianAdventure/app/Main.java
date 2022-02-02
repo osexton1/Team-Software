@@ -1,6 +1,7 @@
 package com.CambrianAdventure.app;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
+import com.CambrianAdventure.app.exploration.Scenario;
 import java.util.Scanner;
 
 public class Main{
@@ -14,8 +15,6 @@ public class Main{
             pathRooms(Char);
 
 //            Char.Current.scenario.completed = true;
-            MyDictionaries Dict = new MyDictionaries(); //Used for Hashtables
-            System.out.println(Dict.randdesc.get(0)); //Used for Hashtables
 //            System.out.println(Char.Current);
 //            pathBiomes(Char);
 
@@ -25,6 +24,15 @@ public class Main{
 //            Inputting(Char, inputText);
         }
     }
+
+    public static void roomdesc(Scenario room){
+        MyDictionaries Dict = new MyDictionaries(); //Used for Hashtables
+        //random descriptor
+        System.out.println(Dict.randdesc.get(0)); //Used for Hashtables
+        System.out.println(Dict.NumPaths.get(room.numPaths));
+        System.out.println(Dict.roomType.get(room.type));
+    }
+
     public static void pathRooms(Player Char){
         String output = "Enter a number for a room to travel to: (1. " + Char.Current.scenario.middlePath.Name;
         if (Char.Current.scenario.leftPath != null) {
