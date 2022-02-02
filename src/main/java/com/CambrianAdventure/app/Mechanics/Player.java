@@ -106,4 +106,16 @@ public class Player {
             //see the comment on lines 85-86
         }
     }
+
+    public void Wait() {
+        if (this.health < 3) {
+            this.health+= 1;
+            healthStr = health.toString();
+            System.out.println("After taking a well deserved break, you feel rejuvenated and enjoy a burst of energy.");
+            System.out.println("You now have " +healthStr+ " health remaining.");
+        } else {
+            System.out.println("Although you have rested, you feel no different. It's as if you were already full of vitality.");
+            System.out.println("You still have 3 health remaining");
+        }
+    }
 }
