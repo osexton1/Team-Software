@@ -58,6 +58,7 @@ public class Player {
             System.out.println(healthOutput);
         }
     }
+    
     public void FoodLvl(String input){
         if (Objects.equals(input, "9")) {
             foodStr = food.toString();
