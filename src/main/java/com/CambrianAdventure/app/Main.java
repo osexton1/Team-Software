@@ -12,14 +12,17 @@ public class Main{
         while(true) {
             System.out.println(Char.Current.scenario);
             pathRooms(Char);
-            Char.Current.scenario.completed = true;
+
+//            Char.Current.scenario.completed = true;
+            MyDictionaries Dict = new MyDictionaries(); //Used for Hashtables
+            System.out.println(Dict.randdesc.get(0)); //Used for Hashtables
 //            System.out.println(Char.Current);
 //            pathBiomes(Char);
 
 //        String inputText = System.console().readLine();
-            Scanner myObj = new Scanner(System.in);
-            String inputText = myObj.nextLine();  // Read user input
-            Inputting(Char, inputText);
+//            Scanner myObj = new Scanner(System.in);
+//            String inputText = myObj.nextLine();  // Read user input
+//            Inputting(Char, inputText);
         }
     }
     public static void pathRooms(Player Char){

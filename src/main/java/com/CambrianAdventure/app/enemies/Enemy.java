@@ -17,6 +17,7 @@ public class Enemy {
         inventorySpot = null;
         personality = Persona;
     }
+
     public String toString(){
         return name + " who looks " + personality ;
     }
