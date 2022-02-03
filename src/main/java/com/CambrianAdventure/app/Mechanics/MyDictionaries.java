@@ -29,9 +29,9 @@ public class MyDictionaries {
         Events.put(1, "Some sort of brain teaser lies ahead. May the odds be ever in your favour.");
         Events.put(2, "There appears to be a large shadow darkening the room. You are unsure what exactly it is, but you know for sure it will be dangerous."); 
 
-        NumPaths.put(0, "There is only one way forward. You will have to travel in that direction.");
-        NumPaths.put(1, "There are two locations of interest ahead, you may only investigate one of them.");
-        NumPaths.put(2, "There are three locations of interest ahead, you may only investigate one of them.");
+        NumPaths.put(1, "There is only one way forward. You will have to travel in that direction.");
+        NumPaths.put(2, "There are two locations of interest ahead, you may only investigate one of them.");
+        NumPaths.put(3, "There are three locations of interest ahead, you may only investigate one of them.");
 
         // These are the initial biome entry descriptions. Use them in place of the generic room descriptions for biome changes.
         roomType.put(0, "The landscape changes as you move forward." +

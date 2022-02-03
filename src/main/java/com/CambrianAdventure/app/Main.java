@@ -5,37 +5,44 @@ import com.CambrianAdventure.app.exploration.Scenario;
 import java.util.Scanner;
 
 public class Main{
+    public static MyDictionaries Dict;
+    public static Scanner Scan;
     public static void main(String[] args){
-        Player Char = new Player();
+        Dict = new MyDictionaries(); //hashtable
+        Scan = new Scanner(System.in);
+        System.out.println("Probably want a description of what the game is about up here");
+        Integer playerClass = Intro();
+        Player Char = new Player(playerClass);
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
+
         while(true) {
-//            Char.Current.scenario.completed = true;
+            Char.FoodLvl("9");
+            Char.HealthLvl("0");
+            Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
 //            pathBiomes(Char);
 
 //            System.out.println(Char.Current.scenario);
+            roomdesc(Char.Current.scenario);
             pathRooms(Char);
 
 //        String inputText = System.console().readLine();
-            Scanner myObj = new Scanner(System.in);
-            String inputText = myObj.nextLine();  // Read user input
+            String inputText = Scan.nextLine();  // Read user input
             Inputting(Char, inputText);
         }
     }
 
     public static void biomechangeDesc(Scenario room) {
-        MyDictionaries Dict = new MyDictionaries(); //hashtable
         System.out.println(Dict.roomType.get(room.type));
         System.out.println(Dict.NumPaths.get(room.type));
     }
 //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
 //    because that fits better with how I made the hashtables.
     public static void roomdesc(Scenario room){
-        MyDictionaries Dict = new MyDictionaries(); //Used for Hashtables
         //random descriptor
-        System.out.println(Dict.randdesc.get(0)); //Used for Hashtables
+        System.out.println(Dict.randdesc.get(new Generate(8).int_random)); //Used for Hashtables
         System.out.println(Dict.NumPaths.get(room.numPaths));
     }
 
@@ -61,6 +68,19 @@ public class Main{
         }
         output += ")";
         System.out.println(output);
+    }
+
+    public static Integer Intro(){
+        System.out.println("Pick a class");
+        System.out.println("1. Shelled; 2. Finned; 3. Spiked");
+        String PC = Scan.nextLine();
+        if (PC.equals("1") || PC.equals("2") || PC.equals("3")){
+            return Integer.parseInt(PC) - 1;
+        }//do thing
+        else{
+            System.out.println("Invalid Choice");
+            return Intro();
+        }
     }
 
     public static void Inputting(Player Char, String input){
