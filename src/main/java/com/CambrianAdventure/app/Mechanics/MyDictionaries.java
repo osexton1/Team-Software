@@ -12,25 +12,25 @@ public class MyDictionaries {
         public List<String> randTrop;
         public List<String> randVolc;
         
-        public Hashtable<Integer, String> randdesc;
+        public Hashtable<Integer, List<String>> randdesc;
         public Hashtable<Integer, String> Events;
         public Hashtable<Integer, String> Creatures;
         public Hashtable<Integer, String> NumPaths;
         public Hashtable<Integer, String> roomType;
         // prepping the below two for if we need them. If either are true, take
         // precedence over other random descriptors.
-        public Hashtable<Boolean, String[]> BBEGpassed;
-        public Hashtable<Boolean, String[]> BBEGpresent;
+        public Hashtable<Boolean, List<String>> BBEGpassed;
+        public Hashtable<Boolean, List<String>> BBEGpresent;
 
         public MyDictionaries() {
-                List<String> randFrost = new ArrayList<>(Arrays.asList("",""));
-                List<String> randCaves = new ArrayList<>(Arrays.asList("",""));
-                List<String> randDeep = new ArrayList<>(Arrays.asList("",""));
-                List<String> randOpen = new ArrayList<>(Arrays.asList("",""));
-                List<String> randShallow = new ArrayList<>(Arrays.asList("",""));
-                List<String> randMeadow = new ArrayList<>(Arrays.asList("",""));
-                List<String> randTrop = new ArrayList<>(Arrays.asList("",""));
-                List<String> randVolc = new ArrayList<>(Arrays.asList("",""));
+                randFrost = new ArrayList<>(Arrays.asList("",""));
+                randCaves = new ArrayList<>(Arrays.asList("",""));
+                randDeep = new ArrayList<>(Arrays.asList("",""));
+                randOpen = new ArrayList<>(Arrays.asList("",""));
+                randShallow = new ArrayList<>(Arrays.asList("",""));
+                randMeadow = new ArrayList<>(Arrays.asList("",""));
+                randTrop = new ArrayList<>(Arrays.asList("",""));
+                randVolc = new ArrayList<>(Arrays.asList("",""));
 
                 randdesc = new Hashtable<>();
                 Events = new Hashtable<>();
