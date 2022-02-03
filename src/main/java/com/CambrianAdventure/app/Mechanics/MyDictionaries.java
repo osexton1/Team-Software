@@ -43,14 +43,23 @@ public class MyDictionaries {
 
                 // use these for generic descriptors. I will get around to writing more biome
                 // specific ones.
-                randdesc.put(0, "You come across a flatbed within the coral. The clearing is teeming with small critters foraging for food in the sediment.");
-                randdesc.put(1, "The frosty waters have calmed slightly, but not to a point of comfort. The remains of behemoths that couldn't handle the temperatures litter the seabed.");
-                randdesc.put(2, "A cloud of black smoke envelopes the waters just above you as a nearby geyser erupts spewing material into the sea. Many creatures are forced to the sea floor, like yourself.");
-                randdesc.put(3, "You swim past a couple of narrow bends and come out into a large cavern. Scattered across the area are hundreds of small glowing jellyfish.");
-                randdesc.put(4, "You come across the carcass of the Predator. It sends chills down your back thinking about what manner of monstrosity left the bite mark on it's carapace.");
-                randdesc.put(5, "As you swim forward, you gaze down below you into the depths, and for a moment you could've sworn the depths stared back.");
-                randdesc.put(6, "Suddenly a powerful ocean current sweeps across you and carries you quickly to new waters.");
-                randdesc.put(7, "The shallow waters of the tidepool become barren and empty, devoid of plant life or any other creatures. You are alone.");
+                // randdesc.put(0, "You come across a flatbed within the coral. The clearing is teeming with small critters foraging for food in the sediment.");
+                // randdesc.put(1, "The frosty waters have calmed slightly, but not to a point of comfort. The remains of behemoths that couldn't handle the temperatures litter the seabed.");
+                // randdesc.put(2, "A cloud of black smoke envelopes the waters just above you as a nearby geyser erupts spewing material into the sea. Many creatures are forced to the sea floor, like yourself.");
+                // randdesc.put(3, "You swim past a couple of narrow bends and come out into a large cavern. Scattered across the area are hundreds of small glowing jellyfish.");
+                // randdesc.put(4, "You come across the carcass of the Predator. It sends chills down your back thinking about what manner of monstrosity left the bite mark on it's carapace.");
+                // randdesc.put(5, "As you swim forward, you gaze down below you into the depths, and for a moment you could've sworn the depths stared back.");
+                // randdesc.put(6, "Suddenly a powerful ocean current sweeps across you and carries you quickly to new waters.");
+                // randdesc.put(7, "The shallow waters of the tidepool become barren and empty, devoid of plant life or any other creatures. You are alone.");
+
+                randdesc.put(0, randFrost);
+                randdesc.put(1, randCaves);
+                randdesc.put(2, randDeep);
+                randdesc.put(3, randOpen);
+                randdesc.put(4, randShallow);
+                randdesc.put(5, randMeadow);
+                randdesc.put(6, randTrop);
+                randdesc.put(7, randVolc);
 
                 // worth conidering more scenario tells using the system Odhran thought up once
                 // we have it working for these as well.
