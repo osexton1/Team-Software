@@ -6,10 +6,12 @@ public class Creature {
     public String name;
     public int health;
     public int food;
+    public int combatHealth;
 
     public Creature(String Name){
         name = Name;
-        health = 50;
+        health = 3;
+        combatHealth = 50;
         food = 50;
     }
     //combat stuff goes here

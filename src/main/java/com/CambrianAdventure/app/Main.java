@@ -8,30 +8,31 @@ import java.util.Scanner;
 public class Main{
     public static MyDictionaries Dict;
     public static Scanner Scan;
+    public static Player Char;
     public static void main(String[] args){
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
         System.out.println("Probably want a description of what the game is about up here");
         Integer playerClass = Intro();
-        Player Char = new Player(playerClass);
+        Char = new Player(playerClass);
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
 
         while(true) {
-            Char.FoodLvl("9");
-            Char.HealthLvl("0");
+            Char.characterInfo();
+            Char.WorldLevel();
             Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
 //            pathBiomes(Char);
 
 //            System.out.println(Char.Current.scenario);
             roomdesc(Char.Current.scenario);
-            pathRooms(Char);
+            pathRooms();
 
 //        String inputText = System.console().readLine();
             String inputText = Scan.nextLine();  // Read user input
-            Inputting(Char, inputText);
+            Inputting(inputText);
         }
     }
 
@@ -47,7 +48,7 @@ public class Main{
         System.out.println(Dict.NumPaths.get(room.numPaths));
     }
 
-    public static void pathRooms(Player Char) {
+    public static void pathRooms() {
         String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
         if (Char.Current.scenario.leftPath != null) {
             output += "/2. " + Char.Current.scenario.leftPath.Name;
@@ -59,7 +60,7 @@ public class Main{
         System.out.println(output);
     }
 
-    public static void pathBiomes(Player Char) {
+    public static void pathBiomes() {
         String output = "Enter a number to move to a new location: (1. " + Char.Current.middlePath.Name;
         if (Char.Current.leftPath != null) {
             output += "/2. " + Char.Current.leftPath.Name;
@@ -84,7 +85,8 @@ public class Main{
         }
     }
 
-    public static void Inputting(Player Char, String input){
+    public static void Inputting(String input){
+        if (input.equals(""))
         if (Char.Current.completed) {
             Char.Move(input, false);
         }
