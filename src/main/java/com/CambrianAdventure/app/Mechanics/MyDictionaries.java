@@ -3,6 +3,15 @@ package com.CambrianAdventure.app.Mechanics;
 import java.util.*;
 
 public class MyDictionaries {
+        public List<String> randFrost;
+        public List<String> randCaves;
+        public List<String> randDeep;
+        public List<String> randOpen;
+        public List<String> randShallow;
+        public List<String> randMeadow;
+        public List<String> randTrop;
+        public List<String> randVolc;
+        
         public Hashtable<Integer, String> randdesc;
         public Hashtable<Integer, String> Events;
         public Hashtable<Integer, String> Creatures;
@@ -10,10 +19,19 @@ public class MyDictionaries {
         public Hashtable<Integer, String> roomType;
         // prepping the below two for if we need them. If either are true, take
         // precedence over other random descriptors.
-        public Hashtable<Boolean, String> BBEGpassed;
-        public Hashtable<Boolean, String> BBEGpresent;
+        public Hashtable<Boolean, String[]> BBEGpassed;
+        public Hashtable<Boolean, String[]> BBEGpresent;
 
         public MyDictionaries() {
+                List<String> randFrost = new ArrayList<>(Arrays.asList("",""));
+                List<String> randCaves = new ArrayList<>(Arrays.asList("",""));
+                List<String> randDeep = new ArrayList<>(Arrays.asList("",""));
+                List<String> randOpen = new ArrayList<>(Arrays.asList("",""));
+                List<String> randShallow = new ArrayList<>(Arrays.asList("",""));
+                List<String> randMeadow = new ArrayList<>(Arrays.asList("",""));
+                List<String> randTrop = new ArrayList<>(Arrays.asList("",""));
+                List<String> randVolc = new ArrayList<>(Arrays.asList("",""));
+
                 randdesc = new Hashtable<>();
                 Events = new Hashtable<>();
                 Creatures = new Hashtable<>();
