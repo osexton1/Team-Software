@@ -24,6 +24,12 @@ public class MyDictionaries {
         
         public List<String> numPaths;
         
+        public Hashtable<Integer, List<String>> randdesc;
+        public Hashtable<Integer, String> Events;
+        public Hashtable<Integer, String> Creatures;
+        public Hashtable<Integer, String> NumPaths;
+        public Hashtable<Integer, String> roomType;
+
         // prepping the below two for if we need them. If either are true, take
         // precedence over other random descriptors.
         public Hashtable<Boolean, String[]> BBEGpassed;
@@ -51,9 +57,24 @@ public class MyDictionaries {
                 randVolc = new ArrayList<>(Arrays.asList("A cloud of black smoke envelopes the waters just above you as a nearby geyser erupts spewing material into the sea. Many creatures are forced to the sea floor, like yourself.",
                                                                       ""));
                 
+                randdesc = new Hashtable<>();
+                Events = new Hashtable<>();
+                Creatures = new Hashtable<>();
+                NumPaths = new Hashtable<>();
+                roomType = new Hashtable<>();
+                // see line 11
+                BBEGpassed = new Hashtable<>();
+                BBEGpresent = new Hashtable<>();
+
                 // generic descriptions list
-                randDesc = new ArrayList<>(Arrays.asList("You come across the carcass of one of the Hunters. It sends chills down your back thinking about what manner of monstrosity left the bite mark on it's carapace.",
-                                                                      ""));
+                randdesc.put(0, randFrost);
+                randdesc.put(1, randCaves);
+                randdesc.put(2, randDeep);
+                randdesc.put(3, randOpen);
+                randdesc.put(4, randShallow);
+                randdesc.put(5, randMeadow);
+                randdesc.put(6, randTrop);
+                randdesc.put(7, randVolc);
                 
                 // biomeType List has replaced the roomType Hashtable. This has not been changed in other files cause I'm working from the github editor atm and can't be assed to do it across multiple browser tabs. This is pretty much the case for all other Hashtables :brainrot:
                 // These are the initial biome entry descriptions. Use them in place of the random descriptions upon entering a new biome.
