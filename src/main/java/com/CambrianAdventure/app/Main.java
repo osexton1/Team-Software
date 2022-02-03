@@ -5,11 +5,12 @@ import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
     public static MyDictionaries Dict;
     public static Scanner Scan;
     public static Player Char;
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
         System.out.println("Probably want a description of what the game is about up here");
@@ -19,8 +20,7 @@ public class Main{
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
 
-        while(true) {
-            Char.characterInfo();
+        while (true) {
             Char.WorldLevel();
             Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
@@ -40,9 +40,10 @@ public class Main{
         System.out.println(Dict.roomType.get(room.type));
         System.out.println(Dict.NumPaths.get(room.type));
     }
-//    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
+
+    //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
 //    because that fits better with how I made the hashtables.
-    public static void roomdesc(Scenario room){
+    public static void roomdesc(Scenario room) {
         //random descriptor
         System.out.println(Dict.randdesc.get(new Generate(8).int_random)); //Used for Hashtables
         System.out.println(Dict.NumPaths.get(room.numPaths));
@@ -72,28 +73,55 @@ public class Main{
         System.out.println(output);
     }
 
-    public static Integer Intro(){
+    public static Integer Intro() {
         System.out.println("Pick a class");
         System.out.println("1. Shelled; 2. Finned; 3. Spiked");
         String PC = Scan.nextLine();
-        if (PC.equals("1") || PC.equals("2") || PC.equals("3")){
+        if (PC.equals("1") || PC.equals("2") || PC.equals("3")) {
             return Integer.parseInt(PC) - 1;
         }//do thing
-        else{
+        else {
             System.out.println("Invalid Choice");
             return Intro();
         }
     }
 
-    public static void Inputting(String input){
-        if (input.equals(""))
-        if (Char.Current.completed) {
-            Char.Move(input, false);
+    public static void Inputting(String input) {
+        // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat, 6.
+        if (Integer.parseInt(input) >=  0){
+            Integer inputting = Integer.parseInt(input);
+            if (Char.Current.completed){
+                switch(inputting){
+                case 0: Char.characterInfo(); break;
+                case 1:
+                case 2:
+                case 3: Char.Move(input, false); break;
+                case 4: ; break;
+                case 5: ; break;
+                case 6: ; break;
+                case 7: ; break;
+                case 8: ; break;
+                case 9: ; break;
+                }
+            }
+            switch (inputting) {
+                case 0: Char.characterInfo(); break;
+                case 1: if (Char.Current.completed){Char.Move(input, false);}
+                    else if (Char.Current.scenario.completed){Char.Move(input, true);}
+                    else {System.out.println("default things like eat, wait");}
+                case 2:
+                case 3: ; break;
+                case 4: ; break;
+                case 5: ; break;
+                case 6: ; break;
+                case 7: ; break;
+                case 8: ; break;
+                case 9: ; break;
+            }
+
         }
-        if (Char.Current.scenario.completed) {
-            Char.Move(input, true);
-        } else {
-            System.out.println(input);
+        else{
+            System.out.println("Invalid Input");
         }
     }
 }

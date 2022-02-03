@@ -26,32 +26,49 @@ public class Player extends Creature {
             if (Objects.equals(input, "1")) {
                 Current.scenario = Current.scenario.middlePath;
                 Current.LoadRoom();
+                roomCount += 1;
+                globalRoomCount += 1;
             }
             else if (Objects.equals(input, "2") && Current.scenario.leftPath != null) {
                 Current.scenario = Current.scenario.leftPath;
                 Current.LoadRoom();
+                roomCount += 1;
+                globalRoomCount += 1;
             }
             else if (Objects.equals(input, "3") && Current.scenario.rightPath != null) {
                 Current.scenario = Current.scenario.rightPath;
-                Current.LoadRoom();;
+                Current.LoadRoom();
+                roomCount += 1;
+                globalRoomCount += 1;
             }
-            roomCount += 1;
+            else{
+                System.out.println("Invalid input for movement between rooms");
+            }
         }
         else {
             if (Objects.equals(input, "1")) {
                 Current = Current.middlePath;
+                biomeCount += 1;
+                roomCount = 1;
+                globalRoomCount += 1;
                 Current.LoadBiomes();
             } else if (Objects.equals(input, "2") && Current.scenario.rightPath != null) {
                 Current = Current.rightPath;
+                biomeCount += 1;
+                roomCount = 1;
+                globalRoomCount += 1;
                 Current.LoadBiomes();
             } else if (Objects.equals(input, "3") && Current.scenario.leftPath != null) {
                 Current = Current.leftPath;
+                biomeCount += 1;
+                roomCount = 1;
+                globalRoomCount += 1;
                 Current.LoadBiomes();
             }
-            biomeCount += 1;
-            roomCount = 1;
+            else{
+                System.out.println("Invalid input for movement between biomes");
+            }
         }
-        globalRoomCount += 1;
     }
 
     public void WorldLevel() {
