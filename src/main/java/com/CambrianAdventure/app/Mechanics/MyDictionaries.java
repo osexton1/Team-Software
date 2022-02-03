@@ -58,9 +58,9 @@ public class MyDictionaries {
                 Events.put(1, "A chill passes down your exoskeleton. This locale is particularly unique."); // puzzle
                 Events.put(2, "You feel on edge. A quick scan of the area confirms your caution."); // encounter
 
-                NumPaths.put(0, "There is only one way forward. You will have to travel in that direction.");
-                NumPaths.put(1, "There are two locations of interest ahead, you may only investigate one of them.");
-                NumPaths.put(2, "There are three locations of interest ahead, you may only investigate one of them.");
+                NumPaths.put(1, "There is only one way forward. You will have to travel in that direction.");
+                NumPaths.put(2, "There are two locations of interest ahead, you may only investigate one of them.");
+                NumPaths.put(3, "There are three locations of interest ahead, you may only investigate one of them.");
 
                 // These are the initial biome entry descriptions. Use them in place of the
                 // generic room descriptions for biome changes.

@@ -1,30 +1,24 @@
 package com.CambrianAdventure.app.Mechanics;
+import com.CambrianAdventure.app.enemies.Creature;
 
 import java.util.Objects;
 
-public class Player {
-    public Integer health;
-    public Integer food;
+public class Player extends Creature {
+    public Integer biomeCount = 1;
+    public Integer roomCount = 1;
+    public Integer globalRoomCount = 1;
+    public Environment Current;
     public Integer evolutionLevel;
     public Integer playerClass;
     // this can just be an integer thinking about it as opposed to 3 seperate
     // classes.
     // 0 = Shelled, 1 = Finned, 2 = Spiked
-    public Integer biomeCount = 1;
-    public Integer roomCount = 1;
-    public Integer globalRoomCount = 1;
 
-    public Environment Current;
-
-    public Player() {
-        health = 3;
-        // max of 3
-        // will never increase
-        food = 20;
-        // default of 20, max of 50
+    public Player(Integer PC){
+        super("Player");
         evolutionLevel = 0;
+        playerClass = PC;
         Current = null;
-        // default of 0, max not determined
     }
 
     public void Move(String input, boolean room) {
@@ -32,45 +26,37 @@ public class Player {
             if (Objects.equals(input, "1")) {
                 Current.scenario = Current.scenario.middlePath;
                 Current.LoadRoom();
-                roomCount += 1;
-                globalRoomCount += 1;
-            } else if (Objects.equals(input, "2") && Current.scenario.leftPath != null) {
+            }
+            else if (Objects.equals(input, "2") && Current.scenario.leftPath != null) {
                 Current.scenario = Current.scenario.leftPath;
                 Current.LoadRoom();
-                roomCount += 1;
-                globalRoomCount += 1;
-            } else if (Objects.equals(input, "3") && Current.scenario.rightPath != null) {
-                Current.scenario = Current.scenario.rightPath;
-                Current.LoadRoom();
-                roomCount += 1;
-                globalRoomCount += 1;
             }
-        } else {
+            else if (Objects.equals(input, "3") && Current.scenario.rightPath != null) {
+                Current.scenario = Current.scenario.rightPath;
+                Current.LoadRoom();;
+            }
+            roomCount += 1;
+        }
+        else {
             if (Objects.equals(input, "1")) {
                 Current = Current.middlePath;
                 Current.LoadBiomes();
-                biomeCount += 1;
-                roomCount = 1;
-                globalRoomCount += 1;
             } else if (Objects.equals(input, "2") && Current.scenario.rightPath != null) {
                 Current = Current.rightPath;
                 Current.LoadBiomes();
-                biomeCount += 1;
-                roomCount = 1;
-                globalRoomCount += 1;
             } else if (Objects.equals(input, "3") && Current.scenario.leftPath != null) {
                 Current = Current.leftPath;
                 Current.LoadBiomes();
-                biomeCount += 1;
-                roomCount = 1;
-                globalRoomCount += 1;
             }
+            biomeCount += 1;
+            roomCount = 1;
         }
+        globalRoomCount += 1;
     }
 
     public void HealthLvl(String input) {
         if (Objects.equals(input, "0")) {
-            System.out.println("You are at " + health.toString() + " HP.");
+            System.out.println("You are at " + health + " HP.");
             if (health == 3) {
                 System.out.println("You are feeling healthy.");
             } else if (health == 2) {
@@ -92,10 +78,10 @@ public class Player {
 
     public void FoodLvl(String input) {
         if (Objects.equals(input, "9")) {
-            System.out.println("You have " + food.toString() + " food left.");
-            if (food >= 25) {
+            System.out.println("You have " + food + " food left.");
+            if (food <= 25) {
                 System.out.println("Hunger pangs.");
-            } else if (food <= 75) {
+            } else if (food >= 75) {
                 System.out.println("You are feeling well fed.");
             }
             // see the comment on line 82
@@ -106,7 +92,7 @@ public class Player {
         if (this.health < 3) {
             this.health += 1;
             System.out.println("After taking a well deserved break, you feel rejuvenated and enjoy a burst of energy.");
-            System.out.println("You now have " + health.toString() + " health remaining.");
+            System.out.println("You now have " + health + " health remaining.");
         } else {
             System.out.println(
                     "Although you have rested, you feel no different. It's as if you were already full of vitality.");
