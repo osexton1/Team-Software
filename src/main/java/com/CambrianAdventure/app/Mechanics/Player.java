@@ -54,41 +54,30 @@ public class Player extends Creature {
         globalRoomCount += 1;
     }
 
-    public void HealthLvl(String input) {
-        if (Objects.equals(input, "0")) {
-            System.out.println("You are at " + health + " HP.");
-            if (health == 3) {
-                System.out.println("You are feeling healthy.");
-            } else if (health == 2) {
-                System.out.println("You feel weak.");
-            } else if (health == 1) {
-                System.out.println("Your vision clouds. You will not last much longer.");
-            }
-            // we now know what a hashtable is, might add a few different descriptors for
-            // each health and hunger value
-
-        }
+    public void WorldLevel() {
+        System.out.println(biomeCount + "-" + roomCount);
     }
 
-    public void WorldLevel(String input) {
-        if (Objects.equals(input, "8")) {
-            System.out.println(biomeCount.toString() + "-" + roomCount.toString());
+    public void characterInfo() {
+        System.out.println("You are at " + health + " HP." + "\tYou have " + food + " food left.");
+        if (health == 3) {
+            System.out.println("You are feeling healthy.");
+        } else if (health == 2) {
+            System.out.println("You feel weak.");
+        } else if (health == 1) {
+            System.out.println("Your vision clouds. You will not last much longer.");
         }
-    }
-
-    public void FoodLvl(String input) {
-        if (Objects.equals(input, "9")) {
-            System.out.println("You have " + food + " food left.");
-            if (food <= 25) {
-                System.out.println("Hunger pangs.");
-            } else if (food >= 75) {
-                System.out.println("You are feeling well fed.");
-            }
-            // see the comment on line 82
+        if (food <= 25) {
+            System.out.println("Hunger pangs.");
+        } else if (food >= 75) {
+            System.out.println("You are feeling well fed.");
         }
+        // see the comment on line 67
     }
 
     public void Wait() {
+        // this will be changing to draining food, and a chance at an encounter happening,
+        // thus the trade-off is you might get more food but you are wasting food by staying still
         if (this.health < 3) {
             this.health += 1;
             System.out.println("After taking a well deserved break, you feel rejuvenated and enjoy a burst of energy.");
