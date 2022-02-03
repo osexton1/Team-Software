@@ -8,6 +8,10 @@ public class MyDictionaries {
         public Hashtable<Integer, String> Creatures;
         public Hashtable<Integer, String> NumPaths;
         public Hashtable<Integer, String> roomType;
+        // prepping the below two for if we need them. If either are true, take
+        // precedence over other random descriptors.
+        public Hashtable<Boolean, String> BBEGpassed;
+        public Hashtable<Boolean, String> BBEGpresent;
 
         public MyDictionaries() {
                 randdesc = new Hashtable<>();
@@ -15,6 +19,9 @@ public class MyDictionaries {
                 Creatures = new Hashtable<>();
                 NumPaths = new Hashtable<>();
                 roomType = new Hashtable<>();
+                // see line 11
+                BBEGpassed = new Hashtable<>();
+                BBEGpresent = new Hashtable<>();
 
                 // use these for generic descriptors. I will get around to writing more biome
                 // specific ones.
