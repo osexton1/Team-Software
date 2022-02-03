@@ -1,4 +1,5 @@
 package com.CambrianAdventure.app;
+
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
@@ -46,24 +47,24 @@ public class Main{
         System.out.println(Dict.NumPaths.get(room.numPaths));
     }
 
-    public static void pathRooms(Player Char){
+    public static void pathRooms(Player Char) {
         String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
         if (Char.Current.scenario.leftPath != null) {
             output += "/2. " + Char.Current.scenario.leftPath.Name;
         }
-        if (Char.Current.scenario.rightPath != null){
+        if (Char.Current.scenario.rightPath != null) {
             output += "/3. " + Char.Current.scenario.rightPath.Name;
         }
         output += ")";
         System.out.println(output);
     }
 
-    public static void pathBiomes(Player Char){
+    public static void pathBiomes(Player Char) {
         String output = "Enter a number to move to a new location: (1. " + Char.Current.middlePath.Name;
         if (Char.Current.leftPath != null) {
             output += "/2. " + Char.Current.leftPath.Name;
         }
-        if (Char.Current.rightPath != null){
+        if (Char.Current.rightPath != null) {
             output += "/3. " + Char.Current.rightPath.Name;
         }
         output += ")";
@@ -84,14 +85,12 @@ public class Main{
     }
 
     public static void Inputting(Player Char, String input){
-
-        if (Char.Current.completed){
+        if (Char.Current.completed) {
             Char.Move(input, false);
         }
-        if (Char.Current.scenario.completed){
+        if (Char.Current.scenario.completed) {
             Char.Move(input, true);
-        }
-        else {
+        } else {
             System.out.println(input);
         }
     }
