@@ -10,6 +10,7 @@ public class Player extends Creature {
     public Environment Current;
     public Integer evolutionLevel;
     public Integer playerClass;
+    public boolean combat;
     // this can just be an integer thinking about it as opposed to 3 seperate
     // classes.
     // 0 = Shelled, 1 = Finned, 2 = Spiked
@@ -21,21 +22,22 @@ public class Player extends Creature {
         Current = null;
     }
 
-    public void Move(String input, boolean room) {
-        if (room) {
-            if (Objects.equals(input, "1")) {
+    public void Move(String input) {
+        Integer inputting = Integer.parseInt(input) - 4;
+        if (Current.scenario.completed || !Current.completed) {
+            if (Objects.equals(inputting, 1)) {
                 Current.scenario = Current.scenario.middlePath;
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
             }
-            else if (Objects.equals(input, "2") && Current.scenario.leftPath != null) {
+            else if (Objects.equals(inputting, 2) && Current.scenario.leftPath != null) {
                 Current.scenario = Current.scenario.leftPath;
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
             }
-            else if (Objects.equals(input, "3") && Current.scenario.rightPath != null) {
+            else if (Objects.equals(inputting, 3) && Current.scenario.rightPath != null) {
                 Current.scenario = Current.scenario.rightPath;
                 Current.LoadRoom();
                 roomCount += 1;
@@ -46,19 +48,19 @@ public class Player extends Creature {
             }
         }
         else {
-            if (Objects.equals(input, "1")) {
+            if (Objects.equals(inputting, 1)) {
                 Current = Current.middlePath;
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
                 Current.LoadBiomes();
-            } else if (Objects.equals(input, "2") && Current.scenario.rightPath != null) {
+            } else if (Objects.equals(inputting, 2) && Current.scenario.rightPath != null) {
                 Current = Current.rightPath;
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
                 Current.LoadBiomes();
-            } else if (Objects.equals(input, "3") && Current.scenario.leftPath != null) {
+            } else if (Objects.equals(inputting, 3) && Current.scenario.leftPath != null) {
                 Current = Current.leftPath;
                 biomeCount += 1;
                 roomCount = 1;
@@ -91,6 +93,10 @@ public class Player extends Creature {
         }
         // see the comment on line 67
     }
+    public void Hide(){}
+    public void Inspect(){}
+    public void Eat(){}
+    public void EventAction(){}
 
     public void Wait() {
         // this will be changing to draining food, and a chance at an encounter happening,
