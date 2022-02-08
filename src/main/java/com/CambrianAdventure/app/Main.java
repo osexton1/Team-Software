@@ -94,7 +94,7 @@ public class Main {
                 switch(inputting){
                 case 0: Char.characterInfo(); break;
                 case 1:
-                case 2:
+                case 2: Char.Wait(); break;
                 case 3: Char.Move(input, false); break;
                 case 4: ; break;
                 case 5: ; break;
