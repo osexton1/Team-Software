@@ -11,6 +11,7 @@ public class Player extends Creature {
     public Environment Current;
     public Integer evolutionLevel;
     public Integer playerClass;
+    public Integer inventory = 0;
     public boolean combat;
     // this can just be an integer thinking about it as opposed to 3 separate
     // classes.
@@ -79,6 +80,7 @@ public class Player extends Creature {
     }
 
     public void characterInfo() {
+        System.out.println("");
         System.out.println("You are at " + health + " HP." + "\tYou have " + food + " food left.");
         if (health == 3) {
             System.out.println("You are feeling healthy.");
@@ -92,10 +94,19 @@ public class Player extends Creature {
         } else if (food >= 75) {
             System.out.println("You are feeling well fed.");
         }
+        System.out.println("");
         // see the comment on line 67
     }
 
-    public void Eat(){}
+    public void Eat(){
+        if (this.inventory > 0) {
+            this.foodLevel(this.inventory*5);
+            System.out.println("You ate the food you've been carrying around with you.");
+            this.inventory = 0;
+        } else {
+            System.out.println("You have no food to eat.");
+        }
+    }
     public void EventAction(){}
 
     public void foodLevel(Integer foodChange) {
@@ -140,7 +151,12 @@ public class Player extends Creature {
             Encounter enemy = new Encounter();
         } else if (inspection_chance < 1){
             System.out.println("After inspecting the entire area, you find a small amount of food.");
-            this.foodLevel(5);
+            int food_found = rand.nextInt(4);
+            if (this.inventory > 0){
+                this.Eat();
+            }
+            System.out.println("You started carrying the food you just found.");
+            this.inventory = food_found;
         } else {
             System.out.println("You triggered an event.");
             Event event = new Event();
