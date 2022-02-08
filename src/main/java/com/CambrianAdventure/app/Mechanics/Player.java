@@ -12,7 +12,7 @@ public class Player extends Creature {
     public Integer evolutionLevel;
     public Integer playerClass;
     public boolean combat;
-    // this can just be an integer thinking about it as opposed to 3 seperate
+    // this can just be an integer thinking about it as opposed to 3 separate
     // classes.
     // 0 = Shelled, 1 = Finned, 2 = Spiked
 
@@ -94,8 +94,7 @@ public class Player extends Creature {
         }
         // see the comment on line 67
     }
-    public void Hide(){}
-    public void Inspect(){}
+
     public void Eat(){}
     public void EventAction(){}
 
@@ -104,11 +103,12 @@ public class Player extends Creature {
         if (this.food <= 0) {
             this.food = 0;
             this.health -= 1;
-            System.out.println("You desperately need to find food. You are starting to starve.");
+            System.out.println("You desperately need to find food. You are starving.");
             System.out.println("You now have " + health + " health remaining.");
-        } else {
-            System.out.println("You now have " + food + " food remaining.");
+        } else if (this.food > 100) {
+            this.food = 100;
         }
+        System.out.println("You now have " + food + " food remaining.");
     }
 
     public void Wait() {
@@ -127,7 +127,8 @@ public class Player extends Creature {
 
     public void Inspect() {
         // 30% chance each to trigger event, puzzle or encounter
-        // 10% to find nothing on inspection
+        // 10% to just find food
+        // No matter the outcome, drains food
         Random rand = new Random();
         int inspection_chance = rand.nextInt(10);
         if (inspection_chance > 3 && inspection_chance <= 6) {
@@ -138,7 +139,8 @@ public class Player extends Creature {
             System.out.println("You will have to fight.");
             Encounter enemy = new Encounter();
         } else if (inspection_chance < 1){
-            System.out.println("After inspecting the entire area, you find nothing of interest");
+            System.out.println("After inspecting the entire area, you find a small amount of food.");
+            this.foodLevel(5);
         } else {
             System.out.println("You triggered an event.");
             Event event = new Event();
@@ -147,6 +149,7 @@ public class Player extends Creature {
     }
 
     public void Hide() {
-
+        System.out.println("You quickly find a rock to hide under in the environment.");
+        this.foodLevel(-10);
     }
 }
