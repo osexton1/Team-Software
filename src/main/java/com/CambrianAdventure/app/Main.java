@@ -99,13 +99,6 @@ public class Main {
         if (Integer.parseInt(input) >=  0){
             Integer inputting = Integer.parseInt(input);
             switch(inputting){
-//                    Move,
-//                    Wait,
-//                    Inspect,
-//                    Eat,
-//                    Hide,
-//                    Character info
-//                    Level up thing at the end of biome
                 case 0: Char.characterInfo(); break;
                 case 1: Char.Hide(); break;
                 case 2: Char.Inspect(); break;

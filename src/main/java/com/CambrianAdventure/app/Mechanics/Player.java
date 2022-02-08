@@ -1,7 +1,8 @@
 package com.CambrianAdventure.app.Mechanics;
 import com.CambrianAdventure.app.enemies.Creature;
+import com.CambrianAdventure.app.exploration.Scenarios.*;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Player extends Creature {
     public Integer biomeCount = 1;
@@ -98,17 +99,54 @@ public class Player extends Creature {
     public void Eat(){}
     public void EventAction(){}
 
-    public void Wait() {
-        // this will be changing to draining food, and a chance at an encounter happening,
-        // thus the trade-off is you might get more food but you are wasting food by staying still
-        if (this.health < 3) {
-            this.health += 1;
-            System.out.println("After taking a well deserved break, you feel rejuvenated and enjoy a burst of energy.");
+    public void foodLevel(Integer foodChange) {
+        this.food += foodChange;
+        if (this.food <= 0) {
+            this.food = 0;
+            this.health -= 1;
+            System.out.println("You desperately need to find food. You are starting to starve.");
             System.out.println("You now have " + health + " health remaining.");
         } else {
-            System.out.println(
-                    "Although you have rested, you feel no different. It's as if you were already full of vitality.");
-            System.out.println("You still have 3 health remaining");
+            System.out.println("You now have " + food + " food remaining.");
         }
+    }
+
+    public void Wait() {
+        // this will be changing to draining food, and a chance at an encounter happening,
+        // thus the trade-off is you might get more food, but you are wasting food by staying still
+        Random rand = new Random();
+        int encounter_chance = rand.nextInt(10); // 0-9 is 10 numbers so <3 is 30% of range
+        // Thinking 30% encounter chance on wait but I'm flexible
+        if (encounter_chance < 3) {
+            System.out.println("After a period of waiting, you notice an enemy closing in on you.");
+            System.out.println("You have no choice but to fight.");
+            Encounter enemy = new Encounter();
+        }
+        this.foodLevel(-10);
+    }
+
+    public void Inspect() {
+        // 30% chance each to trigger event, puzzle or encounter
+        // 10% to find nothing on inspection
+        Random rand = new Random();
+        int inspection_chance = rand.nextInt(10);
+        if (inspection_chance > 3 && inspection_chance <= 6) {
+            System.out.println("Your interactions with the environment revealed a puzzle.");
+            Puzzle puzzle = new Puzzle();
+        } else if (inspection_chance  >= 1 && inspection_chance <= 3) {
+            System.out.println("Your inspections drew the attention of a bigger creature.");
+            System.out.println("You will have to fight.");
+            Encounter enemy = new Encounter();
+        } else if (inspection_chance < 1){
+            System.out.println("After inspecting the entire area, you find nothing of interest");
+        } else {
+            System.out.println("You triggered an event.");
+            Event event = new Event();
+        }
+        this.foodLevel(-10);
+    }
+
+    public void Hide() {
+
     }
 }
