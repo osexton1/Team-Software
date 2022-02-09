@@ -19,14 +19,18 @@ public class Main {
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
+//        if(Type(Char.Current.scenario) == Encounter)
 
         while (true) {
-            Char.WorldLevel(); //numbers of rooms and bioms
+            if (Char.health <= 0) {
+                System.out.println("Death");
+                break;
+            }
+            Char.WorldLevel(); //numbers of rooms and biomes
             Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
 
             roomdesc(Char.Current.scenario);
-            System.out.println(Char.Current.scenario);
 
 //        String inputText = System.console().readLine();
             possInputs();
@@ -44,7 +48,9 @@ public class Main {
 //    because that fits better with how I made the hashtables.
     public static void roomdesc(Scenario room) {
         //random descriptor
-        room.Description = Dict.randdesc.get(Char.Current.type).get(0);//new Generate(8).int_random);
+        if (room.Description == null) {
+            room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(3).int_random);
+        }
         System.out.println(room.Description); //Used for Hashtables
         System.out.println(Dict.NumPaths.get(room.numPaths));
     }
@@ -55,26 +61,10 @@ public class Main {
         if (!Char.Current.completed && !Char.Current.scenario.completed){ printer += ", " + counter + ". attack/puzzle action"; counter +=1;}
         else{
             if (Char.Current.scenario.completed) {
-                printer += ", " + counter + ". Move to next " + Char.Current.scenario.middlePath.Name;
-                counter += 1;
-                if (Char.Current.scenario.leftPath != null) {
-                    printer += ", " + counter + ". Move to next " + Char.Current.scenario.leftPath.Name;
-                    counter += 1;
-                }
-                if (Char.Current.scenario.rightPath != null) {
-                    printer += ", " + counter + ". Move to next " + Char.Current.scenario.rightPath.Name;
-                }
+                printer += ", " + counter + ". Move Onward ";
             }
             else{
-                printer += ", " + counter + ". Move to next " + Char.Current.middlePath.Name;
-                counter += 1;
-                if (Char.Current.leftPath != null) {
-                    printer += ", " + counter + ". Move to next " + Char.Current.leftPath.Name;
-                    counter += 1;
-                }
-                if (Char.Current.rightPath != null) {
-                    printer += ", " + counter + ". Move to next " + Char.Current.rightPath.Name;
-                }
+                printer += ", " + counter + ". Move Onward ";
             }
         }
         System.out.println(printer);
@@ -96,7 +86,7 @@ public class Main {
 
     public static void Inputting(String input) {
         // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat, 6.
-        if (Integer.parseInt(input) >=  0){
+        if (Integer.parseInt(input) >=  0 && Integer.parseInt(input) <= 5){
             Integer inputting = Integer.parseInt(input);
             switch(inputting){
                 case 0: Char.characterInfo(); break;
@@ -104,15 +94,31 @@ public class Main {
                 case 2: Char.Inspect(); break;
                 case 3: Char.Eat(); break;
                 case 4: Char.Wait(); break;
-                case 5: if(!Char.Current.completed && !Char.Current.scenario.completed){Char.EventAction(); break;}
-                        else {Char.Move(input);}
-                case 6: if(Char.Current.completed || Char.Current.scenario.completed){Char.Move(input);}
-                case 7: if(!Char.Current.completed && !Char.Current.scenario.completed){ break;}
-                case 8: ; break;
+                case 5: if (!Char.Current.completed && !Char.Current.scenario.completed){Char.EventAction();} else{MoveOn();}; break;
             }
         }
         else{
             System.out.println("Invalid Input");
+        }
+    }
+    public static void MoveOn(){
+        String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
+        if (Char.Current.scenario.leftPath != null) {
+            output += "/2. " + Char.Current.scenario.leftPath.Name;
+        }
+        if (Char.Current.scenario.rightPath != null) {
+            output += "/3. " + Char.Current.scenario.rightPath.Name;
+        }
+        output += ")";
+        System.out.println(output);
+        String inputText = Scan.nextLine();
+        Integer inputNum = Integer.parseInt(inputText);
+        if (inputNum <= 3 && inputNum > 0){
+            Char.Move(inputNum);
+        }
+        else{
+            System.out.println("Invalid Input");
+            MoveOn();
         }
     }
 }
