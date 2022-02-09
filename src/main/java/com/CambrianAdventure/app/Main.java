@@ -19,18 +19,21 @@ public class Main {
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
+//        if(Type(Char.Current.scenario) == Encounter)
 
         while (true) {
-            Char.WorldLevel();
+            if (Char.health <= 0) {
+                System.out.println("Death");
+                break;
+            }
+            Char.WorldLevel(); //numbers of rooms and biomes
             Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
-//            pathBiomes(Char);
 
-//            System.out.println(Char.Current.scenario);
             roomdesc(Char.Current.scenario);
-            pathRooms();
 
 //        String inputText = System.console().readLine();
+            possInputs();
             String inputText = Scan.nextLine();  // Read user input
             Inputting(inputText);
         }
@@ -45,32 +48,27 @@ public class Main {
 //    because that fits better with how I made the hashtables.
     public static void roomdesc(Scenario room) {
         //random descriptor
-        System.out.println(Dict.randdesc.get(new Generate(8).int_random)); //Used for Hashtables
+        if (room.Description == null) {
+            room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(3).int_random);
+        }
+        System.out.println(room.Description); //Used for Hashtables
         System.out.println(Dict.NumPaths.get(room.numPaths));
     }
 
-    public static void pathRooms() {
-        String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
-        if (Char.Current.scenario.leftPath != null) {
-            output += "/2. " + Char.Current.scenario.leftPath.Name;
+    public static void possInputs(){
+        String printer = "0. Player Info, 1. Hide, 2. Inspect, 3. Eat, 4. Wait";
+        int counter = 5;
+        if (!Char.Current.completed && !Char.Current.scenario.completed){ printer += ", " + counter + ". attack/puzzle action"; counter +=1;}
+        else{
+            if (Char.Current.scenario.completed) {
+                printer += ", " + counter + ". Move Onward ";
+            }
+            else{
+                printer += ", " + counter + ". Move Onward ";
+            }
         }
-        if (Char.Current.scenario.rightPath != null) {
-            output += "/3. " + Char.Current.scenario.rightPath.Name;
-        }
-        output += ")";
-        System.out.println(output);
-    }
+        System.out.println(printer);
 
-    public static void pathBiomes() {
-        String output = "Enter a number to move to a new location: (1. " + Char.Current.middlePath.Name;
-        if (Char.Current.leftPath != null) {
-            output += "/2. " + Char.Current.leftPath.Name;
-        }
-        if (Char.Current.rightPath != null) {
-            output += "/3. " + Char.Current.rightPath.Name;
-        }
-        output += ")";
-        System.out.println(output);
     }
 
     public static Integer Intro() {
@@ -88,40 +86,39 @@ public class Main {
 
     public static void Inputting(String input) {
         // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat, 6.
-        if (Integer.parseInt(input) >=  0){
+        if (Integer.parseInt(input) >=  0 && Integer.parseInt(input) <= 5){
             Integer inputting = Integer.parseInt(input);
-            if (Char.Current.completed){
-                switch(inputting){
+            switch(inputting){
                 case 0: Char.characterInfo(); break;
-                case 1:
-                case 2: Char.Wait(); break;
-                case 3: Char.Move(input, false); break;
-                case 4: ; break;
-                case 5: ; break;
-                case 6: ; break;
-                case 7: ; break;
-                case 8: ; break;
-                case 9: ; break;
-                }
+                case 1: Char.Hide(); break;
+                case 2: Char.Inspect(); break;
+                case 3: Char.Eat(); break;
+                case 4: Char.Wait(); break;
+                case 5: if (!Char.Current.completed && !Char.Current.scenario.completed){Char.EventAction();} else{MoveOn();}; break;
             }
-            switch (inputting) {
-                case 0: Char.characterInfo(); break;
-                case 1: if (Char.Current.completed){Char.Move(input, false);}
-                    else if (Char.Current.scenario.completed){Char.Move(input, true);}
-                    else {System.out.println("default things like eat, wait");}
-                case 2:
-                case 3: ; break;
-                case 4: ; break;
-                case 5: ; break;
-                case 6: ; break;
-                case 7: ; break;
-                case 8: ; break;
-                case 9: ; break;
-            }
-
         }
         else{
             System.out.println("Invalid Input");
+        }
+    }
+    public static void MoveOn(){
+        String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
+        if (Char.Current.scenario.leftPath != null) {
+            output += "/2. " + Char.Current.scenario.leftPath.Name;
+        }
+        if (Char.Current.scenario.rightPath != null) {
+            output += "/3. " + Char.Current.scenario.rightPath.Name;
+        }
+        output += ")";
+        System.out.println(output);
+        String inputText = Scan.nextLine();
+        Integer inputNum = Integer.parseInt(inputText);
+        if (inputNum <= 3 && inputNum > 0){
+            Char.Move(inputNum);
+        }
+        else{
+            System.out.println("Invalid Input");
+            MoveOn();
         }
     }
 }

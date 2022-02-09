@@ -4,6 +4,7 @@ public class Scenario {
     public int type;
     public int numPaths;
     public String Name;
+    public String Description;
     public Scenario middlePath;
     public Scenario rightPath;
     public Scenario leftPath;
@@ -16,6 +17,7 @@ public class Scenario {
     public Scenario(int Type, String name){
         type = Type;
         Name = name;
+        Description = null;
         numPaths = new Generate(3).int_random + 1;
         BBEGPresent = false;
         BBEGPassed = false;
