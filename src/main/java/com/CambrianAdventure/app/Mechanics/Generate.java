@@ -2,6 +2,7 @@ package com.CambrianAdventure.app.Mechanics;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.*;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
+import com.CambrianAdventure.app.enemies.*;
 
 import java.util.*;
 import java.util.Arrays;
@@ -30,29 +31,31 @@ public class Generate {
     }
 
     public Scenario GenerateRoom(Integer currentRoom){
-        List<Integer> rooms = new ArrayList<>(Arrays.asList(0, 1, 2)); //list of possible room types
-        List<Integer> weightedList = new ArrayList<>();
-        for (Integer room : rooms) { //create weighted list
-            if (room != currentRoom){
-                weightedList.add(room);
-            }
-            weightedList.add(room);//make 1 of them
-        }
-        Generate output = new Generate(weightedList.size()); //get random number from weighted list
-        Scenario outputroom = null;
-        switch (weightedList.get(output.int_random)) {
-            case 0: outputroom = new Event(); break;
-            case 1: outputroom = new Puzzle(); break;
-            case 2: outputroom = new Encounter(); break;
-            }
-        return outputroom;
+//        List<Integer> rooms = new ArrayList<>(Arrays.asList(0, 1, 2)); //list of possible room types
+//        List<Integer> weightedList = new ArrayList<>();
+//        for (Integer room : rooms) { //create weighted list
+//            if (room != currentRoom){
+//                weightedList.add(room);
+//            }
+//            weightedList.add(room);//make 1 of them
+//        }
+//        Generate output = new Generate(weightedList.size()); //get random number from weighted list
+//        Scenario outputroom = null;
+//        switch (weightedList.get(output.int_random)) {
+//            case 0: outputroom = new Event(); break;
+//            case 1: outputroom = new Puzzle(); break;
+//            case 2: outputroom = new Encounter(); break;
+//            }
+//        return outputroom;
+        return new Encounter();
+
     }
 
     public Environment GenerateBiome(Integer currentBiome){
         List<Integer> biomes = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7)); //list of possible biome types
         List<Integer> weightedList = new ArrayList<>();
         for (Integer biome : biomes) { //create weighted list
-            if(biome+1 == currentBiome || biome-1 == currentBiome || biome == currentBiome){//make 3 of them
+            if(biome+1 == currentBiome || biome-1 == currentBiome || biome.equals(currentBiome)){//make 3 of them
                 weightedList.add(biome);
                 weightedList.add(biome);
             }
