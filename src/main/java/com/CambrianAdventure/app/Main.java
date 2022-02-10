@@ -46,7 +46,7 @@ public class Main {
     }
 
     public static void biomechangeDesc(Scenario room) {
-        System.out.println(Dict.roomType.get(room.type));
+        System.out.println(Dict.roomType.get(0).get(room.type));
         System.out.println(Dict.NumPaths.get(room.type));
     }
 
