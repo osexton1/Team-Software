@@ -10,11 +10,16 @@ public class Main {
     public static MyDictionaries Dict;
     public static Scanner Scan;
     public static Player Char;
+    public static Art Art;
 
     public static void main(String[] args) {
+        System.out.print("\033[H\033[2J");  // clear console
+        System.out.flush();
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
         System.out.println("Probably want a description of what the game is about up here");
+        Art = new Art();
+        System.out.println(Art.menu);
         Integer playerClass = Intro();
         Char = new Player(playerClass);
         Char.Current = new Shallows();
@@ -23,6 +28,8 @@ public class Main {
         Char.combat = true;
 
         while (true) {
+            System.out.print("\033[H\033[2J");  // clear console
+            System.out.flush();
             if (Char.health <= 0) {
                 System.out.println("Death");
                 break;
