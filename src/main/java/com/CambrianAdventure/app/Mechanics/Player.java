@@ -90,7 +90,14 @@ public class Player extends Creature {
         System.out.println("something noticed you, sucks to be you, your gonna die");
         disToFlee = 2;
         while (true){
-            if (Current.scenario.enemy.combatHealth <= 0){
+            if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
+                Current.scenario.completed = true;
+                combat = false;
+                break;
+            }
+            if (combatHealth <= 0){ //if Player dies
+                food -= 5;
+                System.out.println("You lost the fight, and barely escaped with your life");
                 Current.scenario.completed = true;
                 combat = false;
                 break;
@@ -113,7 +120,7 @@ public class Player extends Creature {
     }
 
     public void combatInput(String input){
-//        try{
+        try{
         if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) <= 5){
             Integer inputting = Integer.parseInt(input);
             String action = this.Current.scenario.enemy.AICalculate();
@@ -132,16 +139,16 @@ public class Player extends Creature {
                     break;
             }
             if( Turn){
-                this.Current.scenario.enemy.AIDo(action);
+                this.Current.scenario.enemy.AIDo(action, this);
             }
         }
         else{
                 System.out.println("Invalid Input");
             }
-//        }
-//        catch(Throwable Error){
-//            System.out.println("Invalid Input");
-//        }
+        }
+        catch(Throwable Error){
+            System.out.println("Invalid Input");
+        }
     }
 
 
@@ -151,7 +158,7 @@ public class Player extends Creature {
 
     public void characterInfo() {
         System.out.println("");
-        System.out.println("You are at " + health + " HP." + "\tYou have " + food + " food left.");
+        System.out.println("You are at " + health + " HP." + "\tYou have " + food + " food left." + "\tYou have " + combatHealth + " Combat health left.");
         if (health == 3) {
             System.out.println("You are feeling healthy.");
         } else if (health == 2) {

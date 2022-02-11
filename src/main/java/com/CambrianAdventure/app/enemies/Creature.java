@@ -3,6 +3,7 @@ package com.CambrianAdventure.app.enemies;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.enemies.Personalitys.*;
 
+import javax.naming.Name;
 import java.util.Objects;
 
 public class Creature {
@@ -25,8 +26,8 @@ public class Creature {
     public Creature(String Name, Persona Personality){
         name = Name;
         health = 3;
-        combatHealth = new Generate(21, 1).int_random;;
-        food = new Generate(15, 5).int_random;
+        combatHealth = new Generate(10, 5).int_random;;
+        food = new Generate(10, 5).int_random;
         personality = Personality;
         disPlay = new Generate(5, 2).int_random;
         disToFlee = 2;
@@ -41,7 +42,7 @@ public class Creature {
             distance = attacker.disPlay;
         }
         if (distance == 0){
-            System.out.println("adjacent");
+            System.out.println("adjacent, hit");
             target.combatHealth -= 5;
             if (target.combatHealth <= 0){
                 System.out.println("Murder");
@@ -61,27 +62,77 @@ public class Creature {
         // 29 - 15 coinflip based on personality
         // 14 - -9 flee
         if (Aggression >= 30) {
-            if (disPlay > 0) {
+            if (this.disPlay > 0) {
                 output = "Advance";
-            } else {
+            }
+            else{
                 output = "Attack";
             }
         }
-        else if(Aggression >= 15){output = "IDK";}//coinflip
+
+        else if(Aggression >= 15){
+            if (personality instanceof Brawny){
+                if (this.disPlay > 0) {
+                    output = "Advance";
+                }
+                else{
+                    output = "Attack";
+                }
+            }
+            else if (personality instanceof Neutral){
+                if (30 - Aggression > Aggression -15){
+                    if (this.disPlay > 0) {
+                        output = "Advance";
+                    }
+                    else{
+                        output = "Attack";
+                    }
+                }
+                else if (30 - Aggression < Aggression -15){
+                    output = "Flee";
+                }
+            }
+            else if (personality instanceof Shy){
+                output = "Flee";
+            }
+        }
         else{output = "Flee";}
         return output;
     }
 
-    public void AIDo(String Action){
+    public void AIDo(String Action, Creature Player){
         if (Objects.equals(Action, "Advance")) {
-            this.disToFlee += 1;
-            this.disPlay -= 1;
+            if (this.disPlay > 0) {
+                this.disToFlee += 1;
+                this.disPlay -= 1;
+            }
+            else{
+                System.out.println("The " + this.name + " bumped into you");
+            }
         }
+        else if (Objects.equals(Action, "Attack")){
+            System.out.println("CPU Attack");
+            //attack
+            attack(this, Player);
+        }
+
         else if(Objects.equals(Action, "Flee")){
-            this.disToFlee -= 1;
-            this.disPlay += 1;
+            if (disToFlee > 0) {
+                this.disToFlee -= 1;
+                this.disPlay += 1;
+            }
+            else{
+                this.combatHealth = 0;
+                System.out.println("CPU Leave the battlefield");
+            }
         }
-        System.out.println(Action);
+    }
+    public void comInspect(){
+
+    }
+
+    public void comWait(){
+
     }
 
     public String toString(){

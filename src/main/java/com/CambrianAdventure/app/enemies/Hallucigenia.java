@@ -4,6 +4,6 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Hallucigenia extends Creature {
     public Hallucigenia() {
-        super("Hallucigenia", new Brawny()); //randomize the personality
+        super("Hallucigenia", new Neutral()); //randomize the personality
     }
 }
