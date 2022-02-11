@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
-        System.out.println("Probably want a description of what the game is about up here");
+        System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can\n");
         Integer playerClass = Intro();
         Char = new Player(playerClass);
         Char.Current = new Shallows();
