@@ -3,14 +3,18 @@ package com.CambrianAdventure.app;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
+import com.CambrianAdventure.app.exploration.Scenarios.*;
 import java.util.Scanner;
 
 public class Main {
     public static MyDictionaries Dict;
     public static Scanner Scan;
     public static Player Char;
+    public static Art Art;
 
     public static void main(String[] args) {
+        System.out.print("\033[H\033[2J");  // clear console
+        System.out.flush();
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
         System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can\n");
@@ -19,28 +23,35 @@ public class Main {
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
-//        if(Type(Char.Current.scenario) == Encounter)
+        Char.combat = true;
 
         while (true) {
+            System.out.print("\033[H\033[2J");  // clear console
+            System.out.flush();
             if (Char.health <= 0) {
                 System.out.println("Death");
                 break;
             }
             Char.WorldLevel(); //numbers of rooms and biomes
-            Char.Current.scenario.completed = true;
+//            Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
-
-            roomdesc(Char.Current.scenario);
-
-//        String inputText = System.console().readLine();
-            possInputs();
-            String inputText = Scan.nextLine();  // Read user input
-            Inputting(inputText);
+            if (Char.Current.scenario instanceof Encounter && Char.combat){
+                //enemy description
+                System.out.println("Combat");
+                Char.goToCombat(Scan);
+            }
+            else {
+                Char.Current.scenario.completed = true;
+                roomdesc(Char.Current.scenario);
+                possInputs();
+                String inputText = Scan.nextLine();  // Read user input
+                Inputting(inputText);
+            }
         }
     }
 
     public static void biomechangeDesc(Scenario room) {
-        System.out.println(Dict.roomType.get(room.type));
+        System.out.println(Dict.roomType.get(0).get(room.type));
         System.out.println(Dict.NumPaths.get(room.type));
     }
 
@@ -85,7 +96,7 @@ public class Main {
     }
 
     public static void Inputting(String input) {
-        // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat, 6.
+        // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat
         if (Integer.parseInt(input) >=  0 && Integer.parseInt(input) <= 5){
             Integer inputting = Integer.parseInt(input);
             switch(inputting){
@@ -101,6 +112,7 @@ public class Main {
             System.out.println("Invalid Input");
         }
     }
+
     public static void MoveOn(){
         String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
         if (Char.Current.scenario.leftPath != null) {

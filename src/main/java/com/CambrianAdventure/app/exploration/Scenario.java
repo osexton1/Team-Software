@@ -1,5 +1,7 @@
 package com.CambrianAdventure.app.exploration;
 import com.CambrianAdventure.app.Mechanics.*;
+import com.CambrianAdventure.app.enemies.Creature;
+
 public class Scenario {
     public int type;
     public int numPaths;
@@ -8,12 +10,12 @@ public class Scenario {
     public Scenario middlePath;
     public Scenario rightPath;
     public Scenario leftPath;
-    boolean BBEGPresent;
-    boolean BBEGPassed;
+    public Creature enemy;
+    public boolean BBEGPresent;
+    public boolean BBEGPassed;
     public boolean completed;
-    boolean foodGen;
-    int foodAmount;
-
+    public boolean foodGen;
+    public int foodAmount;
     public Scenario(int Type, String name){
         type = Type;
         Name = name;
