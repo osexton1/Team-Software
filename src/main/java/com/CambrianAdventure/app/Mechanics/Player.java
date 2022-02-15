@@ -87,8 +87,9 @@ public class Player extends Creature {
     }
 
     public void goToCombat(Scanner Scan){
-        System.out.println("something noticed you, sucks to be you, your gonna die");
+        System.out.println("Something noticed you, get ready for a fight");
         disToFlee = 2;
+        combatHealth = 20;
         while (true){
             if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
                 Current.scenario.completed = true;
@@ -127,12 +128,12 @@ public class Player extends Creature {
             Boolean Turn = false;
             switch(inputting){
                 case 0: characterInfo(); break;
-                case 1: Inspect(); break; //gives indications of weaknesses/other stuff
+                case 1: comInspect(); break; //gives indications of weaknesses/other stuff
                 case 2: if(this.Current.scenario.enemy.disPlay > 0){this.disToFlee += 1; this.Current.scenario.enemy.disPlay -= 1; Turn = true;}
                 else{System.out.println("Unable to move forward");} break; //advance
                 case 3: if(this.disToFlee > 0){this.disToFlee -= 1; this.Current.scenario.enemy.disPlay += 1;Turn = true;}
-                    else{System.out.println("fleeing");}break; //retreat/ replaced with hide once disToFlee == 0
-                case 4: Wait();Turn = true; break; //skip a turn
+                    else{System.out.println("fleeing"); Turn = true;}break; //retreat/ replaced with hide once disToFlee == 0
+                case 4: comWait();Turn = true; break; //skip a turn
                 case 5: if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
                     else{System.out.println("Threaten");}
                     Turn = true;
@@ -158,7 +159,7 @@ public class Player extends Creature {
 
     public void characterInfo() {
         System.out.println("");
-        System.out.println("You are at " + health + " HP." + "\tYou have " + food + " food left." + "\tYou have " + combatHealth + " Combat health left.");
+        System.out.println("You are at " + health + " Health." + "\tYou have " + food + " food left." + "\tYou have " + combatHealth + " Combat health left.");
         if (health == 3) {
             System.out.println("You are feeling healthy.");
         } else if (health == 2) {

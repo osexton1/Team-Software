@@ -128,11 +128,11 @@ public class Creature {
         }
     }
     public void comInspect(){
-
+        System.out.println("You try to gather the mentality of the enemy in front of you.");
     }
 
     public void comWait(){
-
+        System.out.println("You wait for the enemy to make a move");
     }
 
     public String toString(){

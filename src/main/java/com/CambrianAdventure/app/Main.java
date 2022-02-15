@@ -26,7 +26,6 @@ public class Main {
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
         Char.combat = true;
-
         while (true) {
             System.out.print("\033[H\033[2J");  // clear console
             System.out.flush();
@@ -38,11 +37,13 @@ public class Main {
 //            Char.Current.scenario.completed = true;
 //            System.out.println(Char.Current);
             if (Char.Current.scenario instanceof Encounter && Char.combat){
+                System.out.println(Art.monster);
+
                 //enemy description
-                System.out.println("Combat");
                 Char.goToCombat(Scan);
             }
             else {
+                System.out.println(Char.Current.scenario.Name);
                 Char.Current.scenario.completed = true;
                 roomdesc(Char.Current.scenario);
                 possInputs();
