@@ -10,13 +10,14 @@ public class Main {
     public static MyDictionaries Dict;
     public static Scanner Scan;
     public static Player Char;
-    public static Art Art;
+    public static Art Arts;
 
     public static void main(String[] args) {
         System.out.print("\033[H\033[2J");  // clear console
         System.out.flush();
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
+        System.out.println(Arts.menu);
         System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can\n");
         Integer playerClass = Intro();
         Char = new Player(playerClass);
