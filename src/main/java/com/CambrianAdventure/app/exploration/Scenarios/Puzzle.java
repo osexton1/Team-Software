@@ -8,8 +8,8 @@ public class Puzzle extends Scenario {
     public boolean p2Complete = false;
     public boolean p3Complete = false;
 
-    public Integer p1Path = 0;
-    public Integer p2Path = 0;
+    public Integer path1 = 0;
+    public Integer path2 = 0;
     
     public Puzzle(){
         super(1, "Puzzle");
@@ -24,8 +24,15 @@ public class Puzzle extends Scenario {
         } else if(p1Complete) { 
             PuzzleRun();
         }
+/**
+ *      while(not completed) {
+ *          PuzzleRun();
+ *          if(p3 == complete) {
+ *              completed = true;
+ *          }
+ *      }
+ */
     }
     public void PuzzleRun(){
-        roomdesc(Scenario )
     }
 }
