@@ -10,15 +10,26 @@ public class Main {
     public static MyDictionaries Dict;
     public static Scanner Scan;
     public static Player Char;
-    public static Art Arts;
+    public static Art Art;
+    private static String OS = System.getProperty("os.name").toLowerCase();
 
     public static void main(String[] args) {
         System.out.print("\033[H\033[2J");  // clear console
         System.out.flush();
+        if (OS.contains("mac")) {
+            System.out.println("MAC");
+        }
+        else if (OS.contains("win")) {
+            System.out.println("Windows");
+        }
+        else if (OS.contains("nix") || (OS.contains("nux")) || (OS.contains("aix"))){
+            System.out.println("Linux");
+        }
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
-        System.out.println(Arts.menu);
-        System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can\n");
+        System.out.println("Probably want a description of what the game is about up here");
+        Art = new Art();
+        System.out.println(Art.menu);
         Integer playerClass = Intro();
         Char = new Player(playerClass);
         Char.Current = new Shallows();
