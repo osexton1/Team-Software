@@ -4,6 +4,8 @@ import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -13,14 +15,16 @@ public class Main {
     public static Art Art;
     private static String OS = System.getProperty("os.name").toLowerCase();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.print("\033[H\033[2J");  // clear console
         System.out.flush();
         if (OS.contains("mac")) {
-            System.out.println("MAC");
+            Process p = Runtime.getRuntime().exec("open -n -F -a /Applications/Utilities/Terminal.app --args ls");
+            p.waitFor();
         }
         else if (OS.contains("win")) {
-            System.out.println("Windows");
+            Process p1 = Runtime.getRuntime().exec("cmd /c start cmd.exe"); // launch terminal first
+            p1.waitFor();;
         }
         else if (OS.contains("nix") || (OS.contains("nux")) || (OS.contains("aix"))){
             System.out.println("Linux");
