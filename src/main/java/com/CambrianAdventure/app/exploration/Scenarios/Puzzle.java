@@ -16,18 +16,16 @@ public class Puzzle extends Scenario {
     }
 
     public void PuzzlePaths(){
-        
-        if(p3Complete){
+        if(p3Complete) {
             PuzzleRun();
             completed = true;
-        }
-        if(p2Complete){
+        } else if(p2Complete) {
             PuzzleRun();
-        }
-        if(p1Complete){
+        } else if(p1Complete) { 
             PuzzleRun();
         }
     }
     public void PuzzleRun(){
+        roomdesc(Scenario )
     }
 }
