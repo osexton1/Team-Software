@@ -3,6 +3,7 @@ package com.CambrianAdventure.app.Mechanics;
 import java.util.*;
 
 public class MyDictionaries {
+
         public List<String> randFrost;
         public List<String> randCaves;
         public List<String> randDeep;
@@ -24,11 +25,24 @@ public class MyDictionaries {
 
         public List<String> numPaths;
 
+        public List<String> puzzle01; 
+        public List<String> puzzle02;
+        public List<String> puzzle03;
+        /**
+         * we'll probably change these to a short desc as the name but for now numbers work
+         * all of the puzzle lists will have 7 values
+         * 0 - part 1
+         * 1,2 - part 2
+         * 3,4 - part 3, following index 1
+         * 5,6 - part 3, following index 2
+         */
+
         public Hashtable<Integer, List<String>> randdesc;
         public Hashtable<Integer, String> Events;
         public Hashtable<Integer, String> Creatures;
         public Hashtable<Integer, String> NumPaths;
         public Hashtable<Integer, List<String>> roomType;
+        public Hashtable<Integer, List<String>> puzzleNum;
 
         // prepping the below two for if we need them. If either are true, take
         // precedence over other random descriptors.
@@ -88,6 +102,13 @@ public class MyDictionaries {
                 randdesc.put(6, randTrop);
                 randdesc.put(7, randVolc);
 
+                puzzleNum = new Hashtable<>();
+                puzzle01 = new ArrayList<>(Arrays.asList());
+                puzzle02 = new ArrayList<>(Arrays.asList());
+                puzzle03 = new ArrayList<>(Arrays.asList());
+                puzzleNum.put(0, puzzle01);
+                puzzleNum.put(0, puzzle02);
+                puzzleNum.put(0, puzzle03);
 
                 Events = new Hashtable<>();
                 Creatures = new Hashtable<>();
