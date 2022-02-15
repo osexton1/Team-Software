@@ -4,6 +4,8 @@ import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -11,13 +13,26 @@ public class Main {
     public static Scanner Scan;
     public static Player Char;
     public static Art Art;
+    private static String OS = System.getProperty("os.name").toLowerCase();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.print("\033[H\033[2J");  // clear console
         System.out.flush();
+        if (OS.contains("mac")) {
+            Process p = Runtime.getRuntime().exec("open -n -F -a /Applications/Utilities/Terminal.app --args ls");
+            p.waitFor();
+        }
+        else if (OS.contains("win")) {
+            Process p1 = Runtime.getRuntime().exec("cmd /c start cmd.exe"); // launch terminal first
+            p1.waitFor();;
+        }
+        else if (OS.contains("nix") || (OS.contains("nux")) || (OS.contains("aix"))){
+            System.out.println("Linux");
+        }
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
-        System.out.println("Probably want a description of what the game is about up here");
+        System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.");
+        System.out.println("Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can\n");
         Art = new Art();
         System.out.println(Art.menu);
         Integer playerClass = Intro();

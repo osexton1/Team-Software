@@ -139,7 +139,7 @@ public class Player extends Creature {
                     Turn = true;
                     break;
             }
-            if( Turn){
+            if( Turn && this.Current.scenario.enemy.combatHealth > 0){
                 this.Current.scenario.enemy.AIDo(action, this);
             }
         }
