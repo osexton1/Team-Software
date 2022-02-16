@@ -97,7 +97,8 @@ public class Player extends Creature {
                 break;
             }
             if (combatHealth <= 0){ //if Player dies
-                food -= 5;
+                foodLevel(-5);
+                health -= 1;
                 System.out.println("You lost the fight, and barely escaped with your life");
                 Current.scenario.completed = true;
                 combat = false;

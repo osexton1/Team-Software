@@ -47,7 +47,7 @@ public class Main {
             System.out.print("\033[H\033[2J");  // clear console
             System.out.flush();
             if (Char.health <= 0) {
-                System.out.println("Death");
+                System.out.println(Art.death);
                 break;
             }
             Char.WorldLevel(); //numbers of rooms and biomes
@@ -69,7 +69,6 @@ public class Main {
                     String inputText = Scan.nextLine();  // Read user input
                     Inputting(inputText);
 
-                    Char.Current.LoadBiomes();
                     Char.Current.LoadRoom();
                     biomechangeDesc(Char.Current);
                 }
