@@ -17,17 +17,18 @@ public class Generate {
     public Generate(){
         int_random = new Generate(100).int_random; // default int generator up to 100
     }
+
     public Generate(Integer upperbound, Integer lowerbound) {
         Random rand = new Random();
         int_random = rand.nextInt((upperbound - lowerbound) + 1)+lowerbound;
     }
 
     public boolean coinFlip(){
-        return new Generate(2).int_random == 1;
+        return new Generate(1).int_random == 1;
     }
 
     public Integer Paths(){
-        return (new Generate(3)).int_random;
+        return (new Generate(2)).int_random;
     }
 
     public Scenario GenerateRoom(Integer currentRoom){
@@ -39,7 +40,7 @@ public class Generate {
             }
             weightedList.add(room);//make 1 of them
         }
-        Generate output = new Generate(weightedList.size()); //get random number from weighted list
+        Generate output = new Generate(weightedList.size()-1); //get random number from weighted list
         Scenario outputroom = null;
         switch (weightedList.get(output.int_random)) {
             case 0: outputroom = new Event(); break;
@@ -64,7 +65,7 @@ public class Generate {
             }
             weightedList.add(biome);//make 1 of them
         }
-        Generate output = new Generate(weightedList.size()); //get random number from weighted list
+        Generate output = new Generate(weightedList.size()-1); //get random number from weighted list
         Environment outputBiome = null;
         switch (weightedList.get(output.int_random)) {
             case 0: outputBiome = new Frost(); break;

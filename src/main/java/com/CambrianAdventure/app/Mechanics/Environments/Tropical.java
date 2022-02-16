@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.exploration.Scenarios.*;
 
 public class Tropical extends Environment {
     public Tropical(){
-        super("Tropical Waters", 6);
+        super("Tropical Waters", 6, new Generate(6, 4).int_random);
     }
 }

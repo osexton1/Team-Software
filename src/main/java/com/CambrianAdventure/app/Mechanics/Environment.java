@@ -6,15 +6,17 @@ public class Environment {
     public String Name;
     public Scenario scenario;
     public Integer type;
+    public Integer length;
     public Integer numPaths;
     public Environment leftPath;
     public Environment middlePath;
     public Environment rightPath;
     public Boolean completed;
 
-    public Environment(String Description, Integer Type) {
+    public Environment(String Description, Integer Type, Integer Length) {
         Name = Description;
         type = Type;
+        length = Length;
         scenario = null;
         leftPath = null;
         middlePath = null;

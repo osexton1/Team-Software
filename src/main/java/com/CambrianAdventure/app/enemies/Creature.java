@@ -3,7 +3,6 @@ package com.CambrianAdventure.app.enemies;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.enemies.Personalitys.*;
 
-import javax.naming.Name;
 import java.util.Objects;
 
 public class Creature {
@@ -71,7 +70,7 @@ public class Creature {
         }
 
         else if(Aggression >= 15){
-            if (personality instanceof Brawny){
+            if (personality instanceof Brawny || personality instanceof Rabid){
                 if (this.disPlay > 0) {
                     output = "Advance";
                 }
@@ -92,7 +91,7 @@ public class Creature {
                     output = "Flee";
                 }
             }
-            else if (personality instanceof Shy){
+            else if (personality instanceof Shy || personality instanceof Fearful){
                 output = "Flee";
             }
         }

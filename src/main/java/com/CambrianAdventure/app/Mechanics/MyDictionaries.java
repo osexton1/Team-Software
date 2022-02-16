@@ -139,7 +139,7 @@ public class MyDictionaries {
                         + "\nYou swim past the continental shelf and outwards to the great blue beyond. The vast waters lay open before you, as you get carried by the powerful currents."
                         + "\nYou find yourself in the Open Ocean",
                                 "The landscape changes as you move forward."
-                        + "\nThe searing skies pierce through the water and illuminate the seabed, exposing vast reefs teeming with alien life.\" +\n"
+                        + "\nThe searing skies pierce through the water and illuminate the seabed, exposing vast reefs teeming with alien life."
                         + "\nYou find yourself in The Shallows.",
                                 "The landscape changes as you move forward."
                         + "\nThe environment reveals a vast open plain of sea grass. The sun gently kisses the flora as small and large creatures alike dive in and out of the seabed."

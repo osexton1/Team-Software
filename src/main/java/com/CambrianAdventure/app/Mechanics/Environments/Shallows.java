@@ -5,6 +5,6 @@ import com.CambrianAdventure.app.enemies.Hallucigenia;
 
 public class Shallows extends Environment {
     public Shallows(){
-        super("Shallows", 4);
+        super("Shallows", 4, new Generate(6, 4).int_random);
     }
 }

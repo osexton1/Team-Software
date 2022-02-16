@@ -25,7 +25,7 @@ public class Player extends Creature {
     }
 
     public void Move(Integer input) {
-        if (Current.scenario.completed || !Current.completed) {
+        if (Current.scenario.completed && !Current.completed) {
             if (Objects.equals(input, 1)) {
                 Current.scenario = Current.scenario.middlePath;
                 if (Current.scenario instanceof Encounter){

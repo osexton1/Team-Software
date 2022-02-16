@@ -6,6 +6,7 @@ import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -18,17 +19,17 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.print("\033[H\033[2J");  // clear console
         System.out.flush();
-        if (OS.contains("mac")) {
-            Process p = Runtime.getRuntime().exec("open -n -F -a /Applications/Utilities/Terminal.app --args ls");
-            p.waitFor();
-        }
-        else if (OS.contains("win")) {
-            Process p1 = Runtime.getRuntime().exec("cmd /c start cmd.exe"); // launch terminal first
-            p1.waitFor();;
-        }
-        else if (OS.contains("nix") || (OS.contains("nux")) || (OS.contains("aix"))){
-            System.out.println("Linux");
-        }
+//        if (OS.contains("mac")) {
+//            Process p = Runtime.getRuntime().exec("open -n -F -a /Applications/Utilities/Terminal.app --args ls");
+//            p.waitFor();
+//        }
+//        else if (OS.contains("win")) {
+//            Process p1 = Runtime.getRuntime().exec("cmd /c start cmd.exe"); // launch terminal first
+//            p1.waitFor();;
+//        }
+//        else if (OS.contains("nix") || (OS.contains("nux")) || (OS.contains("aix"))){
+//            System.out.println("Linux");
+//        }
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
         System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.");
@@ -41,6 +42,7 @@ public class Main {
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
         Char.combat = true;
+        biomechangeDesc(Char.Current);
         while (true) {
             System.out.print("\033[H\033[2J");  // clear console
             System.out.flush();
@@ -55,22 +57,36 @@ public class Main {
                 System.out.println(Art.monster);
 
                 //enemy description
+                roomdesc(Char.Current.scenario);
                 Char.goToCombat(Scan);
             }
             else {
-                System.out.println(Char.Current.scenario.Name);
-                Char.Current.scenario.completed = true;
-                roomdesc(Char.Current.scenario);
-                possInputs();
-                String inputText = Scan.nextLine();  // Read user input
-                Inputting(inputText);
+                if(Objects.equals(Char.roomCount, Char.Current.length)){
+                    System.out.println("You completed the " + Char.Current.Name);
+                    Char.Current.completed = true;
+
+                    possInputs();
+                    String inputText = Scan.nextLine();  // Read user input
+                    Inputting(inputText);
+
+                    Char.Current.LoadBiomes();
+                    Char.Current.LoadRoom();
+                    biomechangeDesc(Char.Current);
+                }
+                else {
+                    System.out.println(Char.Current.scenario.Name);
+                    Char.Current.scenario.completed = true;
+                    roomdesc(Char.Current.scenario);
+                    possInputs();
+                    String inputText = Scan.nextLine();  // Read user input
+                    Inputting(inputText);
+                }
             }
         }
     }
 
-    public static void biomechangeDesc(Scenario room) {
-        System.out.println(Dict.roomType.get(0).get(room.type));
-        System.out.println(Dict.NumPaths.get(room.type));
+    public static void biomechangeDesc(Environment biome) {
+        System.out.println(Dict.roomType.get(0).get(biome.type));
     }
 
     //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
@@ -115,7 +131,7 @@ public class Main {
 
     public static void Inputting(String input) {
         // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat
-        if (Integer.parseInt(input) >=  0 && Integer.parseInt(input) <= 5){
+        if (!input.equals("") && Integer.parseInt(input) >=  0 && Integer.parseInt(input) <= 5){
             Integer inputting = Integer.parseInt(input);
             switch(inputting){
                 case 0: Char.characterInfo(); break;
@@ -132,23 +148,43 @@ public class Main {
     }
 
     public static void MoveOn(){
-        String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
-        if (Char.Current.scenario.leftPath != null) {
-            output += "/2. " + Char.Current.scenario.leftPath.Name;
+        if (Char.Current.completed){
+            String output = "Enter a number to move to a new Biome: (1. " + Char.Current.middlePath.Name;
+            if (Char.Current.leftPath != null) {
+                output += "/2. " + Char.Current.leftPath.Name;
+            }
+            if (Char.Current.rightPath != null) {
+                output += "/3. " + Char.Current.rightPath.Name;
+            }
+            output += ")";
+            System.out.println(output);
+            String inputText = Scan.nextLine();
+            Integer inputNum = Integer.parseInt(inputText);
+            if (inputNum <= 3 && inputNum > 0) {
+                Char.Move(inputNum);
+            } else {
+                System.out.println("Invalid Input");
+                MoveOn();
+            }
         }
-        if (Char.Current.scenario.rightPath != null) {
-            output += "/3. " + Char.Current.scenario.rightPath.Name;
-        }
-        output += ")";
-        System.out.println(output);
-        String inputText = Scan.nextLine();
-        Integer inputNum = Integer.parseInt(inputText);
-        if (inputNum <= 3 && inputNum > 0){
-            Char.Move(inputNum);
-        }
-        else{
-            System.out.println("Invalid Input");
-            MoveOn();
+        else {
+            String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
+            if (Char.Current.scenario.leftPath != null) {
+                output += "/2. " + Char.Current.scenario.leftPath.Name;
+            }
+            if (Char.Current.scenario.rightPath != null) {
+                output += "/3. " + Char.Current.scenario.rightPath.Name;
+            }
+            output += ")";
+            System.out.println(output);
+            String inputText = Scan.nextLine();
+            Integer inputNum = Integer.parseInt(inputText);
+            if (inputNum <= 3 && inputNum > 0) {
+                Char.Move(inputNum);
+            } else {
+                System.out.println("Invalid Input");
+                MoveOn();
+            }
         }
     }
 }

@@ -6,6 +6,6 @@ import com.CambrianAdventure.app.exploration.Scenarios.*;
 
 public class Caves extends Environment {
     public Caves(){
-        super("Cave Entrance", 1);
+        super("Cave Entrance", 1, new Generate(5, 3).int_random);
     }
 }
