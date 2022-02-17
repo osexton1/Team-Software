@@ -5,6 +5,8 @@ import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -14,11 +16,17 @@ public class Main {
     public static Scanner Scan;
     public static Player Char;
     public static Art Art;
+    public static Layout Layout;
     private static String OS = System.getProperty("os.name").toLowerCase();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.print("\033[H\033[2J");  // clear console
         System.out.flush();
+        Layout = new Layout();
+        Layout.setDesText("please");
+        Layout.setCharText("char");
+        Layout.setAscText("testing");
+
 //        if (OS.contains("mac")) {
 //            Process p = Runtime.getRuntime().exec("open -n -F -a /Applications/Utilities/Terminal.app --args ls");
 //            p.waitFor();
@@ -32,10 +40,9 @@ public class Main {
 //        }
         Dict = new MyDictionaries(); //hashtable
         Scan = new Scanner(System.in);
-        System.out.println("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.");
-        System.out.println("Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can\n");
+        Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
         Art = new Art();
-        System.out.println(Art.menu);
+        Layout.setAscText(Art.monster);
         Integer playerClass = Intro();
         Char = new Player(playerClass);
         Char.Current = new Shallows();
@@ -51,8 +58,8 @@ public class Main {
                 break;
             }
             Char.WorldLevel(); //numbers of rooms and biomes
-//            Char.Current.scenario.completed = true;
-//            System.out.println(Char.Current);
+            Char.Current.scenario.completed = true;
+            System.out.println(Char.Current);
             if (Char.Current.scenario instanceof Encounter && Char.combat){
                 System.out.println(Art.monster);
 
@@ -116,14 +123,14 @@ public class Main {
     }
 
     public static Integer Intro() {
-        System.out.println("Pick a class");
-        System.out.println("1. Shelled; 2. Finned; 3. Spiked");
+        Layout.addDesText("Pick a class\n");
+        Layout.addDesText("1. Shelled; 2. Finned; 3. Spiked\n");
         String PC = Scan.nextLine();
         if (PC.equals("1") || PC.equals("2") || PC.equals("3")) {
             return Integer.parseInt(PC) - 1;
         }//do thing
         else {
-            System.out.println("Invalid Choice");
+            Layout.setError("Invalid Choice");
             return Intro();
         }
     }
@@ -162,7 +169,7 @@ public class Main {
             if (inputNum <= 3 && inputNum > 0) {
                 Char.Move(inputNum);
             } else {
-                System.out.println("Invalid Input");
+                Layout.setError("Invalid Input");
                 MoveOn();
             }
         }
