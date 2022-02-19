@@ -1,4 +1,5 @@
 package com.CambrianAdventure.app.Mechanics;
+import com.CambrianAdventure.app.Main;
 import com.CambrianAdventure.app.enemies.Creature;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.enemies.*;
@@ -12,15 +13,19 @@ public class Player extends Creature {
     public Integer globalRoomCount = 1;
     public Environment Current = null;
     public Integer evolutionLevel = 0;
-    public Integer playerClass;
+    public String playerClass;
     public Integer inventory = 0;
     public boolean combat = false;
     public Integer disToFlee = 2;
     // classes.
     // 0 = Shelled, 1 = Finned, 2 = Spiked
 
-    public Player(Integer PC){
+    public Player(){
         super("Player");
+        this.playerClass = null;
+    }
+
+    public void setPlayerClass(String PC){
         this.playerClass = PC;
     }
 

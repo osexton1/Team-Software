@@ -7,92 +7,118 @@ import com.CambrianAdventure.app.exploration.Scenarios.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
     public static MyDictionaries Dict;
-    public static Scanner Scan;
     public static Player Char;
     public static Art Art;
+    public static String gameState;
     public static Layout Layout;
-    private static String OS = System.getProperty("os.name").toLowerCase();
+    public static boolean waitForInput;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.print("\033[H\033[2J");  // clear console
-        System.out.flush();
+        gameState = "Intro";
         Layout = new Layout();
-        Layout.setDesText("please");
-        Layout.setCharText("char");
-        Layout.setAscText("testing");
+        Layout.Listen = new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if (Objects.equals(gameState, "Intro")) {
+                    String playerClass = Intro(Layout.textInput.getText());
+                    if (!playerClass.equals("Invalid Input")){
+                        Char.setPlayerClass(playerClass);
+                        Layout.err.setText("Option: " + Layout.textInput.getText() + ", " + playerClass + " picked");
+                        ChangeStates();
+                        charDisplay();
+                        waitForInput = false;
+                    }
+                    else{
 
-//        if (OS.contains("mac")) {
-//            Process p = Runtime.getRuntime().exec("open -n -F -a /Applications/Utilities/Terminal.app --args ls");
-//            p.waitFor();
-//        }
-//        else if (OS.contains("win")) {
-//            Process p1 = Runtime.getRuntime().exec("cmd /c start cmd.exe"); // launch terminal first
-//            p1.waitFor();;
-//        }
-//        else if (OS.contains("nix") || (OS.contains("nux")) || (OS.contains("aix"))){
-//            System.out.println("Linux");
-//        }
+                        Layout.setError("Invalid Input");
+                    }
+
+                }
+                else if(Objects.equals(gameState, "Encounter")){
+                    System.out.println("Encounter");
+                    combatInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+                else if(Objects.equals(gameState, "Puzzle")){
+                    System.out.println("Puzzle");
+                    puzzleInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+                else if(Objects.equals(gameState, "Event")){
+                    System.out.println("Event");
+                    eventInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+                //send to input processing
+
+                Layout.textInput.setText("");
+            }
+        };
+        Layout.textInput.addActionListener(Layout.Listen);
+
         Dict = new MyDictionaries(); //hashtable
-        Scan = new Scanner(System.in);
-        Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
         Art = new Art();
-        Layout.setAscText(Art.monster);
-        Integer playerClass = Intro();
-        Char = new Player(playerClass);
+        Char = new Player();
+
+        Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
+        Layout.addDesText("Pick a class\n");
+        Layout.addDesText("1. Shelled; 2. Finned; 3. Spiked\n");
+        Layout.setAscText(Art.menu);
+
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
         Char.Current.LoadRoom();
         Char.combat = true;
-        biomechangeDesc(Char.Current);
+        waitForInput = true;
+
         while (true) {
-            System.out.print("\033[H\033[2J");  // clear console
-            System.out.flush();
+            while (waitForInput){
+                Thread.sleep(100);
+            }
+            biomechangeDesc(Char.Current);
             if (Char.health <= 0) {
-                System.out.println(Art.death);
+                Layout.setAscText(Art.death);
+                Layout.setDesText("R.I.P.");
                 break;
             }
-            Char.WorldLevel(); //numbers of rooms and biomes
             Char.Current.scenario.completed = true;
-            System.out.println(Char.Current);
-            if (Char.Current.scenario instanceof Encounter && Char.combat){
-                System.out.println(Art.monster);
-
-                //enemy description
+            if (Char.Current.scenario instanceof Encounter && Char.combat) {
+                Layout.setAscText(Art.monster);
+                //enemy description probably needed
                 roomdesc(Char.Current.scenario);
-                Char.goToCombat(Scan);
-            }
-            else {
-                if(Objects.equals(Char.roomCount, Char.Current.length)){
-                    System.out.println("You completed the " + Char.Current.Name);
+            } else {
+                if (Objects.equals(Char.roomCount, Char.Current.length)) { //end of biome
+                    Layout.addDesText("You completed the " + Char.Current.Name);
                     Char.Current.completed = true;
-
                     possInputs();
-                    String inputText = Scan.nextLine();  // Read user input
-                    Inputting(inputText);
-
                     Char.Current.LoadRoom();
                     biomechangeDesc(Char.Current);
-                }
-                else {
-                    System.out.println(Char.Current.scenario.Name);
+                } else {
+                    if (Char.Current.scenario instanceof Puzzle){
+                        Layout.setAscText(Art.puzzle);
+                    }
+                    else{
+                        Layout.setAscText(Art.event);
+                    }
                     Char.Current.scenario.completed = true;
                     roomdesc(Char.Current.scenario);
                     possInputs();
-                    String inputText = Scan.nextLine();  // Read user input
-                    Inputting(inputText);
                 }
             }
+            waitForInput = true;
         }
     }
 
+
     public static void biomechangeDesc(Environment biome) {
-        System.out.println(Dict.roomType.get(0).get(biome.type));
+        Layout.setDesText(Dict.roomType.get(0).get(biome.type));
     }
 
     //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
@@ -102,8 +128,8 @@ public class Main {
         if (room.Description == null) {
             room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(3).int_random);
         }
-        System.out.println(room.Description); //Used for Hashtables
-        System.out.println(Dict.NumPaths.get(room.numPaths));
+        Layout.addDesText("\n" + room.Description); //Used for Hashtables
+        Layout.addDesText(Dict.NumPaths.get(room.numPaths));
     }
 
     public static void possInputs(){
@@ -118,21 +144,34 @@ public class Main {
                 printer += ", " + counter + ". Move Onward ";
             }
         }
-        System.out.println(printer);
+        Layout.addDesText("\n" + printer);
 
     }
 
-    public static Integer Intro() {
-        Layout.addDesText("Pick a class\n");
-        Layout.addDesText("1. Shelled; 2. Finned; 3. Spiked\n");
-        String PC = Scan.nextLine();
+    public static String Intro(String PC) {
         if (PC.equals("1") || PC.equals("2") || PC.equals("3")) {
-            return Integer.parseInt(PC) - 1;
-        }//do thing
-        else {
-            Layout.setError("Invalid Choice");
-            return Intro();
+            switch (PC) {
+                case "1": return "Shelled";
+                case "2": return "Finned";
+                case "3": return "Spiked";
+            }
         }
+        return "Invalid Input";
+    }
+
+    public static void ChangeStates(){
+        gameState = Char.Current.scenario.Name;
+    }
+
+    public static void charDisplay(){
+        Layout.setCharText("Health: " + Char.health + "/3\n");
+        Layout.addCharText("Food: " + Char.food + "/20\n");
+        Layout.addCharText("Combat Health: " + Char.combatHealth + "/20\n");
+        Layout.addCharText("Class: " + Char.playerClass + "\n");
+        Layout.addCharText("Biome: " + Char.Current.Name + "\n");
+        Layout.addCharText("Biome number: " + Char.biomeCount + "\n");
+        Layout.addCharText("Room number: " + Char.roomCount + "\n");
+        Layout.addCharText("Global room total: " + Char.globalRoomCount + "\n");
     }
 
     public static void Inputting(String input) {
@@ -149,7 +188,7 @@ public class Main {
             }
         }
         else{
-            System.out.println("Invalid Input");
+            Layout.setError("Invalid Input");
         }
     }
 
@@ -163,15 +202,15 @@ public class Main {
                 output += "/3. " + Char.Current.rightPath.Name;
             }
             output += ")";
-            System.out.println(output);
-            String inputText = Scan.nextLine();
-            Integer inputNum = Integer.parseInt(inputText);
-            if (inputNum <= 3 && inputNum > 0) {
-                Char.Move(inputNum);
-            } else {
-                Layout.setError("Invalid Input");
-                MoveOn();
-            }
+            Layout.addDesText("\n" + output);
+//            String inputText = Scan.nextLine();
+//            Integer inputNum = Integer.parseInt(inputText);
+//            if (inputNum <= 3 && inputNum > 0) {
+//                Char.Move(inputNum);
+//            } else {
+//                Layout.setError("Invalid Input");
+//                MoveOn();
+//            }
         }
         else {
             String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
@@ -182,15 +221,18 @@ public class Main {
                 output += "/3. " + Char.Current.scenario.rightPath.Name;
             }
             output += ")";
-            System.out.println(output);
-            String inputText = Scan.nextLine();
-            Integer inputNum = Integer.parseInt(inputText);
-            if (inputNum <= 3 && inputNum > 0) {
-                Char.Move(inputNum);
-            } else {
-                System.out.println("Invalid Input");
-                MoveOn();
-            }
+            Layout.addDesText("\n" + output);
+//            String inputText = Scan.nextLine();
+//            Integer inputNum = Integer.parseInt(inputText);
+//            if (inputNum <= 3 && inputNum > 0) {
+//                Char.Move(inputNum);
+//            } else {
+//                System.out.println("Invalid Input");
+//                MoveOn();
+//            }
         }
     }
+    public static void combatInput(String Action){}
+    public static void puzzleInput(String Action){}
+    public static void eventInput(String Action){}
 }
