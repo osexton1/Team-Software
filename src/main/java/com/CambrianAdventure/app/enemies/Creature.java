@@ -15,6 +15,7 @@ public class Creature {
     public Persona personality;
     public Integer disPlay;
     public Integer disToFlee;
+    public Integer Speed = 4;
 
     public Creature(String Name){
         name = Name;

@@ -14,6 +14,7 @@ public class Player extends Creature {
     public Integer globalRoomCount = 1;
     public Environment Current = null;
     public Integer evolutionLevel = 0;
+    public Integer Speed = 4;
     public String playerClass;
     public Integer inventory = 0;
     public Integer disToFlee = 2;
@@ -27,6 +28,12 @@ public class Player extends Creature {
 
     public void setPlayerClass(String PC){
         this.playerClass = PC;
+        if (PC == "Finned") {
+            Speed += 1;
+        }
+        else if (PC == "Shelled") {
+            Speed -= 1;
+        }
     }
 
     public void charDisplay(){
@@ -42,6 +49,7 @@ public class Player extends Creature {
 
     public void Move(Integer input) {
         if (Current.scenario.completed && !Current.completed) {
+            charDisplay();
             if (Objects.equals(input, 1)) {
                 Current.scenario = Current.scenario.middlePath;
                 Current.LoadRoom();
@@ -93,34 +101,35 @@ public class Player extends Creature {
         }
     }
 
-    public void goToCombat(Scanner Scan){
-        System.out.println("Something noticed you, get ready for a fight");
-        disToFlee = 2;
-        combatHealth = 20;
-
-    }
+//            Layout.addDesText("\nSomething noticed you, get ready for a fight");
+//
 
     public void combatInput(String input){
         try{
-        int inputting = Integer.parseInt(input);
+            int inputting = Integer.parseInt(input);
         if (inputting >= 1 && inputting <= 5){
             Layout.setError("Option: " + inputting + ". " + " picked");
             String action = this.Current.scenario.enemy.AICalculate();
             boolean Turn = false;
+            String Action = "";
             switch(inputting){
                 case 1: comInspect(); break; //gives indications of weaknesses/other stuff
-                case 2: if(this.Current.scenario.enemy.disPlay > 0){this.disToFlee += 1; this.Current.scenario.enemy.disPlay -= 1; Turn = true;}
-                else{Layout.setError("Unable to move forward");} break; //advance
-                case 3: if(this.disToFlee > 0){this.disToFlee -= 1; this.Current.scenario.enemy.disPlay += 1;Turn = true;}
-                    else{Layout.setError("You are fleeing"); Turn = true;}break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
-                case 4: comWait();Turn = true; break; //skip a turn
-                case 5: if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
-                    else{Layout.setError("You threaten the creature to back away");}
+                case 2: Action = "Advance"; Turn = true; break; //advance
+                case 3: Action = "Flee"; Turn = true; break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
+                case 4: Action = "Wait";Turn = true; break; //skip a turn
+                case 5: Action = "Attack";
                     Turn = true;
                     break;
             }
             if( Turn && this.Current.scenario.enemy.combatHealth > 0){
-                this.Current.scenario.enemy.AIDo(action, this);
+                if (this.Current.scenario.enemy.Speed > this.Speed) {
+                    this.Current.scenario.enemy.AIDo(action, this);
+                    this.doAction(Action);
+                }
+                else{
+                    this.doAction(Action);
+                    this.Current.scenario.enemy.AIDo(action, this);
+                }
             }
         }
         else{
@@ -129,6 +138,8 @@ public class Player extends Creature {
         if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
             Current.scenario.completed = true;
             Current.scenario.changeState();
+            disToFlee = 2;
+            combatHealth = 20;
         }
         if (combatHealth <= 0){ //if Player dies
             foodLevel(-5);
@@ -138,10 +149,32 @@ public class Player extends Creature {
             }
             Current.scenario.completed = true;
             Current.scenario.changeState();
+            disToFlee = 2;
+            combatHealth = 20;
         }
         }
         catch(Throwable Error){
             Layout.setError("Invalid Input");
+        }
+    }
+
+    public void doAction(String Action){
+        if (Action == "Advance"){
+            if(this.Current.scenario.enemy.disPlay > 0){this.disToFlee += 1; this.Current.scenario.enemy.disPlay -= 1;}
+            else{Layout.setError("Unable to move forward");} //advance
+            }
+        else if (Action == "Flee") {
+            if (this.disToFlee > 0) {
+                this.disToFlee -= 1;
+                this.Current.scenario.enemy.disPlay += 1;
+            } else {
+                Layout.setError("You are fleeing");
+            } //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
+        }
+        else if (Action == "Wait"){ comWait();} //skip a turn
+        else if (Action == "Attack") {
+            if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
+            else{Layout.setError("You threaten the creature to back away");}
         }
     }
 
@@ -163,13 +196,15 @@ public class Player extends Creature {
 
 
     public void Eat(){// ### not how this works ###
-        if (this.inventory > 0) {
-            this.foodLevel(this.inventory*2);
-            Layout.setError("You ate the food you've been carrying around with you.");
-            this.inventory = 0;
-        } else {
-            Layout.setError("You have no food to eat.");
-        }
+//        if (this.inventory > 0) {
+//            this.foodLevel(this.inventory*2);
+//            Layout.setError("You ate the food you've been carrying around with you.");
+//            this.inventory = 0;
+//        } else {
+//            Layout.setError("You have no food to eat.");
+//        }
+        this.food = 20;
+        charDisplay();
     }
 
     public void foodLevel(Integer foodChange) {
@@ -183,6 +218,7 @@ public class Player extends Creature {
             this.food = 20;
         }
         System.out.println("You now have " + food + " food remaining.");
+        charDisplay();
     }
 
     public void Wait() {

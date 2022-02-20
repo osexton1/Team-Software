@@ -25,10 +25,19 @@ public class Main {
             }
             System.out.println(Char.Current.scenario.State);
             biomechangeDesc(Char.Current);
+            System.out.println(Char.Current.length);
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
                 Layout.setDesText("R.I.P.");
                 break;
+            }
+            else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
+                Layout.addDesText("You completed the " + Char.Current.Name);
+                Char.Current.completed = true;
+                moveOn = true;
+                possInputs();
+                Char.Current.LoadRoom();
+                biomechangeDesc(Char.Current);
             }
             else {
                 if (Objects.equals(gameState, "Encounter")) {
@@ -72,13 +81,7 @@ public class Main {
                 }
             }
 
-//            if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
-//                Layout.addDesText("You completed the " + Char.Current.Name);
-//                Char.Current.completed = true;
-//                possInputs();
-//                Char.Current.LoadRoom();
-//                biomechangeDesc(Char.Current);
-//            }
+
             waitForInput = true;
         }
     }
@@ -182,7 +185,7 @@ public class Main {
             Layout.addDesText("\n" + output);
         }
         else {
-            String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
+            String output = "Enter a number to move to a new Room: (1. " + Char.Current.scenario.middlePath.Name;
             if (Char.Current.scenario.leftPath != null) {
                 output += "/2. " + Char.Current.scenario.leftPath.Name;
             }
@@ -201,6 +204,7 @@ public class Main {
             if(moveOn){
                 int intAction  = Integer.parseInt(Action);
                 Char.Move(intAction);
+                waitForInput = false;
                 moveOn = false;
             }
             else if (Objects.equals(gameState, "Intro")) {
@@ -220,10 +224,10 @@ public class Main {
                 if(Objects.equals(Char.Current.scenario.State, "Pre")){
                     Inputting(Action);
                 }
-                if(Objects.equals(Char.Current.scenario.State, "During")){
+                else if(Objects.equals(Char.Current.scenario.State, "During")){
                     Char.combatInput(Action);
                 }
-                if(Objects.equals(Char.Current.scenario.State, "After")){
+                else if(Objects.equals(Char.Current.scenario.State, "After")){
                     Inputting(Action);
                 }
 
