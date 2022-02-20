@@ -3,16 +3,10 @@ package com.CambrianAdventure.app;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
-import com.CambrianAdventure.app.exploration.Scenarios.*;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Main {
     public static MyDictionaries Dict;
@@ -21,32 +15,28 @@ public class Main {
     public static String gameState = "Intro";
     public static Layout Layout;
     public static boolean waitForInput;
-
+    public static boolean combatChange;
+    public static boolean moveOn;
     public static void main(String[] args) throws IOException, InterruptedException {
-
         setup();
-
         while (true) {
             while (waitForInput){
                 Thread.sleep(100);
             }
+            System.out.println(Char.Current.scenario.State);
             biomechangeDesc(Char.Current);
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
                 Layout.setDesText("R.I.P.");
                 break;
             }
-            if(Char.Current.scenario.completed){
-                //move on capabilities
-                Layout.addDesText("\n\nScenario Completed");
-                System.out.println("\nScenario Completed"); //### to do move on to next room capabilities
-            }
             else {
                 if (Objects.equals(gameState, "Encounter")) {
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         roomdesc(Char.Current.scenario);
-                        Char.Current.scenario.changeState();
+                        Layout.addDesText("\n" + Dict.eventEncounter.get(0));
+                        possInputs();
                     }
                     else if (Objects.equals(Char.Current.scenario.State, "During")) {
                         //during combat
@@ -58,6 +48,12 @@ public class Main {
                     }
                     else {
                         Layout.addDesText("You defeated the enemy");
+                        Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
+
+                        possInputs();
+                        if(moveOn){
+                            possMove();
+                        }
                     }
                 }
                 else if (Objects.equals(gameState, "Event")) {
@@ -100,15 +96,13 @@ public class Main {
         if (room.Description == null) {
             room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(2).int_random);
         }
-        Layout.addDesText("\n" + room.Description); //Used for Hashtables
-        Layout.addDesText("\n" + Dict.NumPaths.get(room.numPaths));
+        Layout.addDesText("\n" + room.Description); //Used for Hashtable
     }
 
     public static void possInputs(){
         String printer = "\n1. Hide, 2. Inspect, 3. Eat, 4. Wait";
         int counter = 5;
-        if (!Char.Current.completed && !Char.Current.scenario.completed){ printer += ", " + counter + ". attack/puzzle action"; counter +=1;}
-        else{
+        if (Char.Current.completed || Char.Current.scenario.completed){
             if (Char.Current.scenario.completed) {
                 printer += ", " + counter + ". Move Onward ";
             }
@@ -137,23 +131,45 @@ public class Main {
 
 
     public static void Inputting(String input) {
-        // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat
-        if (!input.equals("") && Integer.parseInt(input) >=  1 && Integer.parseInt(input) <= 5){
-            Integer inputting = Integer.parseInt(input);
-            switch(inputting){
-                case 1: Char.Hide(); break;
-                case 2: Char.Inspect(); break;
-                case 3: Char.Eat(); break;
-                case 4: Char.Wait(); break;
-//                case 5: if (!Char.Current.completed && !Char.Current.scenario.completed){Char.EventAction();} else{MoveOn();}; break;
+        try {
+            if (!input.equals("") && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 5) {
+                int inputting = Integer.parseInt(input);
+                Layout.setError("Option: " + inputting + ". " + " picked");
+                switch (inputting) {
+                    case 1:
+                        Char.Hide();
+                        combatChange = true;
+                        break;
+                    case 2:
+                        Char.Inspect();
+                        combatChange = true;
+                        break;
+                    case 3:
+                        Char.Eat();
+                        break;
+                    case 4:
+                        Char.Wait();
+                        break;
+                    case 5:
+                        if (Char.Current.completed || Char.Current.scenario.completed){
+                            moveOn = true;
+                        }
+                        else{
+                            Layout.setError("Invalid Input");
+                        }
+                        break;
+                }
+            }
+            else {
+                Layout.setError("Invalid Input");
             }
         }
-        else{
+        catch(Throwable Error){
             Layout.setError("Invalid Input");
         }
     }
 
-    public static void MoveOn(){
+    public static void possMove(){
         if (Char.Current.completed){
             String output = "Enter a number to move to a new Biome: (1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
@@ -164,14 +180,6 @@ public class Main {
             }
             output += ")";
             Layout.addDesText("\n" + output);
-//            String inputText = Scan.nextLine();
-//            Integer inputNum = Integer.parseInt(inputText);
-//            if (inputNum <= 3 && inputNum > 0) {
-//                Char.Move(inputNum);
-//            } else {
-//                Layout.setError("Invalid Input");
-//                MoveOn();
-//            }
         }
         else {
             String output = "Enter a number to move to a new location: (1. " + Char.Current.scenario.middlePath.Name;
@@ -183,52 +191,60 @@ public class Main {
             }
             output += ")";
             Layout.addDesText("\n" + output);
-//            String inputText = Scan.nextLine();
-//            Integer inputNum = Integer.parseInt(inputText);
-//            if (inputNum <= 3 && inputNum > 0) {
-//                Char.Move(inputNum);
-//            } else {
-//                System.out.println("Invalid Input");
-//                MoveOn();
-//            }
         }
     }
 
     public static ActionListener InputListener(){
-        return new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                if (Objects.equals(gameState, "Intro")) {
-                    String playerClass = Intro(Layout.textInput.getText());
-                    if (!playerClass.equals("Invalid Input")){
-                        Char.setPlayerClass(playerClass);
-                        Layout.err.setText("Option: " + Layout.textInput.getText() + ", " + playerClass + " picked");
-                        ChangeStates();
-                        Char.charDisplay();
-                        waitForInput = false;
-                    }
-                    else{
-                        Layout.setError("Invalid Input");
-                    }
-
-                }
-                else if(Objects.equals(gameState, "Encounter")){
-                    System.out.println("Encounter");
-                    Char.combatInput(Layout.textInput.getText());
-                    waitForInput = false;
-                }
-                else if(Objects.equals(gameState, "Puzzle")){
-                    System.out.println("Puzzle");
-                    Char.puzzleInput(Layout.textInput.getText());
-                    waitForInput = false;
-                }
-                else if(Objects.equals(gameState, "Event")){
-                    System.out.println("Event");
-                    Char.eventInput(Layout.textInput.getText());
-                    waitForInput = false;
-                }
-
-                Layout.textInput.setText("");
+        return e -> {
+            Layout.setError("");
+            String Action = Layout.textInput.getText();
+            if(moveOn){
+                int intAction  = Integer.parseInt(Action);
+                Char.Move(intAction);
+                moveOn = false;
             }
+            else if (Objects.equals(gameState, "Intro")) {
+                String playerClass = Intro(Action);
+                if (!playerClass.equals("Invalid Input")){
+                    Char.setPlayerClass(playerClass);
+                    Layout.err.setText("Option: " + Action + ", " + playerClass + " picked");
+                    ChangeStates();
+                    Char.charDisplay();
+                    waitForInput = false;
+                }
+                else{
+                    Layout.setError("Invalid Input");
+                }
+            }
+            else if(Objects.equals(gameState, "Encounter")){
+                if(Objects.equals(Char.Current.scenario.State, "Pre")){
+                    Inputting(Action);
+                }
+                if(Objects.equals(Char.Current.scenario.State, "During")){
+                    Char.combatInput(Action);
+                }
+                if(Objects.equals(Char.Current.scenario.State, "After")){
+                    Inputting(Action);
+                }
+
+                if(combatChange) {
+                    Char.Current.scenario.changeState();
+                    combatChange = false;
+                }
+                waitForInput = false;
+            }
+            else if(Objects.equals(gameState, "Puzzle")){
+                System.out.println("Puzzle");
+                Char.puzzleInput(Layout.textInput.getText());
+                waitForInput = false;
+            }
+            else if(Objects.equals(gameState, "Event")){
+                System.out.println("Event");
+                Char.eventInput(Layout.textInput.getText());
+                waitForInput = false;
+            }
+
+            Layout.textInput.setText("");
         };
     }
 

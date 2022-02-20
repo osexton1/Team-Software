@@ -64,7 +64,7 @@ public class Player extends Creature {
                 this.foodLevel(-1);
             }
             else{
-                System.out.println("Invalid input for movement between rooms");
+               Layout.setError("Invalid input for movement between rooms");
             }
         }
         else {
@@ -104,7 +104,7 @@ public class Player extends Creature {
         try{
         int inputting = Integer.parseInt(input);
         if (inputting >= 1 && inputting <= 5){
-
+            Layout.setError("Option: " + inputting + ". " + " picked");
             String action = this.Current.scenario.enemy.AICalculate();
             boolean Turn = false;
             switch(inputting){
@@ -112,7 +112,7 @@ public class Player extends Creature {
                 case 2: if(this.Current.scenario.enemy.disPlay > 0){this.disToFlee += 1; this.Current.scenario.enemy.disPlay -= 1; Turn = true;}
                 else{Layout.setError("Unable to move forward");} break; //advance
                 case 3: if(this.disToFlee > 0){this.disToFlee -= 1; this.Current.scenario.enemy.disPlay += 1;Turn = true;}
-                    else{Layout.setError("You are fleeing"); Turn = true;}break; //retreat/ replaced with hide once disToFlee == 0
+                    else{Layout.setError("You are fleeing"); Turn = true;}break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
                 case 4: comWait();Turn = true; break; //skip a turn
                 case 5: if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
                     else{Layout.setError("You threaten the creature to back away");}
@@ -124,21 +124,21 @@ public class Player extends Creature {
             }
         }
         else{
-                Layout.setError("Invalid Input");
+            Layout.setError("Invalid Input");
+        }
+        if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
+            Current.scenario.completed = true;
+            Current.scenario.changeState();
+        }
+        if (combatHealth <= 0){ //if Player dies
+            foodLevel(-5);
+            health -= 1;
+            if (health != 0) {
+                System.out.println("You lost the fight, and barely escaped with your life");
             }
-            if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
-                Current.scenario.completed = true;
-                Current.scenario.changeState();
-            }
-            if (combatHealth <= 0){ //if Player dies
-                foodLevel(-5);
-                health -= 1;
-                if (health != 0) {
-                    System.out.println("You lost the fight, and barely escaped with your life");
-                }
-                Current.scenario.completed = true;
-                Current.scenario.changeState();
-            }
+            Current.scenario.completed = true;
+            Current.scenario.changeState();
+        }
         }
         catch(Throwable Error){
             Layout.setError("Invalid Input");
@@ -162,13 +162,13 @@ public class Player extends Creature {
     }
 
 
-    public void Eat(){
+    public void Eat(){// ### not how this works ###
         if (this.inventory > 0) {
             this.foodLevel(this.inventory*2);
-            System.out.println("You ate the food you've been carrying around with you.");
+            Layout.setError("You ate the food you've been carrying around with you.");
             this.inventory = 0;
         } else {
-            System.out.println("You have no food to eat.");
+            Layout.setError("You have no food to eat.");
         }
     }
 
@@ -229,6 +229,6 @@ public class Player extends Creature {
 
     public void Hide() {
         System.out.println("You quickly find a rock to hide under in the environment.");
-        this.foodLevel(-10);
+        this.foodLevel(-5);
     }
 }
