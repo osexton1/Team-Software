@@ -18,7 +18,6 @@ public class Layout {
     public JLabel charInput;
     public JTextField textInput;
     public JTextArea err;
-    public ActionListener Listen;
     public Layout() {
         ascii = new JTextArea("Ascii");
         ascii.setEditable(false);

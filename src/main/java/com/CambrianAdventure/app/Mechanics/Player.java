@@ -1,11 +1,12 @@
 package com.CambrianAdventure.app.Mechanics;
-import com.CambrianAdventure.app.Main;
 import com.CambrianAdventure.app.enemies.Creature;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.enemies.*;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
+import static com.CambrianAdventure.app.Main.Layout;
 
 import java.util.*;
+
 
 public class Player extends Creature {
     public Integer biomeCount = 1;
@@ -15,7 +16,6 @@ public class Player extends Creature {
     public Integer evolutionLevel = 0;
     public String playerClass;
     public Integer inventory = 0;
-    public boolean combat = false;
     public Integer disToFlee = 2;
     // classes.
     // 0 = Shelled, 1 = Finned, 2 = Spiked
@@ -29,13 +29,21 @@ public class Player extends Creature {
         this.playerClass = PC;
     }
 
+    public void charDisplay(){
+        Layout.setCharText("Health: " + health + "/3\n");
+        Layout.addCharText("Food: " + food + "/20\n");
+        Layout.addCharText("Combat Health: " + combatHealth + "/20\n");
+        Layout.addCharText("Class: " + playerClass + "\n");
+        Layout.addCharText("Biome: " + Current.Name + "\n");
+        Layout.addCharText("Biome number: " + biomeCount + "\n");
+        Layout.addCharText("Room number: " + roomCount + "\n");
+        Layout.addCharText("Global room total: " + globalRoomCount + "\n");
+    }
+
     public void Move(Integer input) {
         if (Current.scenario.completed && !Current.completed) {
             if (Objects.equals(input, 1)) {
                 Current.scenario = Current.scenario.middlePath;
-                if (Current.scenario instanceof Encounter){
-                    combat = true;
-                }
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
@@ -43,9 +51,6 @@ public class Player extends Creature {
             }
             else if (Objects.equals(input, 2) && Current.scenario.leftPath != null) {
                 Current.scenario = Current.scenario.leftPath;
-                if (Current.scenario instanceof Encounter){
-                    combat = true;
-                }
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
@@ -53,9 +58,6 @@ public class Player extends Creature {
             }
             else if (Objects.equals(input, 3) && Current.scenario.rightPath != null) {
                 Current.scenario = Current.scenario.rightPath;
-                if (Current.scenario instanceof Encounter){
-                    combat = true;
-                }
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
@@ -95,53 +97,25 @@ public class Player extends Creature {
         System.out.println("Something noticed you, get ready for a fight");
         disToFlee = 2;
         combatHealth = 20;
-        while (true){
-            if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
-                Current.scenario.completed = true;
-                combat = false;
-                break;
-            }
-            if (combatHealth <= 0){ //if Player dies
-                foodLevel(-5);
-                health -= 1;
-                System.out.println("You lost the fight, and barely escaped with your life");
-                Current.scenario.completed = true;
-                combat = false;
-                break;
-            }
-            System.out.println(Current.scenario.enemy);
-            String output = "";
-            for (int i = 0; i < (disToFlee + 2 + Current.scenario.enemy.disToFlee + Current.scenario.enemy.disPlay); i++){
-                if (i == disToFlee){ output += " P";}
-                else if(i == (1 + disToFlee + Current.scenario.enemy.disPlay)){output += " @";}
-                else{
-                    output += " -";
-                }
-            }
 
-            System.out.println(output);
-            System.out.println("0. Player Info, 1. Inspect, 2. Advance, 3. Retreat, 4. Wait, 5. Attack");
-            String inputText = Scan.nextLine();  // Read user input
-            combatInput(inputText);
-        }
     }
 
     public void combatInput(String input){
         try{
-        if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) <= 5){
-            Integer inputting = Integer.parseInt(input);
+        int inputting = Integer.parseInt(input);
+        if (inputting >= 1 && inputting <= 5){
+
             String action = this.Current.scenario.enemy.AICalculate();
-            Boolean Turn = false;
+            boolean Turn = false;
             switch(inputting){
-                case 0: characterInfo(); break;
                 case 1: comInspect(); break; //gives indications of weaknesses/other stuff
                 case 2: if(this.Current.scenario.enemy.disPlay > 0){this.disToFlee += 1; this.Current.scenario.enemy.disPlay -= 1; Turn = true;}
-                else{System.out.println("Unable to move forward");} break; //advance
+                else{Layout.setError("Unable to move forward");} break; //advance
                 case 3: if(this.disToFlee > 0){this.disToFlee -= 1; this.Current.scenario.enemy.disPlay += 1;Turn = true;}
-                    else{System.out.println("fleeing"); Turn = true;}break; //retreat/ replaced with hide once disToFlee == 0
+                    else{Layout.setError("You are fleeing"); Turn = true;}break; //retreat/ replaced with hide once disToFlee == 0
                 case 4: comWait();Turn = true; break; //skip a turn
                 case 5: if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
-                    else{System.out.println("Threaten");}
+                    else{Layout.setError("You threaten the creature to back away");}
                     Turn = true;
                     break;
             }
@@ -150,48 +124,53 @@ public class Player extends Creature {
             }
         }
         else{
-                System.out.println("Invalid Input");
+                Layout.setError("Invalid Input");
+            }
+            if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
+                Current.scenario.completed = true;
+                Current.scenario.changeState();
+            }
+            if (combatHealth <= 0){ //if Player dies
+                foodLevel(-5);
+                health -= 1;
+                if (health != 0) {
+                    System.out.println("You lost the fight, and barely escaped with your life");
+                }
+                Current.scenario.completed = true;
+                Current.scenario.changeState();
             }
         }
         catch(Throwable Error){
-            System.out.println("Invalid Input");
+            Layout.setError("Invalid Input");
         }
     }
 
+    public void puzzleInput(String Action){}
 
-    public void WorldLevel() {
-        System.out.println(biomeCount + "-" + roomCount);
+    public void eventInput(String Action){}
+
+    public String combatMap(){
+        String output = "\n";
+        for (int i = 0; i < (disToFlee + 2 + Current.scenario.enemy.disToFlee + Current.scenario.enemy.disPlay); i++){
+            if (i == disToFlee){ output += " P";}
+            else if(i == (1 + disToFlee + Current.scenario.enemy.disPlay)){output += " @";}
+            else{
+                output += " -";
+            }
+        }
+        return output;
     }
 
-    public void characterInfo() {
-        System.out.println("");
-        System.out.println("You are at " + health + " Health." + "\tYou have " + food + " food left." + "\tYou have " + combatHealth + " Combat health left.");
-        if (health == 3) {
-            System.out.println("You are feeling healthy.");
-        } else if (health == 2) {
-            System.out.println("You feel weak.");
-        } else if (health == 1) {
-            System.out.println("Your vision clouds. You will not last much longer.");
-        }
-        if (food <= 5) {
-            System.out.println("Hunger pangs.");
-        } else if (food >= 15) {
-            System.out.println("You are feeling well fed.");
-        }
-        System.out.println("");
-        // see the comment on line 67
-    }
 
     public void Eat(){
         if (this.inventory > 0) {
-            this.foodLevel(this.inventory*5);
+            this.foodLevel(this.inventory*2);
             System.out.println("You ate the food you've been carrying around with you.");
             this.inventory = 0;
         } else {
             System.out.println("You have no food to eat.");
         }
     }
-    public void EventAction(){}
 
     public void foodLevel(Integer foodChange) {
         this.food += foodChange;

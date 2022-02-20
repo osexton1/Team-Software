@@ -5,6 +5,8 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 import java.util.Objects;
 
+import static com.CambrianAdventure.app.Main.*;
+
 public class Creature {
     public String name;
     public Integer health;
@@ -25,8 +27,8 @@ public class Creature {
     public Creature(String Name, Persona Personality){
         name = Name;
         health = 3;
-        combatHealth = new Generate(10, 5).int_random;;
-        food = new Generate(10, 5).int_random;
+        combatHealth = new Generate(20, 15).int_random;;
+        food = new Generate(20, 15).int_random;
         personality = Personality;
         disPlay = new Generate(5, 2).int_random;
         disToFlee = 2;
@@ -113,6 +115,7 @@ public class Creature {
             System.out.println("CPU Attack");
             //attack
             attack(this, Player);
+            Char.charDisplay();
         }
 
         else if(Objects.equals(Action, "Flee")){
@@ -136,7 +139,7 @@ public class Creature {
 
     public String toString(){
         String output = "";
-        output += name + "; Combat Health: " + combatHealth + ", food: " + food + ", distance to flee: " + disToFlee;
+        output += name + ", Combat Health: " + combatHealth + ", food: " + food + ", distance to flee: " + disToFlee;
         if(disPlay != null){ output+= ", distance to Player: " + disPlay;};
         return output;
     }

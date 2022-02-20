@@ -5,6 +5,7 @@ import com.CambrianAdventure.app.Mechanics.Environments.*;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,66 +18,13 @@ public class Main {
     public static MyDictionaries Dict;
     public static Player Char;
     public static Art Art;
-    public static String gameState;
+    public static String gameState = "Intro";
     public static Layout Layout;
     public static boolean waitForInput;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        gameState = "Intro";
-        Layout = new Layout();
-        Layout.Listen = new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                if (Objects.equals(gameState, "Intro")) {
-                    String playerClass = Intro(Layout.textInput.getText());
-                    if (!playerClass.equals("Invalid Input")){
-                        Char.setPlayerClass(playerClass);
-                        Layout.err.setText("Option: " + Layout.textInput.getText() + ", " + playerClass + " picked");
-                        ChangeStates();
-                        charDisplay();
-                        waitForInput = false;
-                    }
-                    else{
 
-                        Layout.setError("Invalid Input");
-                    }
-
-                }
-                else if(Objects.equals(gameState, "Encounter")){
-                    System.out.println("Encounter");
-                    combatInput(Layout.textInput.getText());
-                    waitForInput = false;
-                }
-                else if(Objects.equals(gameState, "Puzzle")){
-                    System.out.println("Puzzle");
-                    puzzleInput(Layout.textInput.getText());
-                    waitForInput = false;
-                }
-                else if(Objects.equals(gameState, "Event")){
-                    System.out.println("Event");
-                    eventInput(Layout.textInput.getText());
-                    waitForInput = false;
-                }
-                //send to input processing
-
-                Layout.textInput.setText("");
-            }
-        };
-        Layout.textInput.addActionListener(Layout.Listen);
-
-        Dict = new MyDictionaries(); //hashtable
-        Art = new Art();
-        Char = new Player();
-
-        Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\nManage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
-        Layout.addDesText("Pick a class\n");
-        Layout.addDesText("1. Shelled; 2. Finned; 3. Spiked\n");
-        Layout.setAscText(Art.menu);
-
-        Char.Current = new Shallows();
-        Char.Current.LoadBiomes();
-        Char.Current.LoadRoom();
-        Char.combat = true;
-        waitForInput = true;
+        setup();
 
         while (true) {
             while (waitForInput){
@@ -88,33 +36,57 @@ public class Main {
                 Layout.setDesText("R.I.P.");
                 break;
             }
-            Char.Current.scenario.completed = true;
-            if (Char.Current.scenario instanceof Encounter && Char.combat) {
-                Layout.setAscText(Art.monster);
-                //enemy description probably needed
-                roomdesc(Char.Current.scenario);
-            } else {
-                if (Objects.equals(Char.roomCount, Char.Current.length)) { //end of biome
-                    Layout.addDesText("You completed the " + Char.Current.Name);
-                    Char.Current.completed = true;
+            if(Char.Current.scenario.completed){
+                //move on capabilities
+                Layout.addDesText("\n\nScenario Completed");
+                System.out.println("\nScenario Completed"); //### to do move on to next room capabilities
+            }
+            else {
+                if (Objects.equals(gameState, "Encounter")) {
+                    Layout.setAscText(Art.monster);
+                    if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
+                        roomdesc(Char.Current.scenario);
+                        Char.Current.scenario.changeState();
+                    }
+                    else if (Objects.equals(Char.Current.scenario.State, "During")) {
+                        //during combat
+                        //enemy description probably needed
+                        roomdesc(Char.Current.scenario);
+                        Layout.addDesText(Char.combatMap());
+                        Layout.addDesText("\n\n1. Inspect, 2. Advance, 3. Retreat, 4. Wait, 5. Attack");
+                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
+                    }
+                    else {
+                        Layout.addDesText("You defeated the enemy");
+                    }
+                }
+                else if (Objects.equals(gameState, "Event")) {
+                    Layout.setAscText(Art.event);
+                    Layout.addDesText("\nEvent");
+                    Char.Current.scenario.completed = true;
+                    roomdesc(Char.Current.scenario);
                     possInputs();
-                    Char.Current.LoadRoom();
-                    biomechangeDesc(Char.Current);
-                } else {
-                    if (Char.Current.scenario instanceof Puzzle){
-                        Layout.setAscText(Art.puzzle);
-                    }
-                    else{
-                        Layout.setAscText(Art.event);
-                    }
+                }
+                else if (Objects.equals(gameState, "Puzzle")) {
+                    Layout.setAscText(Art.puzzle);
+                    Layout.addDesText("\nPuzzle");
                     Char.Current.scenario.completed = true;
                     roomdesc(Char.Current.scenario);
                     possInputs();
                 }
             }
+
+//            if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
+//                Layout.addDesText("You completed the " + Char.Current.Name);
+//                Char.Current.completed = true;
+//                possInputs();
+//                Char.Current.LoadRoom();
+//                biomechangeDesc(Char.Current);
+//            }
             waitForInput = true;
         }
     }
+
 
 
     public static void biomechangeDesc(Environment biome) {
@@ -126,14 +98,14 @@ public class Main {
     public static void roomdesc(Scenario room) {
         //random descriptor
         if (room.Description == null) {
-            room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(3).int_random);
+            room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(2).int_random);
         }
         Layout.addDesText("\n" + room.Description); //Used for Hashtables
-        Layout.addDesText(Dict.NumPaths.get(room.numPaths));
+        Layout.addDesText("\n" + Dict.NumPaths.get(room.numPaths));
     }
 
     public static void possInputs(){
-        String printer = "0. Player Info, 1. Hide, 2. Inspect, 3. Eat, 4. Wait";
+        String printer = "\n1. Hide, 2. Inspect, 3. Eat, 4. Wait";
         int counter = 5;
         if (!Char.Current.completed && !Char.Current.scenario.completed){ printer += ", " + counter + ". attack/puzzle action"; counter +=1;}
         else{
@@ -163,28 +135,17 @@ public class Main {
         gameState = Char.Current.scenario.Name;
     }
 
-    public static void charDisplay(){
-        Layout.setCharText("Health: " + Char.health + "/3\n");
-        Layout.addCharText("Food: " + Char.food + "/20\n");
-        Layout.addCharText("Combat Health: " + Char.combatHealth + "/20\n");
-        Layout.addCharText("Class: " + Char.playerClass + "\n");
-        Layout.addCharText("Biome: " + Char.Current.Name + "\n");
-        Layout.addCharText("Biome number: " + Char.biomeCount + "\n");
-        Layout.addCharText("Room number: " + Char.roomCount + "\n");
-        Layout.addCharText("Global room total: " + Char.globalRoomCount + "\n");
-    }
 
     public static void Inputting(String input) {
         // 0. Character info, 1. move between, 2. wait, 3. hide, 4. inspect, 5. eat
-        if (!input.equals("") && Integer.parseInt(input) >=  0 && Integer.parseInt(input) <= 5){
+        if (!input.equals("") && Integer.parseInt(input) >=  1 && Integer.parseInt(input) <= 5){
             Integer inputting = Integer.parseInt(input);
             switch(inputting){
-                case 0: Char.characterInfo(); break;
                 case 1: Char.Hide(); break;
                 case 2: Char.Inspect(); break;
                 case 3: Char.Eat(); break;
                 case 4: Char.Wait(); break;
-                case 5: if (!Char.Current.completed && !Char.Current.scenario.completed){Char.EventAction();} else{MoveOn();}; break;
+//                case 5: if (!Char.Current.completed && !Char.Current.scenario.completed){Char.EventAction();} else{MoveOn();}; break;
             }
         }
         else{
@@ -232,7 +193,61 @@ public class Main {
 //            }
         }
     }
-    public static void combatInput(String Action){}
-    public static void puzzleInput(String Action){}
-    public static void eventInput(String Action){}
+
+    public static ActionListener InputListener(){
+        return new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if (Objects.equals(gameState, "Intro")) {
+                    String playerClass = Intro(Layout.textInput.getText());
+                    if (!playerClass.equals("Invalid Input")){
+                        Char.setPlayerClass(playerClass);
+                        Layout.err.setText("Option: " + Layout.textInput.getText() + ", " + playerClass + " picked");
+                        ChangeStates();
+                        Char.charDisplay();
+                        waitForInput = false;
+                    }
+                    else{
+                        Layout.setError("Invalid Input");
+                    }
+
+                }
+                else if(Objects.equals(gameState, "Encounter")){
+                    System.out.println("Encounter");
+                    Char.combatInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+                else if(Objects.equals(gameState, "Puzzle")){
+                    System.out.println("Puzzle");
+                    Char.puzzleInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+                else if(Objects.equals(gameState, "Event")){
+                    System.out.println("Event");
+                    Char.eventInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+
+                Layout.textInput.setText("");
+            }
+        };
+    }
+
+    public static void setup(){
+        Dict = new MyDictionaries(); //hashtable
+        Art = new Art();
+        Char = new Player();
+
+        Layout = new Layout();
+        Layout.textInput.addActionListener(InputListener());
+        Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\n" +
+                "Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
+        Layout.addDesText("Pick a class\n");
+        Layout.addDesText("1. Shelled; 2. Finned; 3. Spiked\n");
+        Layout.setAscText(Art.menu);
+
+        Char.Current = new Shallows();
+        Char.Current.LoadBiomes();
+        Char.Current.LoadRoom();
+        waitForInput = true;
+    }
 }
