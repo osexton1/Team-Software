@@ -19,19 +19,20 @@ public class Layout {
     public JTextField textInput;
     public JTextArea err;
     public Layout() {
+
         ascii = new JTextArea("Ascii");
         ascii.setEditable(false);
         ascii.setLineWrap( true );
         ascii.setPreferredSize(new Dimension(750, 180));
-        ascii.setBackground(new Color(200, 255, 255)); //Cyan
+        ascii.setBackground(new Color(0, 8, 7)); //Ascii bg
         ascii.setOpaque(true);
-        ascii.setForeground(Color.blue);
+        ascii.setForeground(Color.white);
 
         Ascii = new JPanel();
         Ascii.setPreferredSize(new Dimension(770, 200));
         Ascii.setBounds(10, 20, 1000, 100);
-        Ascii.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(50, 168, 143))); //Teal
-        Ascii.setBackground(new Color(200, 255, 255)); //Cyan
+        Ascii.setBorder(BorderFactory.createMatteBorder(5, 5, 1, 1, new Color(36, 204, 226))); //Ascii border
+        Ascii.setBackground(new Color(0, 8, 7)); //Ascii bg
         Ascii.add(ascii);
         Ascii.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 
@@ -41,14 +42,15 @@ public class Layout {
         charInfo.setLineWrap(true);
         charInfo.setPreferredSize(new Dimension(180, 180));
         charInfo.setEditable(false);
-        charInfo.setBackground(new Color(225, 255, 200)); //Lime
+        charInfo.setBackground(new Color(3, 8, 0)); //info bg
+        charInfo.setForeground(Color.white);
 
         Character = new JPanel();
         Character.setPreferredSize(new Dimension(200, 200));
         Character.setBounds(10, 20, 1000, 100);
-        Character.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(0, 200, 0))); //Green
+        Character.setBorder(BorderFactory.createMatteBorder(5, 1, 1, 5, new Color(5, 225, 109))); //info border
         Character.add(charInfo);
-        Character.setBackground(new Color(225, 255, 200)); //Lime
+        Character.setBackground(new Color(3, 8, 0)); //info bg
 
 
 
@@ -56,13 +58,14 @@ public class Layout {
         DescriptionHeader.setLineWrap(true);
         DescriptionHeader.setPreferredSize(new Dimension(950, 180));
         DescriptionHeader.setEditable(false);
-        DescriptionHeader.setBackground(new Color(255, 240, 220)); //Light Yellow
+        DescriptionHeader.setBackground(new Color(8, 0, 0)); //Text bg
+        DescriptionHeader.setForeground(Color.white);
 
         Description = new JPanel();
-        Description.setBackground(new Color(255, 240, 220));
+        Description.setBackground(new Color(8, 0, 0)); //Text bg
         Description.setPreferredSize(new Dimension(975, 200));
         Description.setBounds(10, 20, 1000, 100);
-        Description.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(235, 203, 75))); //Mustard
+        Description.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 5, new Color(226, 58, 36))); //Text border
         Description.add(DescriptionHeader);
         Description.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 
@@ -81,7 +84,8 @@ public class Layout {
         Input = new JPanel();
         Input.setPreferredSize(new Dimension(975, 120));
         Input.setBounds(10, 20, 1000, 100);
-        Input.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(235, 107, 75))); //Orange
+        Input.setBorder(BorderFactory.createMatteBorder(1, 5, 5, 5, new Color(255, 5, 151))); //input border
+        Input.setBackground(new Color(8, 1, 0));
         Input.add(charInput);
         Input.add(textInput);
         Input.add(err);
@@ -90,6 +94,7 @@ public class Layout {
 
 
         outer = new JPanel();
+        outer.setBackground(Color.black);
         outer.add(Ascii);
         outer.add(Character);
         outer.add(Description);
