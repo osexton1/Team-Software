@@ -49,7 +49,6 @@ public class Player extends Creature {
 
     public void Move(Integer input) {
         if (Current.scenario.completed && !Current.completed) {
-            charDisplay();
             if (Objects.equals(input, 1)) {
                 Current.scenario = Current.scenario.middlePath;
                 Current.LoadRoom();
@@ -83,14 +82,14 @@ public class Player extends Creature {
                 globalRoomCount += 1;
                 Current.LoadBiomes();
                 Current.LoadRoom();
-            } else if (Objects.equals(input, 2) && Current.scenario.leftPath != null) {
+            } else if (Objects.equals(input, 2) && Current.leftPath != null) {
                 Current = Current.leftPath;
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
                 Current.LoadBiomes();
                 Current.LoadRoom();
-            } else if (Objects.equals(input, 3) && Current.scenario.rightPath != null) {
+            } else if (Objects.equals(input, 3) && Current.rightPath != null) {
                 Current = Current.rightPath;
                 biomeCount += 1;
                 roomCount = 1;
@@ -102,6 +101,7 @@ public class Player extends Creature {
                 System.out.println("Invalid input for movement between biomes");
             }
         }
+        charDisplay();
     }
 
 //            Layout.addDesText("\nSomething noticed you, get ready for a fight");

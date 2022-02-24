@@ -47,13 +47,6 @@ public class Main {
             else {
                 System.out.println(gameState);
                 if (Char.Current.scenario.Name == "Encounter") {
-                    if (Char.Current.leftPath != null){
-                        System.out.println(Char.Current.leftPath.Name);
-                    }
-                    System.out.println(Char.Current.middlePath.Name);
-                    if (Char.Current.rightPath != null){
-                        System.out.println(Char.Current.rightPath.Name);
-                    }
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         roomdesc(Char.Current.scenario);
@@ -186,10 +179,10 @@ public class Main {
         if (Char.Current.completed){
             String output = "Enter a number to move to a new Biome: (1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
-                output += "/2. " + Char.Current.leftPath.Name;
+                output += "/2. Left " + Char.Current.leftPath.Name;
             }
             if (Char.Current.rightPath != null) {
-                output += "/3. " + Char.Current.rightPath.Name;
+                output += "/3. Right " + Char.Current.rightPath.Name;
             }
             output += ")";
             Layout.addDesText("\n" + output);
@@ -197,10 +190,10 @@ public class Main {
         else {
             String output = "Enter a number to move to a new Room: (1. " + Char.Current.scenario.middlePath.Name;
             if (Char.Current.scenario.leftPath != null) {
-                output += "/2. " + Char.Current.scenario.leftPath.Name;
+                output += "/2. Left " + Char.Current.scenario.leftPath.Name;
             }
             if (Char.Current.scenario.rightPath != null) {
-                output += "/3. " + Char.Current.scenario.rightPath.Name;
+                output += "/3. Right " + Char.Current.scenario.rightPath.Name;
             }
             output += ")";
             Layout.addDesText("\n" + output);
