@@ -6,22 +6,23 @@ public class Puzzle extends Scenario {
     
     public Puzzle(){
         super(1, "Puzzle");
-        p1Complete = false;
-        p2Complete = false;
-        p3Complete = false;
+        Path = 0;
         path1 = 0;
         path2 = 0;
     }
 
     public void PuzzlePaths(){
-        if(p3Complete) {
-            PuzzleRun();
-            completed = true;
-        } else if(p2Complete) {
-            PuzzleRun();
-        } else if(p1Complete) { 
-            PuzzleRun();
-        }
+//        if(p3Complete) {
+//            completed = true; //unless it gets something new
+//            PuzzleRun();
+//        } else if(p2Complete) {
+//            PuzzleRun();
+//        } else if(p1Complete) {
+//            PuzzleRun();
+//        }
+//        else{
+//
+//        }
 /**
  *      while(not completed) {
  *          PuzzleRun();

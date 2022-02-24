@@ -45,7 +45,6 @@ public class Main {
                 }
             }
             else {
-                System.out.println(gameState);
                 if (Char.Current.scenario.Name == "Encounter") {
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
@@ -76,16 +75,18 @@ public class Main {
                 else if (Objects.equals(gameState, "Event")) {
                     Layout.setAscText(Art.event);
                     Layout.addDesText("\nEvent");
-                    Char.Current.scenario.completed = true;
-                    roomdesc(Char.Current.scenario);
-                    possInputs();
+
+//                    Char.Current.scenario.completed = true;
+//                    roomdesc(Char.Current.scenario);
+//                    possInputs();
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
                     Layout.addDesText("\nPuzzle");
-                    Char.Current.scenario.completed = true;
-                    roomdesc(Char.Current.scenario);
-                    possInputs();
+                    Layout.addDesText("\n" + Dict.puzzleNum.get(1).get(Char.Current.scenario.Path));
+//                    Char.Current.scenario.completed = true;
+//                    roomdesc(Char.Current.scenario);
+//                    possInputs();
                 }
             }
 
@@ -246,9 +247,13 @@ public class Main {
                 waitForInput = false;
             }
             else if(Objects.equals(gameState, "Puzzle")){
-                System.out.println("Puzzle");
-                Char.puzzleInput(Layout.textInput.getText());
-                waitForInput = false;
+                if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
+                    Char.puzzleInput(Action);
+                    waitForInput = false;
+                }
+                else{
+                    Layout.setError("Invalid Input");
+                }
             }
             else if(Objects.equals(gameState, "Event")){
                 System.out.println("Event");

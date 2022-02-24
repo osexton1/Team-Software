@@ -183,7 +183,13 @@ public class Player extends Creature {
         }
     }
 
-    public void puzzleInput(String Action){}
+    public void puzzleInput(String Action){
+        switch(Current.scenario.Path){
+            case 0: Current.scenario.Path = Integer.parseInt(Action); break;
+            case 1: Current.scenario.Path = Integer.parseInt(Action)+2;break;
+            case 2: Current.scenario.Path = Integer.parseInt(Action)+4;break;
+        }
+    }
 
     public void eventInput(String Action){}
 

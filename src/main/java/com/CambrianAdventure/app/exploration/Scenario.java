@@ -13,11 +13,8 @@ public class Scenario {
     public Scenario middlePath;
     public Scenario rightPath;
     public Scenario leftPath;
-
+    public Integer Path;
     public Creature enemy;
-    public boolean p1Complete;
-    public boolean p2Complete;
-    public boolean p3Complete;
     public Integer path1;
     public Integer path2;
 

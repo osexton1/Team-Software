@@ -48,7 +48,7 @@ public class Generate {
 //            case 2: outputroom = new Encounter(); break;
 //            }
 //        return outputroom;
-        return new Encounter();
+        return new Puzzle();
 
     }
 

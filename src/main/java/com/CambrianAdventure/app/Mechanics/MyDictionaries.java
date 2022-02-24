@@ -103,12 +103,23 @@ public class MyDictionaries {
                 randdesc.put(7, randVolc);
 
                 puzzleNum = new Hashtable<>();
-                puzzle01 = new ArrayList<>(Arrays.asList());
+                puzzle01 = new ArrayList<>(Arrays.asList(
+                        "Base Description\nPath 1 to desription, Path 2 to description",
+
+                        "Option 1 description\nPath 1 to option 3, Path 2 to option 4",
+                        "Option 2 description\nPath 1 to option 5, Path 2 to option 6",
+
+                        "Option 3 description\nRoom complete",
+                        "Option 4 description\nRoom complete",
+
+                        "Option 5 description\nRoom complete",
+                        "Option 6 description\nRoom complete"
+                ));
                 puzzle02 = new ArrayList<>(Arrays.asList());
                 puzzle03 = new ArrayList<>(Arrays.asList());
-                puzzleNum.put(0, puzzle01);
-                puzzleNum.put(0, puzzle02);
-                puzzleNum.put(0, puzzle03);
+                puzzleNum.put(1, puzzle01);
+                puzzleNum.put(2, puzzle02);
+                puzzleNum.put(3, puzzle03);
 
                 Events = new Hashtable<>();
                 Creatures = new Hashtable<>();
