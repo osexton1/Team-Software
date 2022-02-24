@@ -23,24 +23,37 @@ public class Main {
             while (waitForInput){
                 Thread.sleep(100);
             }
-            System.out.println(Char.Current.scenario.State);
             biomechangeDesc(Char.Current);
-            System.out.println(Char.Current.length);
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
                 Layout.setDesText("R.I.P.");
                 break;
             }
-            else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
-                Layout.addDesText("You completed the " + Char.Current.Name);
-                Char.Current.completed = true;
-                moveOn = true;
-                possInputs();
+            else if (Char.Current.scenario == null){
                 Char.Current.LoadRoom();
                 biomechangeDesc(Char.Current);
             }
+            else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
+                System.out.println("Biome Complete");
+                Layout.addDesText("You completed the " + Char.Current.Name);
+                Char.Current.completed = true;
+                if (!moveOn) {
+                    possInputs();
+                }
+                else if(moveOn){
+                    possMove();
+                }
+            }
             else {
-                if (Objects.equals(gameState, "Encounter")) {
+                System.out.println(gameState);
+                if (Char.Current.scenario.Name == "Encounter") {
+                    if (Char.Current.leftPath != null){
+                        System.out.println(Char.Current.leftPath.Name);
+                    }
+                    System.out.println(Char.Current.middlePath.Name);
+                    if (Char.Current.rightPath != null){
+                        System.out.println(Char.Current.rightPath.Name);
+                    }
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         roomdesc(Char.Current.scenario);
@@ -56,11 +69,13 @@ public class Main {
                         Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
+                        System.out.println("Move on");
                         Layout.addDesText("You defeated the enemy");
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
-
-                        possInputs();
-                        if(moveOn){
+                        if (!moveOn) {
+                            possInputs();
+                        }
+                        else if(moveOn){
                             possMove();
                         }
                     }
@@ -106,12 +121,7 @@ public class Main {
         String printer = "\n1. Hide, 2. Inspect, 3. Eat, 4. Wait";
         int counter = 5;
         if (Char.Current.completed || Char.Current.scenario.completed){
-            if (Char.Current.scenario.completed) {
-                printer += ", " + counter + ". Move Onward ";
-            }
-            else{
-                printer += ", " + counter + ". Move Onward ";
-            }
+            printer += ", " + counter + ". Move Onward ";
         }
         Layout.addDesText("\n" + printer);
 
@@ -202,10 +212,15 @@ public class Main {
             Layout.setError("");
             String Action = Layout.textInput.getText();
             if(moveOn){
-                int intAction  = Integer.parseInt(Action);
-                Char.Move(intAction);
-                waitForInput = false;
-                moveOn = false;
+                try {
+                    int intAction = Integer.parseInt(Action);
+                    Char.Move(intAction);
+                    waitForInput = false;
+                    moveOn = false;
+                }
+                catch(Throwable Error){
+                    System.out.println("please");
+                }
             }
             else if (Objects.equals(gameState, "Intro")) {
                 String playerClass = Intro(Action);

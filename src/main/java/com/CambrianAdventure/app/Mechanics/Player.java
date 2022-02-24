@@ -82,18 +82,21 @@ public class Player extends Creature {
                 roomCount = 1;
                 globalRoomCount += 1;
                 Current.LoadBiomes();
-            } else if (Objects.equals(input, 2) && Current.scenario.rightPath != null) {
-                Current = Current.rightPath;
-                biomeCount += 1;
-                roomCount = 1;
-                globalRoomCount += 1;
-                Current.LoadBiomes();
-            } else if (Objects.equals(input, 3) && Current.scenario.leftPath != null) {
+                Current.LoadRoom();
+            } else if (Objects.equals(input, 2) && Current.scenario.leftPath != null) {
                 Current = Current.leftPath;
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
                 Current.LoadBiomes();
+                Current.LoadRoom();
+            } else if (Objects.equals(input, 3) && Current.scenario.rightPath != null) {
+                Current = Current.rightPath;
+                biomeCount += 1;
+                roomCount = 1;
+                globalRoomCount += 1;
+                Current.LoadBiomes();
+                Current.LoadRoom();
             }
             else{
                 System.out.println("Invalid input for movement between biomes");
@@ -136,21 +139,23 @@ public class Player extends Creature {
             Layout.setError("Invalid Input");
         }
         if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
+            foodLevel(+5);
+//            System.out.println("Combat Completed");
             Current.scenario.completed = true;
             Current.scenario.changeState();
             disToFlee = 2;
-            combatHealth = 20;
+            combatHealth = 40;
         }
-        if (combatHealth <= 0){ //if Player dies
+        else if (combatHealth <= 0){ //if Player dies
             foodLevel(-5);
             health -= 1;
             if (health != 0) {
-                System.out.println("You lost the fight, and barely escaped with your life");
+                Layout.setError("You lost the fight, and barely escaped with your life");
             }
             Current.scenario.completed = true;
             Current.scenario.changeState();
             disToFlee = 2;
-            combatHealth = 20;
+            combatHealth = 40;
         }
         }
         catch(Throwable Error){
@@ -194,8 +199,8 @@ public class Player extends Creature {
         return output;
     }
 
-
-    public void Eat(){// ### not how this works ###
+    public void Eat(){
+        // ### not how this works ###
 //        if (this.inventory > 0) {
 //            this.foodLevel(this.inventory*2);
 //            Layout.setError("You ate the food you've been carrying around with you.");
@@ -224,15 +229,17 @@ public class Player extends Creature {
     public void Wait() {
         // this will be changing to draining food, and a chance at an encounter happening,
         // thus the trade-off is you might get more food, but you are wasting food by staying still
-        Random rand = new Random();
-        int encounter_chance = rand.nextInt(10); // 0-9 is 10 numbers so <3 is 30% of range
-        // Thinking 30% encounter chance on wait but I'm flexible
-        if (encounter_chance < 3) {
-            System.out.println("After a period of waiting, you notice an enemy closing in on you.");
-            System.out.println("You have no choice but to fight.");
-            Encounter enemy = new Encounter();
-        }
-        this.foodLevel(-3);
+//        Random rand = new Random();
+//        int encounter_chance = rand.nextInt(10); // 0-9 is 10 numbers so <3 is 30% of range
+//        // Thinking 30% encounter chance on wait but I'm flexible
+//        if (encounter_chance < 3) {
+//            System.out.println("After a period of waiting, you notice an enemy closing in on you.");
+//            System.out.println("You have no choice but to fight.");
+//            Encounter enemy = new Encounter();
+//        }
+//        this.foodLevel(-3);
+        this.combatHealth = 20;
+        charDisplay();
     }
 
     public void Inspect() {

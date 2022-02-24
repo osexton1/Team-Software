@@ -20,7 +20,7 @@ public class Creature {
     public Creature(String Name){
         name = Name;
         health = 3;
-        combatHealth = 20;
+        combatHealth = 40;
         food = 20;
         disToFlee = 2;
     }
