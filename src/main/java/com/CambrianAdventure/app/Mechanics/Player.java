@@ -14,16 +14,14 @@ public class Player extends Creature {
     public Integer globalRoomCount = 1;
     public Environment Current = null;
     public Integer evolutionLevel = 0;
-    public Integer Speed = 4;
-    public String playerClass;
     public Integer inventory = 0;
-    public Integer disToFlee = 2;
+    public Integer maxFood = 20;
+    public Integer maxCombatHealth = 20;
     // classes.
     // 0 = Shelled, 1 = Finned, 2 = Spiked
 
     public Player(){
         super("Player");
-        this.playerClass = null;
     }
 
     public void setPlayerClass(String PC){
@@ -33,13 +31,17 @@ public class Player extends Creature {
         }
         else if (PC == "Shelled") {
             Speed -= 1;
+            armorLevel = 1;
+        }
+        else if(PC == "Spiked"){
+            spikeDamage = 1;
         }
     }
 
     public void charDisplay(){
         Layout.setCharText("Health: " + health + "/3\n");
-        Layout.addCharText("Food: " + food + "/20\n");
-        Layout.addCharText("Combat Health: " + combatHealth + "/20\n");
+        Layout.addCharText("Food: " + food + "/" + maxFood + "\n");
+        Layout.addCharText("Combat Health: " + combatHealth + "/" + maxCombatHealth + "\n");
         Layout.addCharText("Class: " + playerClass + "\n");
         Layout.addCharText("Biome: " + Current.Name + "\n");
         Layout.addCharText("Biome number: " + biomeCount + "\n");
@@ -111,19 +113,19 @@ public class Player extends Creature {
         try{
             int inputting = Integer.parseInt(input);
         if (inputting >= 1 && inputting <= 5){
-            Layout.setError("Option: " + inputting + ". " + " picked");
             String action = this.Current.scenario.enemy.AICalculate();
             boolean Turn = false;
             String Action = "";
             switch(inputting){
                 case 1: comInspect(); break; //gives indications of weaknesses/other stuff
-                case 2: Action = "Advance"; Turn = true; break; //advance
-                case 3: Action = "Flee"; Turn = true; break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
+                case 2: Action = "Advance";Turn = true; break; //advance
+                case 3: Action = "Flee";Turn = true; break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
                 case 4: Action = "Wait";Turn = true; break; //skip a turn
                 case 5: Action = "Attack";
                     Turn = true;
                     break;
             }
+            Layout.setError("Option: " + inputting + ". "+ Action + " picked");
             if( Turn && this.Current.scenario.enemy.combatHealth > 0){
                 if (this.Current.scenario.enemy.Speed > this.Speed) {
                     this.Current.scenario.enemy.AIDo(action, this);
@@ -146,7 +148,7 @@ public class Player extends Creature {
             disToFlee = 2;
             combatHealth = 40;
         }
-        else if (combatHealth <= 0){ //if Player dies
+        if (combatHealth <= 0){ //if Player dies
             foodLevel(-5);
             health -= 1;
             if (health != 0) {
@@ -174,6 +176,8 @@ public class Player extends Creature {
                 this.Current.scenario.enemy.disPlay += 1;
             } else {
                 Layout.setError("You are fleeing");
+                Current.scenario.completed = true;
+                Current.scenario.changeState();
             } //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
         }
         else if (Action == "Wait"){ comWait();} //skip a turn

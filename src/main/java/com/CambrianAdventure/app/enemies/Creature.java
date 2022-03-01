@@ -14,8 +14,14 @@ public class Creature {
     public Integer combatHealth;
     public Persona personality;
     public Integer disPlay;
-    public Integer disToFlee;
+    public Integer disToFlee = 2;
     public Integer Speed = 4;
+    public String playerClass;
+    public Integer armorLevel = 0;
+    public Integer spikeDamage = 0;
+    public Integer attackDamage = 5;
+    public Integer reach = 1;
+    public Integer movementSpeed = 1;
 
     public Creature(String Name){
         name = Name;
@@ -43,9 +49,15 @@ public class Creature {
         else{
             distance = attacker.disPlay;
         }
-        if (distance == 0){
+        if (distance < attacker.reach){
             System.out.println("adjacent, hit");
-            target.combatHealth -= 5;
+            int damage = attacker.attackDamage - target.armorLevel;
+            if (damage > 0) {
+                target.combatHealth -= (damage);
+                if (target.spikeDamage > 0 && distance == 0) {
+                    attacker.combatHealth -= target.spikeDamage;
+                }
+            }
             if (target.combatHealth <= 0){
                 System.out.println("Murder");
             }
@@ -64,7 +76,7 @@ public class Creature {
         // 29 - 15 coinflip based on personality
         // 14 - -9 flee
         if (Aggression >= 30) {
-            if (this.disPlay > 0) {
+            if (this.disPlay >= this.reach) {
                 output = "Advance";
             }
             else{
@@ -74,7 +86,7 @@ public class Creature {
 
         else if(Aggression >= 15){
             if (personality instanceof Brawny || personality instanceof Rabid){
-                if (this.disPlay > 0) {
+                if (this.disPlay >= this.reach) {
                     output = "Advance";
                 }
                 else{
@@ -83,7 +95,7 @@ public class Creature {
             }
             else if (personality instanceof Neutral){
                 if (30 - Aggression > Aggression -15){
-                    if (this.disPlay > 0) {
+                    if (this.disPlay >= this.reach) {
                         output = "Advance";
                     }
                     else{
