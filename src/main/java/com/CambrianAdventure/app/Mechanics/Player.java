@@ -14,7 +14,6 @@ public class Player extends Creature {
     public Integer globalRoomCount = 1;
     public Environment Current = null;
     public Integer evolutionLevel = 0;
-    public Integer inventory = 0;
     public Integer maxFood = 20;
     public Integer maxCombatHealth = 20;
     // classes.
@@ -141,23 +140,17 @@ public class Player extends Creature {
             Layout.setError("Invalid Input");
         }
         if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
-            foodLevel(+5);
-//            System.out.println("Combat Completed");
+            foodLevel(+3);
             Current.scenario.completed = true;
             Current.scenario.changeState();
-            disToFlee = 2;
-            combatHealth = 40;
         }
         if (combatHealth <= 0){ //if Player dies
-            foodLevel(-5);
-            health -= 1;
+            foodLevel(-6);
             if (health != 0) {
                 Layout.setError("You lost the fight, and barely escaped with your life");
             }
             Current.scenario.completed = true;
             Current.scenario.changeState();
-            disToFlee = 2;
-            combatHealth = 40;
         }
         }
         catch(Throwable Error){
@@ -185,6 +178,7 @@ public class Player extends Creature {
             if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
             else{Layout.setError("You threaten the creature to back away");}
         }
+        charDisplay();
     }
 
     public void puzzleInput(String Action){
@@ -201,7 +195,7 @@ public class Player extends Creature {
         String output = "\n";
         for (int i = 0; i < (disToFlee + 2 + Current.scenario.enemy.disToFlee + Current.scenario.enemy.disPlay); i++){
             if (i == disToFlee){ output += " P";}
-            else if(i == (1 + disToFlee + Current.scenario.enemy.disPlay)){output += " @";}
+            else if(i == (1 + disToFlee + Current.scenario.enemy.disPlay)){output += " E";}
             else{
                 output += " -";
             }
@@ -210,15 +204,12 @@ public class Player extends Creature {
     }
 
     public void Eat(){
-        // ### not how this works ###
-//        if (this.inventory > 0) {
-//            this.foodLevel(this.inventory*2);
-//            Layout.setError("You ate the food you've been carrying around with you.");
-//            this.inventory = 0;
-//        } else {
-//            Layout.setError("You have no food to eat.");
-//        }
-        this.food = 20;
+        if (Current.scenario.foodGen){
+            foodLevel(Current.scenario.foodAmount*2);
+        }
+        else{
+            Layout.setError("There is no food to eat");
+        }
         charDisplay();
     }
 
@@ -227,12 +218,11 @@ public class Player extends Creature {
         if (this.food <= 0) {
             this.food = 0;
             this.health -= 1;
-            System.out.println("You desperately need to find food. You are starving.");
-            System.out.println("You now have " + health + " health remaining.");
+            Layout.setError("You desperately need to find food. You are starving.\nYou now have " + health + " health remaining.");
         } else if (this.food > 20) {
             this.food = 20;
         }
-        System.out.println("You now have " + food + " food remaining.");
+        Layout.setError("You now have " + food + " food remaining.");
         charDisplay();
     }
 
@@ -268,11 +258,8 @@ public class Player extends Creature {
         } else if (inspection_chance < 1){
             System.out.println("After inspecting the entire area, you find a small amount of food.");
             int food_found = rand.nextInt(4);
-            if (this.inventory > 0){
-                this.Eat();
-            }
-            System.out.println("You started carrying the food you just found.");
-            this.inventory = food_found;
+            foodLevel(food_found*2);
+            Layout.setError("You started carrying the food you just found.");
         } else {
             System.out.println("You triggered an event.");
             Scenario event = new Event();

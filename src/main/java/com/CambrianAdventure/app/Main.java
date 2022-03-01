@@ -39,8 +39,6 @@ public class Main {
                 Layout.setDesText("You Levelled up by completing a biome\n");
                 Layout.addDesText("Pick an attribute to increase\n");
                 Layout.addDesText("1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level\n");
-
-
             }
             else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
                 Layout.addDesText("You completed the " + Char.Current.Name);
@@ -56,6 +54,8 @@ public class Main {
                 if (Char.Current.scenario.Name == "Encounter") {
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
+                        Char.disToFlee = 2;
+                        Char.combatHealth = Char.maxCombatHealth;
                         roomdesc(Char.Current.scenario);
                         Layout.addDesText("\n" + Dict.eventEncounter.get(0));
                         possInputs();
@@ -66,12 +66,13 @@ public class Main {
                         roomdesc(Char.Current.scenario);
                         Layout.addDesText(Char.combatMap());
                         Layout.addDesText("\n\n1. Inspect the enemy, 2. Advance towards the enemy, 3. Retreat away from the enemy, 4. Wait for the enemy to do something, 5. Attack the spot in front of you");
-                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
+//                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
                         System.out.println("Move on");
                         Layout.addDesText("You defeated the enemy");
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
+                        Char.charDisplay();
                         if (!moveOn) {
                             possInputs();
                         }
@@ -83,10 +84,6 @@ public class Main {
                 else if (Objects.equals(gameState, "Event")) {
                     Layout.setAscText(Art.event);
                     Layout.addDesText("\nEvent");
-
-//                    Char.Current.scenario.completed = true;
-//                    roomdesc(Char.Current.scenario);
-//                    possInputs();
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
@@ -226,7 +223,7 @@ public class Main {
                             Char.attackDamage += 1;
                             break;
                         case 4:
-                            Char.movementSpeed += 1;
+                            Char.Speed += 1;
                             break;
                         case 5:
                             Char.spikeDamage += 1;
@@ -235,13 +232,14 @@ public class Main {
                             Char.armorLevel += 1;
                             break;
                     }
+                    Char.evolutionLevel += 1;
                     LevelUp = false;
                 }
                 catch(Throwable Error){
-
+                    Layout.setError("Invalid Input");
                 }
             }
-            if(moveOn){
+            else if(moveOn){
                 try {
                     int intAction = Integer.parseInt(Action);
                     if (Char.Current.completed){

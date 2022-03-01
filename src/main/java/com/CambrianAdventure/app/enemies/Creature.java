@@ -21,12 +21,12 @@ public class Creature {
     public Integer spikeDamage = 0;
     public Integer attackDamage = 5;
     public Integer reach = 1;
-    public Integer movementSpeed = 1;
+    public Integer movementDistance = 1;
 
     public Creature(String Name){
         name = Name;
         health = 3;
-        combatHealth = 40;
+        combatHealth = 20;
         food = 20;
         disToFlee = 2;
     }
@@ -116,7 +116,11 @@ public class Creature {
 
     public void AIDo(String Action, Creature Player){
         if (Objects.equals(Action, "Advance")) {
-            if (this.disPlay > 0) {
+            if (this.disPlay > 1 && this.movementDistance == 2) {
+                this.disToFlee += 2;
+                this.disPlay -= 2;
+            }
+            else if (this.disPlay > 0) {
                 this.disToFlee += 1;
                 this.disPlay -= 1;
             }
@@ -143,11 +147,11 @@ public class Creature {
         }
     }
     public void comInspect(){
-        System.out.println("You try to gather the mentality of the enemy in front of you.");
+        Layout.setError("You try to gather the mentality of the enemy in front of you.");
     }
 
     public void comWait(){
-        System.out.println("You wait for the enemy to make a move");
+        Layout.setError("You wait for the enemy to make a move");
     }
 
     public String toString(){
