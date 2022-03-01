@@ -25,6 +25,7 @@ public class Main {
             while (waitForInput) {
                 Thread.sleep(100);
             }
+            Layout.setFooterText("");
             biomechangeDesc(Char.Current);
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
@@ -38,7 +39,12 @@ public class Main {
             else if (LevelUp){
                 Layout.setDesText("You Levelled up by completing a biome\n");
                 Layout.addDesText("Pick an attribute to increase\n");
-                Layout.addDesText("1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level\n");
+                Layout.setFooterText("1. Combat Health\n");
+                Layout.addFooterText("2. Max Food Level\n");
+                Layout.addFooterText("3. Attack Damage\n");
+                Layout.addFooterText("4. Combat Speed\n");
+                Layout.addFooterText("5. Spike Damage\n");
+                Layout.addFooterText("6. Armor Level\n");
             }
             else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
                 Layout.addDesText("You completed the " + Char.Current.Name);
@@ -65,7 +71,11 @@ public class Main {
                         //enemy description probably needed
                         roomdesc(Char.Current.scenario);
                         Layout.addDesText(Char.combatMap());
-                        Layout.addDesText("\n\n1. Inspect the enemy, 2. Advance towards the enemy, 3. Retreat away from the enemy, 4. Wait for the enemy to do something, 5. Attack the spot in front of you");
+                        Layout.setFooterText("\n\n1. Inspect the enemy\n");
+                        Layout.addFooterText("2. Advance towards the enemy\n");
+                        Layout.addFooterText("3. Retreat away from the enemy\n");
+                        Layout.addFooterText("4. Wait for the enemy to do something\n");
+                        Layout.addFooterText("5. Attack the spot in front of you");
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
@@ -115,11 +125,12 @@ public class Main {
     }
 
     public static void possInputs(){
-        String printer = "\n1. Hide from possible violent enemies, 2. Eat food from the room, 3. Inspect the surrounding area, 4. Wait for something to happen";
+        String printer = "\n1. Hide from possible violent enemies\n 2. Eat food from the room \n3. Inspect the surrounding area\n 4. Wait for something to happen";
+
         if (Char.Current.completed || Char.Current.scenario.completed){
-            printer += ", 5. Move Onward ";
+            printer += "\n 5. Move Onward ";
         }
-        Layout.addDesText("\n" + printer);
+        Layout.setFooterText("\n" + printer);
 
     }
 
@@ -181,26 +192,26 @@ public class Main {
 
     public static void possMove(){
         if (Char.Current.completed){
-            String output = "Enter a number to move to a new Biome: (1. " + Char.Current.middlePath.Name;
+            String output = "Enter a number to move to a new Biome: \n1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
-                output += "/2. " + Char.Current.leftPath.Name;
+                output += "\n 2. " + Char.Current.leftPath.Name;
             }
             if (Char.Current.rightPath != null) {
-                output += "/3. " + Char.Current.rightPath.Name;
+                output += "\n 3. " + Char.Current.rightPath.Name;
             }
-            output += ")";
-            Layout.addDesText("\n" + output);
+            output += "";
+            Layout.setFooterText("\n" + output);
         }
         else {
-            String output = "Enter a number to move to a new Room: (1. " + Char.Current.scenario.middlePath.Name;
+            String output = "Enter a number to move to a new Room: \n1. " + Char.Current.scenario.middlePath.Name;
             if (Char.Current.scenario.leftPath != null) {
-                output += "/2. " + Char.Current.scenario.leftPath.Name;
+                output += "\n2. " + Char.Current.scenario.leftPath.Name;
             }
             if (Char.Current.scenario.rightPath != null) {
-                output += "/3. " + Char.Current.scenario.rightPath.Name;
+                output += "\n3. " + Char.Current.scenario.rightPath.Name;
             }
-            output += ")";
-            Layout.addDesText("\n" + output);
+            output += "";
+            Layout.addFooterText("\n" + output);
         }
     }
 
@@ -312,10 +323,10 @@ public class Main {
         Layout.textInput.addActionListener(InputListener());
         Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\n" +
                 "Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
-        Layout.addDesText("Pick a class, each class can do special abilities depending on the scenario\n");
-        Layout.addDesText("1. Shelled;\t2. Finned;\t3. Spiked\n");
-        Layout.addDesText("    - +1 to Armor                 - +1 to Combat speed                 - Deals 1 damage when hit\n");
-        Layout.addDesText("    - -1 to combat Speed\n");
+        Layout.setFooterText("Pick a class, each class can do special abilities depending on the scenario.\n");
+        Layout.addFooterText("1. Shelled - +1 to Armor, -1 to Combat Speed.\n");
+        Layout.addFooterText("2. Finned - +1 to Combat Speed.\n");
+        Layout.addFooterText("3. Spiked - Deals 1 damage when hit.\n");
         Layout.setAscText(Art.menu);
 
         Char.Current = new Shallows();

@@ -13,6 +13,7 @@ public class Layout {
 
     public JFrame frame;
     public JTextArea DescriptionHeader;
+    public JTextArea DescriptionFooter;
     public JTextArea ascii;
     public JTextArea charInfo;
     public JLabel charInput;
@@ -25,9 +26,20 @@ public class Layout {
         DescriptionHeader.setLineWrap(true);
         DescriptionHeader.setPreferredSize(new Dimension(470, 380));
         DescriptionHeader.setEditable(false);
-        DescriptionHeader.setBackground(new Color(8, 0, 0)); //Text bg
+        DescriptionHeader.setBackground(new Color(8, 0, 8)); //Text bg
         DescriptionHeader.setForeground(Color.white);
         DescriptionHeader.setWrapStyleWord(true);
+
+        DescriptionFooter = new JTextArea("Choices");
+        DescriptionFooter.setLineWrap(false);
+        DescriptionFooter.setMinimumSize(new Dimension(470, 180));
+        DescriptionHeader.setPreferredSize(new Dimension(470, 180));
+        DescriptionFooter.setEditable(false);
+        DescriptionFooter.setBackground(new Color(8,0,8));
+        DescriptionFooter.setWrapStyleWord(false);
+        DescriptionFooter.setForeground(Color.red);
+
+
 
         Description = new JPanel();
         Description.setBackground(new Color(8, 0, 0)); //Text bg
@@ -35,6 +47,7 @@ public class Layout {
 //        Description.setBounds(0, 0, 490, 100);
         Description.setBorder(BorderFactory.createMatteBorder(5, 5, 1, 1, new Color(226, 58, 36))); //Text border
         Description.add(DescriptionHeader);
+        Description.add(DescriptionFooter);
 
         ascii = new JTextArea("Ascii");
         ascii.setEditable(false);
@@ -121,6 +134,8 @@ public class Layout {
     public void addDesText(String In){
         DescriptionHeader.append(In);
     }
+    public void setFooterText(String In) {DescriptionFooter.setText(In);}
+    public void addFooterText(String In){DescriptionFooter.append(In);}
 
     public void setAscText(String In){
         ascii.setText(In);
