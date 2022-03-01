@@ -27,6 +27,7 @@ public class Layout {
         DescriptionHeader.setEditable(false);
         DescriptionHeader.setBackground(new Color(8, 0, 0)); //Text bg
         DescriptionHeader.setForeground(Color.white);
+        DescriptionHeader.setWrapStyleWord(true);
 
         Description = new JPanel();
         Description.setBackground(new Color(8, 0, 0)); //Text bg
@@ -82,6 +83,7 @@ public class Layout {
 
         err = new JTextArea("");
         err.setLineWrap(true);
+        err.setWrapStyleWord(true);
         err.setPreferredSize(new Dimension(700, 70));
         err.setEditable(false);
 
