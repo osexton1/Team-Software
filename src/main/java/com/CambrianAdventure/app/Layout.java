@@ -23,15 +23,15 @@ public class Layout {
 
         DescriptionHeader = new JTextArea("Description");
         DescriptionHeader.setLineWrap(true);
-        DescriptionHeader.setPreferredSize(new Dimension(480, 380));
+        DescriptionHeader.setPreferredSize(new Dimension(470, 380));
         DescriptionHeader.setEditable(false);
         DescriptionHeader.setBackground(new Color(8, 0, 0)); //Text bg
         DescriptionHeader.setForeground(Color.white);
 
         Description = new JPanel();
         Description.setBackground(new Color(8, 0, 0)); //Text bg
-        Description.setPreferredSize(new Dimension(490, 400));
-        Description.setBounds(0, 0, 490, 100);
+        Description.setPreferredSize(new Dimension(480, 400));
+//        Description.setBounds(0, 0, 490, 100);
         Description.setBorder(BorderFactory.createMatteBorder(5, 5, 1, 1, new Color(226, 58, 36))); //Text border
         Description.add(DescriptionHeader);
 
@@ -47,7 +47,7 @@ public class Layout {
         Ascii = new JPanel();
         Ascii.setFont(new java.awt.Font("Ariel", 0, 10));
         Ascii.setPreferredSize(new Dimension(490, 400));
-        Ascii.setBounds(501, 0, 490, 100);
+//        Ascii.setBounds(501, 0, 490, 100);
         Ascii.setBorder(BorderFactory.createMatteBorder(5, 1, 1, 5, new Color(36, 204, 226))); //Ascii border
         Ascii.setBackground(new Color(0, 8, 7)); //Ascii bg
         Ascii.add(ascii);
@@ -57,14 +57,14 @@ public class Layout {
 
         charInfo = new JTextArea("Character Info", 5, 10);
         charInfo.setLineWrap(true);
-        charInfo.setPreferredSize(new Dimension(190, 150));
+        charInfo.setPreferredSize(new Dimension(190, 130));
         charInfo.setEditable(false);
         charInfo.setBackground(new Color(3, 8, 0)); //info bg
         charInfo.setForeground(Color.white);
 
         Character = new JPanel();
-        Character.setPreferredSize(new Dimension(200, 160));
-        Character.setBounds(0, 0, 1000, 100);
+        Character.setPreferredSize(new Dimension(200, 140));
+//        Character.setBounds(0, 0, 1000, 100);
         Character.setBorder(BorderFactory.createMatteBorder(1, 5, 5, 1, new Color(5, 225, 109))); //info border
         Character.add(charInfo);
         Character.setBackground(new Color(3, 8, 0)); //info bg
@@ -86,8 +86,8 @@ public class Layout {
         err.setEditable(false);
 
         Input = new JPanel();
-        Input.setPreferredSize(new Dimension(780, 160));
-        Input.setBounds(10, 20, 800, 100);
+        Input.setPreferredSize(new Dimension(770, 140));
+//        Input.setBounds(10, 20, 800, 100);
         Input.setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, new Color(255, 5, 151))); //input border
         Input.setBackground(new Color(8, 1, 0));
         Input.add(charInput);
@@ -107,7 +107,9 @@ public class Layout {
 
         frame = new JFrame("Cambrian Adventure");
         frame.add(outer);
+        frame.pack();
         frame.setSize(1000, 600);
+        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
     }

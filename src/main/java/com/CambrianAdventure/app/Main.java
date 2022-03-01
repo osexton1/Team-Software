@@ -259,7 +259,7 @@ public class Main {
                 "Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
         Layout.addDesText("Pick a class\n");
         Layout.addDesText("1. Shelled; 2. Finned; 3. Spiked\n");
-        Layout.setAscText(Art.puzzle);
+        Layout.setAscText(Art.death);
 
         Char.Current = new Shallows();
         Char.Current.LoadBiomes();
