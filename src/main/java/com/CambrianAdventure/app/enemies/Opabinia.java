@@ -4,8 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Opabinia extends Creature{
     public Opabinia() {
-        super("Opabinia", new Rabid(), 26);
-        combatHealth = new Generate(26, 13).int_random;
+        super("Opabinia", new Rabid(), new Generate(26, 13).int_random);
         armorLevel = 0;
         spikeDamage = 0;
         attackDamage = 6;

@@ -95,7 +95,7 @@ public class Main {
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
-                        if (Char.hidden)
+//                        if (Char.hidden)
                         Layout.setDesText("You killed the enemy");
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
@@ -329,6 +329,7 @@ public class Main {
         Layout.textInput.addActionListener(InputListener());
         Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\n" +
                 "Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
+        System.out.println("please");
         Layout.setFooterText("Pick a class, each class can do special abilities depending on the scenario.\n");
         Layout.addFooterText("1. Shelled - +1 to Armor, -1 to Combat Speed.\n");
         Layout.addFooterText("2. Finned - +1 to Combat Speed.\n");
