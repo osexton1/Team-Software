@@ -4,8 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Isoxys extends Creature{
     public Isoxys() {
-        super("Isoxys", new Shy(), 21);
-        combatHealth = new Generate(21, 16).int_random;
+        super("Isoxys", new Shy(), new Generate(21, 16).int_random);
         armorLevel = 1;
         spikeDamage = 0;
         attackDamage = 2;

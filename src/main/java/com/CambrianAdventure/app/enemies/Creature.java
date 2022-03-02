@@ -36,7 +36,7 @@ public class Creature {
 
     public Creature(String Name, Persona Personality, int maxComHealth){
         name = Name;
-        combatHealth = new Generate(maxComHealth, 5).int_random;;
+        combatHealth = maxComHealth;
         food = new Generate(20, 15).int_random;
         personality = Personality;
         disPlay = new Generate(5, 2).int_random;

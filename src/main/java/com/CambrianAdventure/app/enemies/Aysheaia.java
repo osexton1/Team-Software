@@ -4,8 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Aysheaia extends Creature{
     public Aysheaia() {
-        super("Aysheaia", new Shy(), 11);
-        combatHealth = new Generate(11, 7).int_random;
+        super("Aysheaia", new Shy(), new Generate(11, 7).int_random);
         armorLevel = 0;
         spikeDamage = 0;
         attackDamage = 1;

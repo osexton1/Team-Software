@@ -139,6 +139,7 @@ public class Layout {
     public void addDesText(String In){
         DescriptionHeader.append(In);
     }
+
     public void setFooterText(String In) {DescriptionFooter.setText(In);}
     public void addFooterText(String In){DescriptionFooter.append(In);}
 
