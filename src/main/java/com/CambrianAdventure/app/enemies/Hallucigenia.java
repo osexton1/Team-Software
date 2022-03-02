@@ -4,8 +4,13 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Hallucigenia extends Creature {
     public Hallucigenia() {
-        super("Hallucigenia", new Rabid(), 10); //randomize the personality
+        super("Hallucigenia", new Fearful(), 16); //randomize the personality
+        combatHealth = new Generate(16, 8).int_random;
+        armorLevel = 0;
         spikeDamage = 2;
-        description = "spiky boi, be careful of its defensive spikes";
+        attackDamage = 2;
+        reach = 1;
+        movementDistance = 1;
+        Speed = 2;
     }
 }
