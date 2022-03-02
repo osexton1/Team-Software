@@ -19,6 +19,7 @@ public class Main {
     public static boolean waitForInput;
     public static boolean combatChange;
     public static boolean moveOn;
+    public static int score;
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
         while (true) {
@@ -32,6 +33,8 @@ public class Main {
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
                 Layout.setDesText("R.I.P.\n");
+                score = (Char.globalRoomCount * 5) + (Char.evolutionLevel * 20);
+                Layout.addDesText("Your score was: " + score);
                 break;
             }
             else if (Char.Current.scenario == null){
