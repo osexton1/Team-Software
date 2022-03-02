@@ -176,7 +176,9 @@ public class Player extends Creature {
         else if (Action == "Wait"){ comWait();} //skip a turn
         else if (Action == "Attack") {
             if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
-            else{Layout.setError("You threaten the creature to back away");}
+            else{Layout.setError("You attempt to threaten the creature");}
+            this.Current.scenario.enemy.Threaten();
+
         }
         charDisplay();
     }
@@ -189,7 +191,10 @@ public class Player extends Creature {
         }
     }
 
-    public void eventInput(String Action){}
+    public void eventInput(String Action){
+        Integer eArray = Dict.puzzleNum.get(1).get(Action);
+        
+    }
 
     public String combatMap(){
         String output = "\n";
