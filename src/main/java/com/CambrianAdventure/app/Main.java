@@ -20,7 +20,7 @@ public class Main {
     public static boolean combatChange;
     public static boolean moveOn;
     public static int score = 0;
-    public static boolean notFirstFight;
+    public static boolean FirstFight;
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
         while (true) {
@@ -96,9 +96,9 @@ public class Main {
                         Layout.addFooterText("3. Retreat away from the enemy\n");
                         Layout.addFooterText("4. Wait for the enemy to do something\n");
                         Layout.addFooterText("5. Attack the spot in front of you");
-                        if (!notFirstFight){
+                        if (FirstFight){
                         Layout.tutorial();
-                        notFirstFight = true;
+                        FirstFight = false;
                         }
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
