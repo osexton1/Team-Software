@@ -2,12 +2,12 @@ package com.CambrianAdventure.app.enemies;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.enemies.Personalitys.*;
 
-public class Hallucigenia extends Creature {
-    public Hallucigenia() {
-        super("Hallucigenia", new Fearful()); //randomize the personality
-        combatHealth = new Generate(16, 8).int_random;
-        armorLevel = 0;
-        spikeDamage = 2;
+public class Hymenocaris extends Creature{
+    public Hymenocaris() {
+        super("Hymenocaris", new Shy());
+        combatHealth = new Generate(15, 9).int_random;
+        armorLevel = 2;
+        spikeDamage = 0;
         attackDamage = 2;
         reach = 1;
         movementDistance = 1;

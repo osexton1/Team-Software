@@ -22,6 +22,7 @@ public class Creature {
     public Integer attackDamage = 5;
     public Integer reach = 1;
     public Integer movementDistance = 1;
+    public String size;
 
     public Creature(String Name){
         name = Name;
@@ -34,7 +35,7 @@ public class Creature {
     public Creature(String Name, Persona Personality){
         name = Name;
         health = 3;
-        combatHealth = new Generate(20, 15).int_random;;
+        combatHealth = new Generate(20, 15).int_random;
         food = new Generate(20, 15).int_random;
         personality = Personality;
         disPlay = new Generate(5, 2).int_random;
@@ -157,7 +158,7 @@ public class Creature {
     public String toString(){
         String output = "";
         output += name + ", Combat Health: " + combatHealth + ", food: " + food + ", distance to flee: " + disToFlee;
-        if(disPlay != null){ output+= ", distance to Player: " + disPlay;};
+        if(disPlay != null){ output+= ", distance to Player: " + disPlay;}
         return output;
     }
 
