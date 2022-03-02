@@ -26,9 +26,7 @@ public class Main {
                 Thread.sleep(100);
             }
             Layout.setFooterText("");
-            if (Char.roomCount == 1) {
-                biomechangeDesc(Char.Current);
-            }
+            biomechangeDesc(Char.Current);
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
                 Layout.setDesText("R.I.P.");
@@ -49,7 +47,7 @@ public class Main {
                 Layout.addFooterText("6. Armor Level\n");
             }
             else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
-                Layout.setDesText("You completed the " + Char.Current.Name);
+                Layout.addDesText("You completed the " + Char.Current.Name);
                 Char.Current.completed = true;
                 if (!moveOn) {
                     possInputs();
@@ -62,30 +60,16 @@ public class Main {
                 if (Char.Current.scenario.Name == "Encounter") {
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
-                        if (Char.roomCount != 1) {
-                            Layout.setDesText("");
-                        }
                         Char.disToFlee = 2;
                         Char.combatHealth = Char.maxCombatHealth;
                         roomdesc(Char.Current.scenario);
                         Layout.addDesText("\n" + Dict.eventEncounter.get(0));
-                        Layout.addDesText("\nThere seems to be a " + Char.Current.scenario.enemy.name + " moving slowly through the area.");
                         possInputs();
                     }
                     else if (Objects.equals(Char.Current.scenario.State, "During")) {
                         //during combat
                         //enemy description probably needed
-//                        roomdesc(Char.Current.scenario);
-                        String output = "The " + Char.Current.scenario.enemy.name + " turns towards you and locks eyes with you.";
-                        switch(Char.Current.scenario.enemy.personality.Name){
-                            case "Rabid": output += "\nIt seems very aggressive.\n"; break;
-                            case "Brawny": output += "\nIt seems slightly aggressive towards you.\n"; break;
-                            case "Neutral": output += "\nIt seems indecisive towards fighting you.\n"; break;
-                            case "Shy": output += "\nIt seems sheepish.\n"; break;
-                            case "Fearful": output += "\nIt seems avoidant.\n"; break;
-                        }
-                        Layout.setDesText(output);
-                        Layout.addDesText(Char.Current.scenario.enemy.description);
+                        roomdesc(Char.Current.scenario);
                         Layout.addDesText(Char.combatMap());
                         Layout.setFooterText("\n\n1. Inspect the enemy\n");
                         Layout.addFooterText("2. Advance towards the enemy\n");
@@ -95,8 +79,8 @@ public class Main {
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
-                        if (Char.hidden)
-                        Layout.setDesText("You killed the enemy");
+                        System.out.println("Move on");
+                        Layout.addDesText("You defeated the enemy");
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
                         if (!moveOn) {
@@ -127,7 +111,7 @@ public class Main {
 
 
     public static void biomechangeDesc(Environment biome) {
-        Layout.setDesText(Dict.roomType.get(0).get(biome.type)+ "\n\n");
+        Layout.setDesText(Dict.roomType.get(0).get(biome.type));
     }
 
     //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
@@ -137,14 +121,14 @@ public class Main {
         if (room.Description == null) {
             room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(2).int_random);
         }
-        Layout.addDesText(room.Description); //Used for Hashtable
+        Layout.addDesText("\n" + room.Description); //Used for Hashtable
     }
 
     public static void possInputs(){
-        String printer = "\n1. Hide from possible violent enemies\n2. Eat food from the room \n3. Inspect the surrounding area\n4. Wait for something to happen";
+        String printer = "\n1. Hide from possible violent enemies\n 2. Eat food from the room \n3. Inspect the surrounding area\n 4. Wait for something to happen";
 
         if (Char.Current.completed || Char.Current.scenario.completed){
-            printer += "\n5. Move Onward ";
+            printer += "\n 5. Move Onward ";
         }
         Layout.setFooterText("\n" + printer);
 
@@ -170,16 +154,13 @@ public class Main {
         try {
             if (!input.equals("") && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 5) {
                 int inputting = Integer.parseInt(input);
+                Layout.setError("Option: " + inputting + ". " + " picked");
                 switch (inputting) {
                     case 1:
                         Char.Hide();
-                        Char.Current.scenario.foodAmount = 0;
-                        Char.Current.scenario.foodGen = false;
-                        Char.Current.scenario.changeState();
                         combatChange = true;
-                        Char.Current.scenario.completed = true;
                         break;
-                    case 2:  //cant eat till enemy defeated?
+                    case 2:
                         Char.Eat();
                         break;
                     case 3:
@@ -213,10 +194,10 @@ public class Main {
         if (Char.Current.completed){
             String output = "Enter a number to move to a new Biome: \n1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
-                output += "\n2. " + Char.Current.leftPath.Name;
+                output += "\n 2. " + Char.Current.leftPath.Name;
             }
             if (Char.Current.rightPath != null) {
-                output += "\n3. " + Char.Current.rightPath.Name;
+                output += "\n 3. " + Char.Current.rightPath.Name;
             }
             output += "";
             Layout.setFooterText("\n" + output);
@@ -243,12 +224,24 @@ public class Main {
                     int intAction = Integer.parseInt(Action);
                     switch (intAction) {
                         //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1: Char.combatHealth += 1; break;
-                        case 2: Char.maxFood += 1; break;
-                        case 3: Char.attackDamage += 1; break;
-                        case 4: Char.Speed += 1; break;
-                        case 5: Char.spikeDamage += 1; break;
-                        case 6: Char.armorLevel += 1; break;
+                        case 1:
+                            Char.combatHealth += 1;
+                            break;
+                        case 2:
+                            Char.maxFood += 1;
+                            break;
+                        case 3:
+                            Char.attackDamage += 1;
+                            break;
+                        case 4:
+                            Char.Speed += 1;
+                            break;
+                        case 5:
+                            Char.spikeDamage += 1;
+                            break;
+                        case 6:
+                            Char.armorLevel += 1;
+                            break;
                     }
                     Char.evolutionLevel += 1;
                     LevelUp = false;
@@ -269,13 +262,14 @@ public class Main {
 
                 }
                 catch(Throwable Error){
-                    Layout.setError("Invalid Input");
+                    System.out.println("please");
                 }
             }
             else if (Objects.equals(gameState, "Intro")) {
                 String playerClass = Intro(Action);
                 if (!playerClass.equals("Invalid Input")){
                     Char.setPlayerClass(playerClass);
+                    Layout.err.setText("Option: " + Action + ", " + playerClass + " picked");
                     ChangeStates();
                     Char.charDisplay();
                     waitForInput = false;

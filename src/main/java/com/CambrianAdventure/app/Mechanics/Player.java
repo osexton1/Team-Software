@@ -12,11 +12,12 @@ public class Player extends Creature {
     public Integer biomeCount = 1;
     public Integer roomCount = 1;
     public Integer globalRoomCount = 1;
-    public boolean hidden;
     public Environment Current = null;
     public Integer evolutionLevel = 0;
     public Integer maxFood = 20;
     public Integer maxCombatHealth = 20;
+    // classes.
+    // 0 = Shelled, 1 = Finned, 2 = Spiked
 
     public Player(){
         super("Player");
@@ -26,7 +27,6 @@ public class Player extends Creature {
         this.playerClass = PC;
         if (PC == "Finned") {
             Speed += 1;
-
         }
         else if (PC == "Shelled") {
             Speed -= 1;
@@ -124,6 +124,7 @@ public class Player extends Creature {
                     Turn = true;
                     break;
             }
+            Layout.setError("Option: " + inputting + ". "+ Action + " picked");
             if( Turn && this.Current.scenario.enemy.combatHealth > 0){
                 if (this.Current.scenario.enemy.Speed > this.Speed) {
                     this.Current.scenario.enemy.AIDo(action, this);
@@ -191,7 +192,7 @@ public class Player extends Creature {
     public void eventInput(String Action){}
 
     public String combatMap(){
-        String output = "\n\n";
+        String output = "\n";
         for (int i = 0; i < (disToFlee + 2 + Current.scenario.enemy.disToFlee + Current.scenario.enemy.disPlay); i++){
             if (i == disToFlee){ output += " P";}
             else if(i == (1 + disToFlee + Current.scenario.enemy.disPlay)){output += " E";}
@@ -203,50 +204,25 @@ public class Player extends Creature {
     }
 
     public void Eat(){
-        if (Current.scenario.foodGen && Current.scenario.foodAmount > 0){
-            for (int i = 0; i < Current.scenario.foodAmount; i++){
-                Layout.setError("There is " + Current.scenario.foodAmount + " food chunks in the room\n");
-                if (!Objects.equals(food, maxFood)) {
-                    foodLevel(2);
-                    Current.scenario.foodAmount -= 1;
-                    i--;
-                    Layout.setError("There is " + Current.scenario.foodAmount + " food chunks left in the room\n");
-                    foodLevel(0);
-
-                }
-                else{
-                    Layout.addError("You have no space to eat the food");
-                }
-            }
+        if (Current.scenario.foodGen){
+            foodLevel(Current.scenario.foodAmount*2);
         }
         else{
-            Layout.addError("There is no food to eat");
+            Layout.setError("There is no food to eat");
         }
         charDisplay();
     }
 
     public void foodLevel(Integer foodChange) {
-        if (this.food + foodChange > maxFood) {
-            foodChange = maxFood - this.food;
-        }
         this.food += foodChange;
         if (this.food <= 0) {
             this.food = 0;
             this.health -= 1;
-            Layout.addError("You desperately need to find food. You are starving.\nYou now have " + health + " health remaining.\n");
+            Layout.setError("You desperately need to find food. You are starving.\nYou now have " + health + " health remaining.");
+        } else if (this.food > 20) {
+            this.food = 20;
         }
-        else if (this.food > maxFood) {
-            this.food = maxFood;
-        }
-        if (foodChange == 0) {
-            Layout.addError("You have " + food + " food remaining.\n");
-        }
-        else if(foodChange > 0){
-            Layout.addError("You gained " + foodChange + " food.\n");
-        }
-        else if(foodChange < 0){
-            Layout.addError("You lost " + foodChange.toString().substring(1) + " food.\n");
-        }
+        Layout.setError("You now have " + food + " food remaining.");
         charDisplay();
     }
 
@@ -293,7 +269,6 @@ public class Player extends Creature {
 
     public void Hide() {
         System.out.println("You quickly find a rock to hide under in the environment.");
-        this.hidden = true;
-        this.foodLevel(-2);
+        this.foodLevel(-5);
     }
 }

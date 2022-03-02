@@ -74,8 +74,8 @@ public class MyDictionaries {
                         "The waters here a clear and let you see for vast distances. Not that there's much to see other than the occasional jellyfish."
                 ));
                 randShallow = new ArrayList<>(Arrays.asList(
-                        "The rocks are ever more beautiful, bejewelled by barnacle crowns.",
-                        "The warm waters of the tidepool are pleasant. There is plenty of algae around, and other creatures are abound.",
+                        "The shallow waters of the tidepool become barren and empty, devoid of plant life or any other creatures. You are alone.",
+                        "The warm waters of the tidepool are pleasant. There is plenty of algae around, and other creatures are abound",
                         "The tides recede for the day and pull you away from the tidepools. You find yourself in the shallows of the beach, algae litters your surroundings."
                 ));
                 randMeadow = new ArrayList<>(Arrays.asList(

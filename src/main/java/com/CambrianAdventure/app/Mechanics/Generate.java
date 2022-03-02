@@ -1,6 +1,5 @@
 package com.CambrianAdventure.app.Mechanics;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
-import com.CambrianAdventure.app.enemies.Personalitys.*;
 import com.CambrianAdventure.app.exploration.*;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
 import com.CambrianAdventure.app.enemies.*;
@@ -25,7 +24,7 @@ public class Generate {
     }
 
     public boolean coinFlip(){
-        return new Generate(2).int_random >= 1;
+        return new Generate(1).int_random == 1;
     }
 
     public Integer Paths(){
@@ -79,19 +78,5 @@ public class Generate {
             case 7: outputBiome = new Volcano(); break;
         }
         return outputBiome;
-    }
-
-    public Persona GeneratePersonal(Integer currentBiome){
-        List<Integer> personal = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4));
-        Generate output = new Generate(personal.size()); //get random number from weighted list
-        Persona outputPersonality = null;
-        switch (personal.get(output.int_random)) {
-            case 0: outputPersonality = new Rabid(); break;
-            case 1: outputPersonality = new Brawny(); break;
-            case 2: outputPersonality = new Neutral(); break;
-            case 3: outputPersonality = new Shy(); break;
-            case 4: outputPersonality = new Fearful(); break;
-        }
-        return outputPersonality;
     }
 }
