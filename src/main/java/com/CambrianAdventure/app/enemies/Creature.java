@@ -21,6 +21,7 @@ public class Creature {
     public Integer spikeDamage = 0;
     public Integer attackDamage = 5;
     public Integer reach = 1;
+    public String description;
     public Integer movementDistance = 1;
 
     public Creature(String Name){
@@ -31,10 +32,9 @@ public class Creature {
         disToFlee = 2;
     }
 
-    public Creature(String Name, Persona Personality){
+    public Creature(String Name, Persona Personality, int maxComHealth){
         name = Name;
-        health = 3;
-        combatHealth = new Generate(20, 15).int_random;;
+        combatHealth = new Generate(maxComHealth, 5).int_random;;
         food = new Generate(20, 15).int_random;
         personality = Personality;
         disPlay = new Generate(5, 2).int_random;

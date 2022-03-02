@@ -24,19 +24,18 @@ public class Layout {
 
         DescriptionHeader = new JTextArea("Description");
         DescriptionHeader.setLineWrap(true);
-        DescriptionHeader.setPreferredSize(new Dimension(470, 380));
+        DescriptionHeader.setPreferredSize(new Dimension(470, 180));
         DescriptionHeader.setEditable(false);
         DescriptionHeader.setBackground(new Color(8, 0, 8)); //Text bg
         DescriptionHeader.setForeground(Color.white);
         DescriptionHeader.setWrapStyleWord(true);
 
         DescriptionFooter = new JTextArea("Choices");
-        DescriptionFooter.setLineWrap(false);
-        DescriptionFooter.setMinimumSize(new Dimension(470, 180));
-        DescriptionHeader.setPreferredSize(new Dimension(470, 180));
+        DescriptionFooter.setLineWrap(true);
+        DescriptionFooter.setPreferredSize(new Dimension(300, 180));
         DescriptionFooter.setEditable(false);
         DescriptionFooter.setBackground(new Color(8,0,8));
-        DescriptionFooter.setWrapStyleWord(false);
+        DescriptionFooter.setWrapStyleWord(true);
         DescriptionFooter.setForeground(Color.red);
 
 
@@ -90,15 +89,21 @@ public class Layout {
 
 
         charInput = new JLabel("User Input");
+        charInput.setForeground(Color.white);
+
 
         textInput = new JTextField("", 20);
         textInput.setMaximumSize(( new Dimension( 800, 100)));
+        textInput.setBackground(new Color(20, 20, 20));
+        textInput.setForeground(Color.white);
 
         err = new JTextArea("");
         err.setLineWrap(true);
         err.setWrapStyleWord(true);
         err.setPreferredSize(new Dimension(700, 70));
         err.setEditable(false);
+        err.setBackground(new Color(20, 20, 20));
+        err.setForeground(Color.white);
 
         Input = new JPanel();
         Input.setPreferredSize(new Dimension(770, 140));
@@ -149,5 +154,6 @@ public class Layout {
     public void setError(String In){
         err.setText(In);
     }
+    public void addError(String In){err.append(In);}
 
 }

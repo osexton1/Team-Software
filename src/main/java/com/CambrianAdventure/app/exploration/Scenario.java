@@ -54,11 +54,9 @@ public class Scenario {
     public void changeState(){
         if(Objects.equals(State, "Pre")){
             State = "During";
-            System.out.println("During");
         }
         else{
             State = "After";
-            System.out.println("After");
         }
 
     }
