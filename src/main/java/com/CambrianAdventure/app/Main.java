@@ -19,7 +19,7 @@ public class Main {
     public static boolean waitForInput;
     public static boolean combatChange;
     public static boolean moveOn;
-    public static int score;
+    public static int score = 0;
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
         while (true) {
