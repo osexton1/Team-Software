@@ -19,6 +19,7 @@ public class Main {
     public static boolean waitForInput;
     public static boolean combatChange;
     public static boolean moveOn;
+    public static boolean notFirstFight;
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
         while (true) {
@@ -92,6 +93,10 @@ public class Main {
                         Layout.addFooterText("3. Retreat away from the enemy\n");
                         Layout.addFooterText("4. Wait for the enemy to do something\n");
                         Layout.addFooterText("5. Attack the spot in front of you");
+                        if (!notFirstFight){
+                        Layout.tutorial();
+                        notFirstFight = true;
+                        }
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
