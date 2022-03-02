@@ -32,16 +32,16 @@ public class Creature {
         combatHealth = 20;
         food = 20;
         disToFlee = 2;
-        Aggression = combatHealth + food + personality.Bonus;
     }
 
     public Creature(String Name, Persona Personality, int maxComHealth){
         name = Name;
-        combatHealth = new Generate(maxComHealth, 5).int_random;;
+        combatHealth = maxComHealth;
         food = new Generate(20, 15).int_random;
         personality = Personality;
         disPlay = new Generate(5, 2).int_random;
         disToFlee = 2;
+        Aggression = combatHealth + food + personality.Bonus;
     }
     //combat stuff goes here
     public void attack(Creature attacker, Creature target){
@@ -89,7 +89,7 @@ public class Creature {
         String output = "";
         // 50 - 30 hard focus attack
         // 29 - 15 coinflip based on personality
-        // 14 - -9 flee
+        // 14 - 9 flee
         if (Aggression >= 30) {
             if (this.disPlay >= this.reach) {
                 output = "Advance";

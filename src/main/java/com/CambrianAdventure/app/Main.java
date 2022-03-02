@@ -19,6 +19,7 @@ public class Main {
     public static boolean waitForInput;
     public static boolean combatChange;
     public static boolean moveOn;
+    public static int score = 0;
     public static boolean notFirstFight;
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
@@ -32,7 +33,9 @@ public class Main {
             }
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
-                Layout.setDesText("R.I.P.");
+                Layout.setDesText("R.I.P.\n");
+                score = (Char.globalRoomCount * 5) + (Char.evolutionLevel * 20);
+                Layout.addDesText("Your score was: " + score);
                 break;
             }
             else if (Char.Current.scenario == null){
@@ -60,7 +63,7 @@ public class Main {
                 }
             }
             else {
-                if (Char.Current.scenario.Name == "Encounter") {
+                if (Objects.equals(Char.Current.scenario.Name, "Encounter")) {
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         if (Char.roomCount != 1) {
@@ -100,7 +103,7 @@ public class Main {
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
-                        if (Char.hidden)
+//                        if (Char.hidden)
                         Layout.setDesText("You killed the enemy");
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
@@ -248,7 +251,7 @@ public class Main {
                     int intAction = Integer.parseInt(Action);
                     switch (intAction) {
                         //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1: Char.combatHealth += 1; break;
+                        case 1: Char.maxCombatHealth += 1; break;
                         case 2: Char.maxFood += 1; break;
                         case 3: Char.attackDamage += 1; break;
                         case 4: Char.Speed += 1; break;
