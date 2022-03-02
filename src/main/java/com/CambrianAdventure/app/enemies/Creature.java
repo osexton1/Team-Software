@@ -3,6 +3,7 @@ package com.CambrianAdventure.app.enemies;
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.enemies.Personalitys.*;
 
+import java.util.Random;
 import java.util.Objects;
 
 import static com.CambrianAdventure.app.Main.*;
@@ -23,6 +24,7 @@ public class Creature {
     public Integer reach = 1;
     public String description;
     public Integer movementDistance = 1;
+    public Integer Aggression;
 
     public Creature(String Name){
         name = Name;
@@ -30,6 +32,7 @@ public class Creature {
         combatHealth = 20;
         food = 20;
         disToFlee = 2;
+        Aggression = combatHealth + food + personality.Bonus;
     }
 
     public Creature(String Name, Persona Personality, int maxComHealth){
@@ -67,10 +70,22 @@ public class Creature {
         }
     }
 
+    public void Threaten(){
+        Integer threatRand = new Generate(3).int_random;
+        switch(threatRand){
+            case 0: Aggression += 20;
+                    Layout.setError("That made them mad!");
+            case 1: Aggression += 10;
+                    Layout.setError("They attempt to threaten you back!");
+            case 2: Aggression -= 25;
+                    Layout.setError("The creature cowers for a moment!");
+        }
+
+    }
+
     public String AICalculate(){
         // Aggression, based on combat health + food + personality
         // based on aggression, attack if in range/ advance/ retreat/
-        Integer Aggression = combatHealth + food + personality.Bonus;
         String output = "";
         // 50 - 30 hard focus attack
         // 29 - 15 coinflip based on personality
