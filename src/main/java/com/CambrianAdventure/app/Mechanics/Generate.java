@@ -94,4 +94,21 @@ public class Generate {
         }
         return outputPersonality;
     }
+
+    public Creature GenerateEnemy(){
+        Integer temp = new Generate(11, 1).int_random;
+        switch (temp) {
+            case 1: return new Aysheaia();
+            case 2: return new Hallucigenia();
+            case 3: return new Hellcionelloida();
+            case 4: return new Hymenocaris();
+            case 5: return new Isoxys();
+            case 6: return new Marrella();
+            case 7: return new Nectocaris();
+            case 8: return new Opabinia();
+            case 9: return new Trilobite();
+            case 10: return new Waptia();
+            default: return new Wiwaxia();
+        }
+    }
 }

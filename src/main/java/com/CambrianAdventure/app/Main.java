@@ -33,7 +33,7 @@ public class Main {
             }
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
-                Layout.setDesText("R.I.P.\n");
+                Layout.setDesText("You ran out of food and starved to death\n");
                 score = (Char.globalRoomCount * 5) + (Char.evolutionLevel * 20);
                 Layout.addDesText("Your score was: " + score);
                 break;
@@ -258,8 +258,8 @@ public class Main {
                     int intAction = Integer.parseInt(Action);
                     switch (intAction) {
                         //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1: Char.maxCombatHealth += 1; Char.combatHealth += 1; break;
-                        case 2: Char.maxFood += 1; Char.food += 1; break;
+                        case 1: Char.maxCombatHealth += 2; Char.combatHealth += 2; break;
+                        case 2: Char.maxFood += 2; Char.food += 2; break;
                         case 3: Char.attackDamage += 1; break;
                         case 4: Char.Speed += 1; break;
                         case 5: Char.spikeDamage += 1; break;
