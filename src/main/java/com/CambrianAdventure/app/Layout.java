@@ -39,7 +39,7 @@ public class Layout {
         DescriptionFooter.setEditable(false);
         DescriptionFooter.setBackground(new Color(8,0,8));
         DescriptionFooter.setWrapStyleWord(true);
-        DescriptionFooter.setForeground(Color.red);
+        DescriptionFooter.setForeground(new Color(255,115,115));
 
 
 
