@@ -4,7 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Wiwaxia extends Creature{
     public Wiwaxia() {
-        super("Wiwaxia", new Shy(), new Generate(22, 12).int_random);
+        super("Wiwaxia", new Generate(22, 12).int_random);
         armorLevel = 2;
         spikeDamage = 0;
         attackDamage = 1;

@@ -4,7 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Waptia extends Creature{
     public Waptia() {
-        super("Waptia", new Neutral(), new Generate(22, 16).int_random);
+        super("Waptia", new Generate(22, 16).int_random);
         armorLevel = 1;
         spikeDamage = 0;
         attackDamage = 4;

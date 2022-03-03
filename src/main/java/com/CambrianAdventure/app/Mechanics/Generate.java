@@ -81,7 +81,7 @@ public class Generate {
         return outputBiome;
     }
 
-    public Persona GeneratePersonal(Integer currentBiome){
+    public Persona GeneratePersonal(){
         List<Integer> personal = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4));
         Generate output = new Generate(personal.size()); //get random number from weighted list
         Persona outputPersonality = null;

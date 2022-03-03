@@ -92,11 +92,10 @@ public class Main {
                         Layout.addFooterText("3. Retreat away from the enemy\n");
                         Layout.addFooterText("4. Wait for the enemy to do something\n");
                         Layout.addFooterText("5. Attack the spot in front of you");
-//                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
 //                        if (Char.hidden)
-                        Layout.setDesText("You killed the enemy");
+                        Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name);
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
                         if (!moveOn) {
@@ -141,7 +140,7 @@ public class Main {
     }
 
     public static void possInputs(){
-        String printer = "\n1. Hide from possible violent enemies\n2. Eat food from the room \n3. Inspect the surrounding area\n4. Wait for something to happen";
+        String printer = "\n1. Hide from possible violent enemies\n2. Inspect the surrounding area\n3. Eat food from the room\n4. Wait for something to happen";
 
         if (Char.Current.completed || Char.Current.scenario.completed){
             printer += "\n5. Move Onward ";
@@ -179,12 +178,18 @@ public class Main {
                         combatChange = true;
                         Char.Current.scenario.completed = true;
                         break;
-                    case 2:  //cant eat till enemy defeated?
-                        Char.Eat();
-                        break;
-                    case 3:
+
+                    case 2:
                         Char.Inspect();
-                        combatChange = true;
+                        break;
+                    case 3:  //cant eat till enemy defeated?
+                        if(!Char.Current.scenario.completed) {
+                            combatChange = true;
+                            Layout.setError("The enemy attacked before you could eat the food");
+                        }
+                        else {
+                            Char.Eat();
+                        }
                         break;
                     case 4:
                         Char.Wait();
@@ -243,14 +248,17 @@ public class Main {
                     int intAction = Integer.parseInt(Action);
                     switch (intAction) {
                         //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1: Char.combatHealth += 1; break;
-                        case 2: Char.maxFood += 1; break;
+                        case 1: Char.maxCombatHealth += 1; Char.combatHealth += 1; break;
+                        case 2: Char.maxFood += 1; Char.food += 1; break;
                         case 3: Char.attackDamage += 1; break;
                         case 4: Char.Speed += 1; break;
                         case 5: Char.spikeDamage += 1; break;
                         case 6: Char.armorLevel += 1; break;
                     }
+                    Char.charDisplay();
                     Char.evolutionLevel += 1;
+                    Layout.setFooterText("");
+                    waitForInput = false;
                     LevelUp = false;
                 }
                 catch(Throwable Error){
@@ -311,7 +319,6 @@ public class Main {
                 }
             }
             else if(Objects.equals(gameState, "Event")){
-                System.out.println("Event");
                 Char.eventInput(Layout.textInput.getText());
                 waitForInput = false;
             }
@@ -329,7 +336,6 @@ public class Main {
         Layout.textInput.addActionListener(InputListener());
         Layout.setDesText("Welcome to your Cambrian Adventure. In this text adventure game, you play as a creature as it navigates and tries to survive the Cambrian period.\n" +
                 "Manage your health and food, take part in combat and solve puzzles. Try to survive as long as you can.\n");
-        System.out.println("please");
         Layout.setFooterText("Pick a class, each class can do special abilities depending on the scenario.\n");
         Layout.addFooterText("1. Shelled - +1 to Armor, -1 to Combat Speed.\n");
         Layout.addFooterText("2. Finned - +1 to Combat Speed.\n");

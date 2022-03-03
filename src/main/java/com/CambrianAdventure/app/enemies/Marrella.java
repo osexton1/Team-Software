@@ -4,7 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Marrella extends Creature{
     public Marrella() {
-        super("Marrella", new Brawny(), new Generate(14, 8).int_random);
+        super("Marrella", new Generate(14, 8).int_random);
         armorLevel = 0;
         spikeDamage = 0;
         attackDamage = 3;

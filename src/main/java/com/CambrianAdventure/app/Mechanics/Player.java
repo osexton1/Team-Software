@@ -111,49 +111,49 @@ public class Player extends Creature {
     public void combatInput(String input){
         try{
             int inputting = Integer.parseInt(input);
-        if (inputting >= 1 && inputting <= 5){
-            String action = this.Current.scenario.enemy.AICalculate();
-            boolean Turn = false;
-            String Action = "";
-            switch(inputting){
-                case 1: comInspect(); break; //gives indications of weaknesses/other stuff
-                case 2: Action = "Advance";Turn = true; break; //advance
-                case 3: Action = "Flee";Turn = true; break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
-                case 4: Action = "Wait";Turn = true; break; //skip a turn
-                case 5: Action = "Attack";
-                    Turn = true;
-                    break;
-            }
-            if( Turn && this.Current.scenario.enemy.combatHealth > 0){
-                if (this.Current.scenario.enemy.Speed > this.Speed) {
-                    this.Current.scenario.enemy.AIDo(action, this);
-                    this.doAction(Action);
+            if (inputting >= 1 && inputting <= 5){
+                String action = this.Current.scenario.enemy.AICalculate();
+                boolean Turn = false;
+                String Action = "";
+                switch(inputting){
+                    case 1: comInspect(); break; //gives indications of weaknesses/other stuff
+                    case 2: Action = "Advance"; Turn = true; break; //advance
+                    case 3: Action = "Flee"; Turn = true; break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
+                    case 4: Action = "Wait"; Turn = true; break; //skip a turn
+                    case 5: Action = "Attack";
+                        Turn = true;
+                        break;
                 }
-                else{
-                    this.doAction(Action);
-                    this.Current.scenario.enemy.AIDo(action, this);
+                if( Turn && this.Current.scenario.enemy.combatHealth > 0){
+                    if (this.Current.scenario.enemy.Speed > this.Speed) {
+                        this.Current.scenario.enemy.AIDo(action, this);
+                        this.doAction(Action);
+                    }
+                    else{
+                        this.doAction(Action);
+                        this.Current.scenario.enemy.AIDo(action, this);
+                    }
                 }
             }
-        }
-        else{
-            Layout.setError("Invalid Input");
-        }
-        if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
-            foodLevel(+3);
-            Current.scenario.completed = true;
-            Current.scenario.changeState();
-        }
-        if (combatHealth <= 0){ //if Player dies
-            foodLevel(-6);
-            if (health != 0) {
-                Layout.setError("You lost the fight, and barely escaped with your life");
+            else{
+                Layout.setError("Invalid Input");
             }
-            Current.scenario.completed = true;
-            Current.scenario.changeState();
-        }
+            if (Current.scenario.enemy.combatHealth <= 0){ //if creature dies
+                foodLevel(+3);
+                Current.scenario.completed = true;
+                Current.scenario.changeState();
+            }
+            if (combatHealth <= 0){ //if Player dies
+                foodLevel(-6);
+                if (health != 0) {
+                    Layout.setError("You lost the fight, and barely escaped with your life");
+                }
+                Current.scenario.completed = true;
+                Current.scenario.changeState();
+            }
         }
         catch(Throwable Error){
-            Layout.setError("Invalid Input");
+            Layout.setError("Invalid Input invali");
         }
     }
 
@@ -175,7 +175,7 @@ public class Player extends Creature {
         else if (Action == "Wait"){ comWait();} //skip a turn
         else if (Action == "Attack") {
             if(this.Current.scenario.enemy.disPlay == 0){attack(this, this.Current.scenario.enemy);}
-            else{Layout.setError("You threaten the creature to back away");}
+            else{Current.scenario.enemy.Threaten();}
         }
         charDisplay();
     }

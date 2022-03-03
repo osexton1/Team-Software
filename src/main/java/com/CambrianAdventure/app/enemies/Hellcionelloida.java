@@ -8,7 +8,7 @@ import static com.CambrianAdventure.app.Main.Char;
 
 public class Hellcionelloida extends Creature{
     public Hellcionelloida() {
-        super("Hellcionelloida", new Fearful(), new Generate(29, 18).int_random);
+        super("Hellcionelloida", new Generate(29, 18).int_random);
         armorLevel = 3;
         spikeDamage = 0;
         attackDamage = 1;

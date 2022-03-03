@@ -34,11 +34,11 @@ public class Creature {
         disToFlee = 2;
     }
 
-    public Creature(String Name, Persona Personality, int maxComHealth){
+    public Creature(String Name, int maxComHealth){
         name = Name;
         combatHealth = maxComHealth;
         food = new Generate(20, 15).int_random;
-        personality = Personality;
+        personality = new Generate().GeneratePersonal();
         disPlay = new Generate(5, 2).int_random;
         disToFlee = 2;
         Aggression = combatHealth + food + personality.Bonus;

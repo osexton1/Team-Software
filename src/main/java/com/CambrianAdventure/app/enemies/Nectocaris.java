@@ -4,7 +4,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 
 public class Nectocaris extends Creature{
     public Nectocaris() {
-        super("Nectocaris", new Rabid(), new Generate(32, 20).int_random);
+        super("Nectocaris", new Generate(32, 20).int_random);
         armorLevel = 0;
         spikeDamage = 0;
         attackDamage = 6;
