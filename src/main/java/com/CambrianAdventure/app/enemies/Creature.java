@@ -74,11 +74,11 @@ public class Creature {
         Integer threatRand = new Generate(3).int_random;
         switch(threatRand){
             case 0: Aggression += 20;
-                    Layout.setError("That made them mad!");
+                    Layout.setError("That made them mad!"); break;
             case 1: Aggression += 10;
-                    Layout.setError("They attempt to threaten you back!");
+                    Layout.setError("They attempt to threaten you back!"); break;
             case 2: Aggression -= 25;
-                    Layout.setError("The creature cowers for a moment!");
+                    Layout.setError("The creature cowers for a moment!"); break;
         }
 
     }

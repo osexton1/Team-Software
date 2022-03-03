@@ -262,7 +262,7 @@ public class Player extends Creature {
 //            Encounter enemy = new Encounter();
 //        }
 //        this.foodLevel(-3);
-        this.combatHealth = 20;
+        this.combatHealth = maxCombatHealth;
         charDisplay();
     }
 
