@@ -2,7 +2,9 @@ package com.CambrianAdventure.app;
 
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
+import com.CambrianAdventure.app.enemies.Anomalocaris;
 import com.CambrianAdventure.app.exploration.Scenario;
+import com.CambrianAdventure.app.exploration.Scenarios.Encounter;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.logging.Level;
 public class Main {
     public static MyDictionaries Dict;
     public static Player Char;
+    public static Anomalocaris Hunter;
     public static Art Art;
     public static String gameState = "Intro";
     public static Layout Layout;
@@ -28,6 +31,7 @@ public class Main {
             while (waitForInput) {
                 Thread.sleep(100);
             }
+            System.out.println(Char.Current.length);
             Layout.setFooterText("");
             if (Char.roomCount == 1) {
                 biomechangeDesc(Char.Current);
@@ -57,6 +61,7 @@ public class Main {
                 Layout.setDesText("You completed the " + Char.Current.Name);
                 Char.Current.completed = true;
                 if (!moveOn) {
+                    hunterMove();
                     possInputs();
                 }
                 else if(moveOn){
@@ -74,16 +79,34 @@ public class Main {
                         Char.combatHealth = Char.maxCombatHealth;
                         roomdesc(Char.Current.scenario);
                         Layout.addDesText("\n" + Dict.eventEncounter.get(0));
-                        Layout.addDesText("\nThere seems to be a " + Char.Current.scenario.enemy.name + " moving slowly through the area.");
+                        if (Char.Current.scenario.enemy.name.equals("Hunter")) {
+                            Layout.addDesText("\nTo your horror; there is a Hunter in this area. You could hide or attempt to face it. All your instincts scream: \"RUN\"");
+                        }
+                        else {
+                            Layout.addDesText("\nThere seems to be a " + Char.Current.scenario.enemy.name + " moving slowly through the area.");
+                        }
                         possInputs();
                     }
                     else if (Objects.equals(Char.Current.scenario.State, "During")) {
                         //during combat
                         //enemy description probably needed
 //                        roomdesc(Char.Current.scenario);
-                        String output = "The " + Char.Current.scenario.enemy.name + " turns towards you and locks eyes with you.";
+                        String output;
+                        if (Char.Current.scenario.enemy.name.equals("Hunter")) {
+                            output = "Your eyes lock with the Hunter's. There is no escape.";
+                        }
+                        else {
+                            output = "The " + Char.Current.scenario.enemy.name + " turns towards you and locks eyes with you.";
+                        }
                         switch(Char.Current.scenario.enemy.personality.Name){
-                            case "Rabid": output += "\nIt seems very aggressive.\n"; break;
+                            case "Rabid":
+                                if (Char.Current.scenario.enemy.name.equals("Hunter")) {
+                                    output += "\nThe Hunter exists only to kill. It will not retreat.";
+                                }
+                                else {
+                                    output += "\nIt seems very aggressive.\n";
+                                }
+                                break;
                             case "Brawny": output += "\nIt seems slightly aggressive towards you.\n"; break;
                             case "Neutral": output += "\nIt seems indecisive towards fighting you.\n"; break;
                             case "Shy": output += "\nIt seems sheepish.\n"; break;
@@ -99,8 +122,8 @@ public class Main {
                         Layout.addFooterText("5. Attack the spot in front of you");
 
                         if (FirstFight){
-                        Layout.tutorial();
-                        FirstFight = false;
+                            Layout.tutorial();
+                            FirstFight = false;
                         }
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
@@ -110,6 +133,11 @@ public class Main {
                         }
                         else {
                             Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name);
+                        }
+                        if (Char.Current.scenario.enemy == Hunter) {
+                            System.out.println("AM I HERE");
+                            Hunter.distanceBehind = 3;
+                            Hunter.combatHealth = 120;
                         }
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
@@ -186,6 +214,7 @@ public class Main {
                 int inputting = Integer.parseInt(input);
                 switch (inputting) {
                     case 1:
+                        hunterMove();
                         Char.Hide();
                         Char.Current.scenario.foodAmount = 0;
                         Char.Current.scenario.foodGen = false;
@@ -193,11 +222,12 @@ public class Main {
                         combatChange = true;
                         Char.Current.scenario.completed = true;
                         break;
-
                     case 2:
+                        hunterMove();
                         Char.Inspect();
                         break;
                     case 3:  //cant eat till enemy defeated?
+                        hunterMove();
                         if(!Char.Current.scenario.completed) {
                             combatChange = true;
                             Layout.setError("The enemy attacked before you could eat the food");
@@ -207,12 +237,15 @@ public class Main {
                         }
                         break;
                     case 4:
+                        hunterMove();
                         Char.Wait();
                         combatChange = true;
                         break;
                     case 5:
                         if (Char.Current.completed || Char.Current.scenario.completed){
+                            hunterMove();
                             moveOn = true;
+                            Hunter.distanceBehind += 1;
                         }
                         else{
                             Layout.setError("Invalid Input");
@@ -251,6 +284,32 @@ public class Main {
             }
             output += "";
             Layout.addFooterText("\n" + output);
+        }
+    }
+
+    public static void hunterMove() {
+        if (Hunter.distanceBehind > 0) {
+            if (Hunter.tUntilMove > 0) {
+                Hunter.tUntilMove -= 1;
+                System.out.println("time in " + Hunter.tUntilMove);
+            } else {
+                Hunter.tUntilMove = 3;
+                Hunter.distanceBehind -= 1;
+                System.out.println("behind by " + Hunter.distanceBehind);
+            }
+        } else {
+            Hunter.tUntilMove = 3;
+            Char.Current.scenario = new Encounter();
+            Char.Current.scenario.enemy = Hunter;
+
+            /*
+            basically what needs to happen here is;
+            1. Set next room to be an encounter with the hunter, regardless of what the game tells you.
+            2. If evolution level < 15, encounter results in instant death.
+            3. otherwise, it probably still results in instant death but sure. good luck!
+            4. If you manage to successfully hide from it, it goes back to being 1 room behind you.
+               If you kill it (somehow) game creates gives you 2,500 score and ends with "you are the new apex predator"
+            */
         }
     }
 
@@ -346,6 +405,7 @@ public class Main {
         Dict = new MyDictionaries(); //hashtable
         Art = new Art();
         Char = new Player();
+        Hunter = new Anomalocaris();
 
         Layout = new Layout();
         Layout.textInput.addActionListener(InputListener());

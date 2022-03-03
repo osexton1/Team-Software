@@ -43,6 +43,7 @@ public class Layout {
 
 
 
+
         Description = new JPanel();
         Description.setBackground(new Color(8, 0, 0)); //Text bg
         Description.setPreferredSize(new Dimension(480, 400));
