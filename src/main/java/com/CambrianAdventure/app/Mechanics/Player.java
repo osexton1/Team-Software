@@ -116,7 +116,7 @@ public class Player extends Creature {
                 boolean Turn = false;
                 String Action = "";
                 switch(inputting){
-                    case 1: comInspect(); break; //gives indications of weaknesses/other stuff
+                    case 1: comInspect(Current.scenario.enemy); break; //gives indications of weaknesses/other stuff
                     case 2: Action = "Advance"; Turn = true; break; //advance
                     case 3: Action = "Flee"; Turn = true; break; //retreat/ replaced with hide once disToFlee == 0, should break out of the combat
                     case 4: Action = "Wait"; Turn = true; break; //skip a turn
@@ -291,7 +291,7 @@ public class Player extends Creature {
     }
 
     public void Hide() {
-        System.out.println("You quickly find a rock to hide under in the environment.");
+        Layout.addError("You quickly find a rock to hide from the creature.\n");
         this.hidden = true;
         this.foodLevel(-2);
     }

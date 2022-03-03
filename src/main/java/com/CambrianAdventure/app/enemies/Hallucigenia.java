@@ -11,6 +11,5 @@ public class Hallucigenia extends Creature {
         reach = 1;
         movementDistance = 1;
         Speed = 2;
-        description = "Be careful of its spikes";
     }
 }

@@ -105,8 +105,12 @@ public class Main {
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
-//                        if (Char.hidden)
-                        Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name);
+                        if (Char.hidden){
+                            Layout.setDesText("You avoided the enemy " + Char.Current.scenario.enemy.name);
+                        }
+                        else {
+                            Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name);
+                        }
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
                         if (!moveOn) {

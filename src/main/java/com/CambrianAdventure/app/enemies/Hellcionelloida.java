@@ -5,6 +5,7 @@ import com.CambrianAdventure.app.enemies.Personalitys.*;
 import java.util.Objects;
 
 import static com.CambrianAdventure.app.Main.Char;
+import static com.CambrianAdventure.app.Main.Layout;
 
 public class Hellcionelloida extends Creature{
     public Hellcionelloida() {
@@ -30,11 +31,10 @@ public class Hellcionelloida extends Creature{
                 this.disPlay -= 1;
             }
             else{
-                System.out.println("The " + this.name + " bumped into you");
+                Layout.addError("The " + this.name + " bumped into you");
             }
         }
         else if (Objects.equals(Action, "Attack")){
-            System.out.println("CPU Attack");
             //attack
             attack(this, Player);
             Char.charDisplay();
@@ -48,7 +48,7 @@ public class Hellcionelloida extends Creature{
                 }
                 else{
                     this.combatHealth = 0;
-                    System.out.println("CPU Leave the battlefield");
+                    Layout.addError("Enemy left the battlefield");
                 }
             }
             else{
