@@ -1,8 +1,11 @@
 package com.CambrianAdventure.app;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Layout {
     public JPanel outer;
@@ -132,6 +135,21 @@ public class Layout {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
+
+    }
+    public void tutorial() throws IOException {
+        JFrame frame1 = new JFrame("Tutorial (Close this window when ready!)");
+        BufferedImage tutor = ImageIO.read(new File("src/main/resources/tutor.png"));
+        JLabel picLabel = new JLabel(new ImageIcon(tutor));
+        frame1.add(picLabel);
+        frame1.setSize(1280, 750);
+        frame1.setLocationRelativeTo(null);
+        frame1.setResizable(false);
+        frame1.setVisible(true);
+        frame1.pack();
+        //frame1.add(picLabel);
+
+
     }
     public void setDesText(String In){
         DescriptionHeader.setText(In);

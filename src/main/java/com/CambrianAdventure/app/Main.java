@@ -19,6 +19,8 @@ public class Main {
     public static boolean waitForInput;
     public static boolean combatChange;
     public static boolean moveOn;
+    public static int score = 0;
+    public static boolean FirstFight;
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
         while (true) {
@@ -31,7 +33,9 @@ public class Main {
             }
             if (Char.health <= 0) {
                 Layout.setAscText(Art.death);
-                Layout.setDesText("R.I.P.");
+                Layout.setDesText("R.I.P.\n");
+                score = (Char.globalRoomCount * 5) + (Char.evolutionLevel * 20);
+                Layout.addDesText("Your score was: " + score);
                 break;
             }
             else if (Char.Current.scenario == null){
@@ -59,7 +63,7 @@ public class Main {
                 }
             }
             else {
-                if (Char.Current.scenario.Name == "Encounter") {
+                if (Objects.equals(Char.Current.scenario.Name, "Encounter")) {
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         if (Char.roomCount != 1) {
@@ -92,6 +96,12 @@ public class Main {
                         Layout.addFooterText("3. Retreat away from the enemy\n");
                         Layout.addFooterText("4. Wait for the enemy to do something\n");
                         Layout.addFooterText("5. Attack the spot in front of you");
+
+                        if (FirstFight){
+                        Layout.tutorial();
+                        FirstFight = false;
+                        }
+//                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
 //                        if (Char.hidden)
