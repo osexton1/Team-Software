@@ -146,7 +146,21 @@ public class MyDictionaries {
                         "1-4: Bursting through the haze, you see what caused the disruption, a bolt of skyfire catapulting into the distance. Desperately following to avoid the smoke, the heat grows unbearable. Unable to keep up the speed as exhaustion takes over, the sheer greyness encroaches yet again. As panic begins to take hold, a distant crack rumbles directly beneath yourself. Catapulted upwards, you breach the fog on the back of cooled skyfire. Battered and bloodied, you continue away from the fog as the eruptions get quieter and quieter. LOHP",
                         "1-5: Speeding up, you quickly reach a height where the bolts have stopped glowing entirely, and cruise through the water. Free from any threat you can continue at your own leisure. NTHN",
                         "1-6: You cautiously traverse the clearer waters, narrowly dodging the streaks of heat. The effort quickly exhausts you, and while you escape the barrage, you feel significantly drained. LBGF"));
-                puzzle03 = new ArrayList<>(Arrays.asList());
+                puzzle03 = new ArrayList<>(Arrays.asList(
+                        "2-0: Driven to the seabed by the zealous Hunters above, you descend through the spiring flora. You stumble into a clearing. Swirled up in the epicentre, a long spiked giant sleeps. Surrounding it are half-eaten carcasses. What do you do?",
+                        "1.Approach for an attempt to scavenge(2-1)\n",
+                        "2.Take a wide berth(2-2)\n",
+                        "2-1: Continuing into the clearing you hear the soft flow of water through the beast. The hum contrasts the grisly sight of its feeding ground; forgotten corpses, many larger than yourself, have stained the light sand a deep crimson, appendages and gore littering the reddened earth. A colossal shell-dweller, half-gouged, is what you decide on, and as you start picking at the body you hear a loud rustle in the flora, and see a distinct shifting in the sand.",
+                        "2-2: You retreat back into the flora, and as it rustles around you, you begin to understand why the Giant picked this as its hunting grounds. Whisking through the weeds, you see an opportunity to scatter, lest you end up the giant's next kill.",
+                        "1.Bolt for the weeds(2-3)\n",
+                        "2.Stick with your scavenge(2-4)\n",
+                        "1.Risk the open ocean(2-5)\n",
+                        "2.Risk the seabed(2-6)\n",
+                        "2-3: You instantly make for the reeds, and the Giant turns towards you. A gaping maw of shattered glass flanked by two large hooks are the only recognisable feature on the being's armoured head. It coils up and launches its maw towards you, and everything goes dark. DEAD",
+                        "2-4: You watch the Giant unwrap it's serpentine body sending the sand into a spiral as it launches it's enormous head at the source of the rustling. The rest of the body slowly catches up as it coils up once again, raising its head into the sky. Wedged between its jaw of shattered glass is a young Hunter, still squirming, until a sharp bite stops the throes. You waste no time. Devouring as much of the succulent shell-dweller as possible, you scatter, glamoured by the sheer power of the Giant. GBGF",
+                        "2-5: Leaving the death-trap behind you, you take to the dunes. While the shadows of the Hunters above continue to circle the area, none approach, and you quickly make your leave. NTHN",
+                        "2-6: Fearing the Hunters more than the Giant, you continue to skulk through the weeds. Senses open for any potential motion from the clearing, you hear soft rustling ahead of you. Taking inspiration from the earlier threat, you stalk after the rustling. FSMM"
+                ));
                 puzzleNum.put(1, puzzle01);
                 puzzleNum.put(2, puzzle02);
                 puzzleNum.put(3, puzzle03);

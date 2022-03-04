@@ -32,11 +32,13 @@ public class Main {
             while (waitForInput) {
                 Thread.sleep(100);
             }
+            Layout.setDesText("");
             Layout.setFooterText("");
             if (Char.roomCount == 1) {
                 biomechangeDesc(Char.Current);
             }
             if (Char.health <= 0) {
+                Char.charDisplay();
                 Layout.setAscText(Art.death);
                 Layout.setDesText("You ran out of food and starved to death\n");
                 score = (Char.globalRoomCount * 5) + (Char.evolutionLevel * 20);
@@ -157,23 +159,26 @@ public class Main {
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
-                    String output = Dict.puzzleNum.get(2).get(Char.Current.scenario.Path);
+                    String output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path);
                     if(Char.Current.scenario.Path > 8){//string splicing
-                        String outcome = Dict.puzzleNum.get(2).get(Char.Current.scenario.Path).substring(output.length()-4, output.length());
+                        String outcome = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(output.length()-4, output.length());
                         Char.genPuzOut(outcome);
-                        output = Dict.puzzleNum.get(2).get(Char.Current.scenario.Path).substring(0, output.length()-5);
+                        output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(0, output.length()-5);
+                        moveOn = true;
+                        Char.Current.scenario.completed = true;
+                        possMove();
                     }
                     Layout.addDesText(output);
                     if(Char.Current.scenario.Path == 0){
-                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+1));
-                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+2));}
+                        Layout.addFooterText("\n" + Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+1));
+                        Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+2));}
                     else if (Char.Current.scenario.Path == 3){
-                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+2));
-                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+3));
+                        Layout.addFooterText("\n" +Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+2));
+                        Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+3));
                     }
                     else if (Char.Current.scenario.Path == 4) {
-                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+3));
-                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+4));
+                        Layout.addFooterText("\n" +Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+3));
+                        Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+4));
                     }
 
 //                    Char.Current.scenario.completed = true;
