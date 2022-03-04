@@ -15,6 +15,7 @@ public class Main {
     public static MyDictionaries Dict;
     public static Player Char;
     public static Anomalocaris Hunter;
+    public static boolean hunterPresent;
     public static Art Art;
     public static String gameState = "Intro";
     public static Layout Layout;
@@ -31,7 +32,6 @@ public class Main {
             while (waitForInput) {
                 Thread.sleep(100);
             }
-            System.out.println(Char.Current.length);
             Layout.setFooterText("");
             if (Char.roomCount == 1) {
                 biomechangeDesc(Char.Current);
@@ -70,6 +70,9 @@ public class Main {
             }
             else {
                 if (Objects.equals(Char.Current.scenario.Name, "Encounter")) {
+                    if (hunterPresent) {
+                        Char.Current.scenario.enemy = Hunter;
+                    }
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         if (Char.roomCount != 1) {
@@ -88,6 +91,10 @@ public class Main {
                         possInputs();
                     }
                     else if (Objects.equals(Char.Current.scenario.State, "During")) {
+                        if (hunterPresent) {
+                            hunterPresent = false;
+                            Hunter.combatHealth = 120;
+                        }
                         //during combat
                         //enemy description probably needed
 //                        roomdesc(Char.Current.scenario);
@@ -134,11 +141,6 @@ public class Main {
                         else {
                             Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name);
                         }
-                        if (Char.Current.scenario.enemy == Hunter) {
-                            System.out.println("AM I HERE");
-                            Hunter.distanceBehind = 3;
-                            Hunter.combatHealth = 120;
-                        }
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
                         if (!moveOn) {
@@ -155,8 +157,25 @@ public class Main {
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
-                    Layout.addDesText("\nPuzzle");
-                    Layout.addDesText("\n" + Dict.puzzleNum.get(1).get(Char.Current.scenario.Path));
+                    String output = Dict.puzzleNum.get(2).get(Char.Current.scenario.Path);
+                    if(Char.Current.scenario.Path > 8){//string splicing
+                        String outcome = Dict.puzzleNum.get(2).get(Char.Current.scenario.Path).substring(output.length()-4, output.length());
+                        Char.genPuzOut(outcome);
+                        output = Dict.puzzleNum.get(2).get(Char.Current.scenario.Path).substring(0, output.length()-5);
+                    }
+                    Layout.addDesText(output);
+                    if(Char.Current.scenario.Path == 0){
+                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+1));
+                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+2));}
+                    else if (Char.Current.scenario.Path == 3){
+                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+2));
+                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+3));
+                    }
+                    else if (Char.Current.scenario.Path == 4) {
+                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+3));
+                        Layout.addFooterText(Dict.puzzleNum.get(2).get(Char.Current.scenario.Path+4));
+                    }
+
 //                    Char.Current.scenario.completed = true;
 //                    roomdesc(Char.Current.scenario);
 //                    possInputs();
@@ -166,14 +185,10 @@ public class Main {
         }
     }
 
-
-
     public static void biomechangeDesc(Environment biome) {
         Layout.setDesText(Dict.roomType.get(0).get(biome.type)+ "\n\n");
     }
 
-    //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
-//    because that fits better with how I made the hashtables.
     public static void roomdesc(Scenario room) {
         //random descriptor
         if (room.Description == null) {
@@ -245,7 +260,6 @@ public class Main {
                         if (Char.Current.completed || Char.Current.scenario.completed){
                             hunterMove();
                             moveOn = true;
-                            Hunter.distanceBehind += 1;
                         }
                         else{
                             Layout.setError("Invalid Input");
@@ -285,6 +299,15 @@ public class Main {
             output += "";
             Layout.addFooterText("\n" + output);
         }
+        if (hunterPresent) {
+            Char.Current.scenario.middlePath = new Encounter();
+            if (Char.Current.scenario.leftPath != null) {
+                Char.Current.scenario.leftPath = new Encounter();
+            }
+            if (Char.Current.scenario.rightPath != null) {
+                Char.Current.scenario.rightPath = new Encounter();
+            }
+        }
     }
 
     public static void hunterMove() {
@@ -299,17 +322,8 @@ public class Main {
             }
         } else {
             Hunter.tUntilMove = 3;
-            Char.Current.scenario = new Encounter();
-            Char.Current.scenario.enemy = Hunter;
-
-            /*
-            basically what needs to happen here is;
-            1. Set next room to be an encounter with the hunter, regardless of what the game tells you.
-            2. If evolution level < 15, encounter results in instant death.
-            3. otherwise, it probably still results in instant death but sure. good luck!
-            4. If you manage to successfully hide from it, it goes back to being 1 room behind you.
-               If you kill it (somehow) game creates gives you 2,500 score and ends with "you are the new apex predator"
-            */
+            Hunter.distanceBehind = 2;
+            hunterPresent = true;
         }
     }
 
@@ -348,7 +362,7 @@ public class Main {
                     Char.Move(intAction);
                     waitForInput = false;
                     moveOn = false;
-
+                    Hunter.distanceBehind += 1;
                 }
                 catch(Throwable Error){
                     Layout.setError("Invalid Input");

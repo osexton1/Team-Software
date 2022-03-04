@@ -102,6 +102,17 @@ public class MyDictionaries {
                 randdesc.put(6, randTrop);
                 randdesc.put(7, randVolc);
 
+//                GSMF - gain 2 food
+//                GBGF - gain 4 food
+//                LSMF - lose 4 food
+//                LBGF - lose 8 food
+//                LOHP - lose 1 hp
+//                NTHN - nothing
+//                FSMM - fight small mob
+//                FMEM - fight med mob
+//                FBGM - fight boss
+//                DEAD - death
+
                 puzzleNum = new Hashtable<>();
                 puzzle01 = new ArrayList<>(Arrays.asList(
                         "Base Description\nPath 1 to desription, Path 2 to description",
@@ -115,7 +126,26 @@ public class MyDictionaries {
                         "Option 5 description\nRoom complete",
                         "Option 6 description\nRoom complete"
                 ));
-                puzzle02 = new ArrayList<>(Arrays.asList());
+                puzzle02 = new ArrayList<>(Arrays.asList(
+                        "A soft fog surrounds you as you progress. As you wade through the murky waters, your vision gets cloudier, until the world is a harsh gray smoke.\n" +
+                        "You hear something erupt where you were just moments ago, splitting the silence like a dagger. What do you do?\n",
+                        "1.Swim down(1-1)\n",
+                        "2.Swim up(1-2)\n",
+
+                        "1-1: As you frantically attempt to reach the seafloor, the smoke penetrates your gills. Panic raising inside like a vice, more eruptions surround you,\n" +
+                        "each a distant thunder through the haze. You begin to choke as a sudden burst clears the smoke off your side, the heat searing, for a split second.\n",
+                        "1-2: The haze slowly grows more opaque as you dash upward, and you can now see the cause of the ash and heat. Blazing skyfire pierces through the fog at random, leaving a trail of bubbles in their wake. As you take in the sight before you, one rushes past you, the heat almost boiling the water. You are not safe yet.\n",
+                        "1.Continue to the floor(1-3)\n",
+                        "2.Take the chance the eruption provided(1-4)\n",
+
+                        "1.Speed up(1-5)\n",
+                        "2.Slow down(1-6)\n",
+
+                        "1-3: You make a dash for the seafloor. Your vision continues to glaze over as the rising heat brings the water almost to a boil. Just as the fired water \n" +
+                        "reaches unbearability and each crack of the eruptions threatens to deafen you, you slam into the sand. As you reassert yourself, your vision clears. Surrounding you are dozens of breaches in the seabed, each periodically catapulting streams of skyfire into the smoke above you, causing the deafening booms you've grown accustomed to. Clusters of soft-shelled quarry gather in the heat. You take the opportunity, before cautiously traversing the rest of the breaches. GBGF",
+                        "1-4: Bursting through the haze, you see what caused the disruption, a bolt of skyfire catapulting into the distance. Desperately following to avoid the smoke, the heat grows unbearable. Unable to keep up the speed as exhaustion takes over, the sheer greyness encroaches yet again. As panic begins to take hold, a distant crack rumbles directly beneath yourself. Catapulted upwards, you breach the fog on the back of cooled skyfire. Battered and bloodied, you continue away from the fog as the eruptions get quieter and quieter. LOHP",
+                        "1-5: Speeding up, you quickly reach a height where the bolts have stopped glowing entirely, and cruise through the water. Free from any threat you can continue at your own leisure. NTHN",
+                        "1-6: You cautiously traverse the clearer waters, narrowly dodging the streaks of heat. The effort quickly exhausts you, and while you escape the barrage, you feel significantly drained. LBGF"));
                 puzzle03 = new ArrayList<>(Arrays.asList());
                 puzzleNum.put(1, puzzle01);
                 puzzleNum.put(2, puzzle02);

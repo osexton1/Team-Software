@@ -182,9 +182,35 @@ public class Player extends Creature {
 
     public void puzzleInput(String Action){
         switch(Current.scenario.Path){
-            case 0: Current.scenario.Path = Integer.parseInt(Action); break;
-            case 1: Current.scenario.Path = Integer.parseInt(Action)+2;break;
-            case 2: Current.scenario.Path = Integer.parseInt(Action)+4;break;
+            case 0: Current.scenario.Path = Integer.parseInt(Action)+2; break;
+            case 3: Current.scenario.Path = Integer.parseInt(Action)+8;break;
+            case 4: Current.scenario.Path = Integer.parseInt(Action)+10;break;
+        }
+    }
+
+//                GSMF - gain 2 food
+//                GBGF - gain 4 food
+//                LSMF - lose 4 food
+//                LBGF - lose 8 food
+//                LOHP - lose 1 hp
+//                NTHN - nothing
+//                FSMM - fight small mob
+//                FMEM - fight med mob
+//                FBGM - fight boss
+//                DEAD - death
+
+    public void genPuzOut(String out){
+        switch (out){
+            case "GSMF": foodLevel(2);break;
+            case "GBGF": foodLevel(4);break;
+            case "LSMF": foodLevel(-4);break;
+            case "LBGF": foodLevel(-8);break;
+            case "LOHP": health -= 1; break;
+            case "NTHN": break;
+            case "FSMM": new Generate().GenSmall();break;
+            case "FMEM": new Generate().GenLarge();break;
+            case "FBGM": new Generate().GenBoss();break;
+            case "DEAD": health = 0;break;
         }
     }
 

@@ -49,7 +49,7 @@ public class Generate {
 //            case 2: outputroom = new Encounter(); break;
 //            }
 //        return outputroom;
-        return new Encounter();
+        return new Puzzle();
 
     }
 
@@ -109,6 +109,41 @@ public class Generate {
             case 9: return new Trilobite();
             case 10: return new Waptia();
             default: return new Wiwaxia();
+        }
+    }
+    public Creature GenSmall(){
+        Integer temp = new Generate(6, 1).int_random;
+        switch (temp) {
+            case 1: return new Aysheaia();
+            case 2: return new Hallucigenia();
+            case 3: return new Hymenocaris();
+            case 4: return new Marrella();
+            case 5: return new Waptia();
+            default: return new Wiwaxia();
+        }
+    }
+
+    public Creature GenLarge(){
+        Integer temp = new Generate(5, 1).int_random;
+        switch (temp) {
+            case 1: return new Hellcionelloida();
+            case 2: return new Isoxys();
+            case 3: return new Nectocaris();
+            case 4: return new Opabinia();
+            default: return new Trilobite();
+        }
+    }
+
+    public Creature GenBoss(){
+        Integer temp = new Generate(11, 1).int_random;
+        switch (temp) {
+            case 1: Creature tempChar = new Hallucigenia();
+                tempChar.combatHealth = 50;
+                tempChar.attackDamage = 7;
+                tempChar.spikeDamage = 5;
+                tempChar.armorLevel = 3;
+                return tempChar;
+            default: return new Anomalocaris();
         }
     }
 }
