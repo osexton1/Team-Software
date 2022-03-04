@@ -28,6 +28,7 @@ public class MyDictionaries {
         public List<String> puzzle01; 
         public List<String> puzzle02;
         public List<String> puzzle03;
+        public List<String> puzzle04;
         /**
          * we'll probably change these to a short desc as the name but for now numbers work
          * all of the puzzle lists will have 7 values
@@ -147,7 +148,7 @@ public class MyDictionaries {
                         "1-5: Speeding up, you quickly reach a height where the bolts have stopped glowing entirely, and cruise through the water. Free from any threat you can continue at your own leisure. NTHN",
                         "1-6: You cautiously traverse the clearer waters, narrowly dodging the streaks of heat. The effort quickly exhausts you, and while you escape the barrage, you feel significantly drained. LBGF"));
                 puzzle03 = new ArrayList<>(Arrays.asList(
-                        "2-0: Driven to the seabed by the zealous Hunters above, you descend through the spiring flora. You stumble into a clearing. Swirled up in the epicentre, a long spiked giant sleeps. Surrounding it are half-eaten carcasses. What do you do?",
+                        "Driven to the seabed by the zealous Hunters above, you descend through the spiring flora. You stumble into a clearing. Swirled up in the epicentre, a long spiked giant sleeps. Surrounding it are half-eaten carcasses. What do you do?",
                         "1.Approach for an attempt to scavenge(2-1)\n",
                         "2.Take a wide berth(2-2)\n",
                         "2-1: Continuing into the clearing you hear the soft flow of water through the beast. The hum contrasts the grisly sight of its feeding ground; forgotten corpses, many larger than yourself, have stained the light sand a deep crimson, appendages and gore littering the reddened earth. A colossal shell-dweller, half-gouged, is what you decide on, and as you start picking at the body you hear a loud rustle in the flora, and see a distinct shifting in the sand.",
@@ -161,9 +162,29 @@ public class MyDictionaries {
                         "2-5: Leaving the death-trap behind you, you take to the dunes. While the shadows of the Hunters above continue to circle the area, none approach, and you quickly make your leave. NTHN",
                         "2-6: Fearing the Hunters more than the Giant, you continue to skulk through the weeds. Senses open for any potential motion from the clearing, you hear soft rustling ahead of you. Taking inspiration from the earlier threat, you stalk after the rustling. FSMM"
                 ));
+                puzzle04 = new ArrayList<>(Arrays.asList(
+                        "Swimming for as long as you have, you start to notice familiar sights. Is that the same rock you passed but a short while ago? Are those bones the same creatures you passed by not too long ago? Have you been swimming in circles? For how long?\n",
+                        "1. Try to break the loop you've trapped yourself in and find new unfamiliar waters (3-1)\n",
+                        "2. Start marking the rocks in the vicinity with distinct markings to recognise if you truly are in a loop (3-2)\n",
+
+                        "3-1: After swimming for a short time, you again start to see familiar landmarks. Despite your best efforts you've looped back on yourself again. It's all you can do not to scream in frustration. How will you break yourself out of this torture?\n",
+                        "3-2: Having started to place identifying markers on distinct outcrops, you continue travelling as you otherwise have been. You come across a marked rock, but now you know to take the opposite direction\n",
+
+                        "1. Focus on an object in the horizon and swim towards it (3-3)\n",
+                        "2. Find a local creature and follow it for a time (3-4)\n",
+                        "1. Travel the opposite direction to your last pass through this are (3-5)\n",
+                        "2. Inspect the rock closer (3-6)\n",
+
+                        "3-3: You swim for a long time, never losing your focus on the horizon straight out in front of you. Eventually something flickers at the edge of your vision, causing you to lose focus. Looking around you find yourself in unfamiliar waters. At long last. As you thrash in happiness, a shadow crosses you. FMEM",
+                        "3-4: Finding a suitably small and nonthreatening creature, you follow it around the area. It quickly notices you following it and swims away faster in terror. Despite it's best efforts you manage to keep track of it for long enough to find yourself in new territory. Having accomplished your goal, you quickly swallow up the creature. Only the strong survive little one. GSMF",
+                        "3-5: The marker on the rock indicates you've visited this area before. Since you normally travelled to one side of the landmarks you were identifying, you decide to travel to the other. After swimming for a short period of time, you happen upon a cave. A deep rumbling sound comes from the cave and a long, strong tentacle grabs you. DEAD",
+                        "3-6: Upon closer inspection of the rock, you realise you haven't actually come across it before. Armed with this knowledge, you travel the opposite direction of where the marking suggested you should go. As you swim away from the rock, you feel water rushing past and you can sense the anger of the creature that caused it. You dodged a bullet. NTHN"
+                ));
+
                 puzzleNum.put(1, puzzle01);
                 puzzleNum.put(2, puzzle02);
                 puzzleNum.put(3, puzzle03);
+                puzzleNum.put(4, puzzle04);
 
                 Events = new Hashtable<>();
                 Creatures = new Hashtable<>();
