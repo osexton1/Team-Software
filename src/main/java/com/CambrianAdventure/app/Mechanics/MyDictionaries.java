@@ -136,9 +136,9 @@ public class MyDictionaries {
                         "1-1: As you frantically attempt to reach the seafloor, the smoke penetrates your gills. Panic raising inside like a vice, more eruptions surround you,\n" +
                         "each a distant thunder through the haze. You begin to choke as a sudden burst clears the smoke off your side, the heat searing, for a split second.\n",
                         "1-2: The haze slowly grows more opaque as you dash upward, and you can now see the cause of the ash and heat. Blazing skyfire pierces through the fog at random, leaving a trail of bubbles in their wake. As you take in the sight before you, one rushes past you, the heat almost boiling the water. You are not safe yet.\n",
+
                         "1.Continue to the floor(1-3)\n",
                         "2.Take the chance the eruption provided(1-4)\n",
-
                         "1.Speed up(1-5)\n",
                         "2.Slow down(1-6)\n",
 
@@ -151,29 +151,32 @@ public class MyDictionaries {
                         "Driven to the seabed by the zealous Hunters above, you descend through the spiring flora. You stumble into a clearing. Swirled up in the epicentre, a long spiked giant sleeps. Surrounding it are half-eaten carcasses. What do you do?",
                         "1.Approach for an attempt to scavenge(2-1)\n",
                         "2.Take a wide berth(2-2)\n",
+
                         "2-1: Continuing into the clearing you hear the soft flow of water through the beast. The hum contrasts the grisly sight of its feeding ground; forgotten corpses, many larger than yourself, have stained the light sand a deep crimson, appendages and gore littering the reddened earth. A colossal shell-dweller, half-gouged, is what you decide on, and as you start picking at the body you hear a loud rustle in the flora, and see a distinct shifting in the sand.",
                         "2-2: You retreat back into the flora, and as it rustles around you, you begin to understand why the Giant picked this as its hunting grounds. Whisking through the weeds, you see an opportunity to scatter, lest you end up the giant's next kill.",
+
                         "1.Bolt for the weeds(2-3)\n",
                         "2.Stick with your scavenge(2-4)\n",
                         "1.Risk the open ocean(2-5)\n",
                         "2.Risk the seabed(2-6)\n",
+
                         "2-3: You instantly make for the reeds, and the Giant turns towards you. A gaping maw of shattered glass flanked by two large hooks are the only recognisable feature on the being's armoured head. It coils up and launches its maw towards you, and everything goes dark. DEAD",
-                        "2-4: You watch the Giant unwrap it's serpentine body sending the sand into a spiral as it launches it's enormous head at the source of the rustling. The rest of the body slowly catches up as it coils up once again, raising its head into the sky. Wedged between its jaw of shattered glass is a young Hunter, still squirming, until a sharp bite stops the throes. You waste no time. Devouring as much of the succulent shell-dweller as possible, you scatter, glamoured by the sheer power of the Giant. GBGF",
+                        "2-4: You watch the Giant unwrap it's serpentine body sending the sand into a spiral as it launches it's enormous head at the source of the rustling. The rest of the body slowly catches up as it coils up once again, raising its head into the sky. Wedged between its jaw of shattered glass is a young Hunter, still squirming, until a sharp bite stops the throes. You waste no time. Devouring as much of the succulent shell-dweller as possible, you scatter, enamoured by the sheer power of the Giant. GBGF",
                         "2-5: Leaving the death-trap behind you, you take to the dunes. While the shadows of the Hunters above continue to circle the area, none approach, and you quickly make your leave. NTHN",
                         "2-6: Fearing the Hunters more than the Giant, you continue to skulk through the weeds. Senses open for any potential motion from the clearing, you hear soft rustling ahead of you. Taking inspiration from the earlier threat, you stalk after the rustling. FSMM"
                 ));
                 puzzle04 = new ArrayList<>(Arrays.asList(
                         "Swimming for as long as you have, you start to notice familiar sights. Is that the same rock you passed but a short while ago? Are those bones the same creatures you passed by not too long ago? Have you been swimming in circles? For how long?\n",
-                        "1. Try to break the loop you've trapped yourself in and find new unfamiliar waters (3-1)\n",
-                        "2. Start marking the rocks in the vicinity with distinct markings to recognise if you truly are in a loop (3-2)\n",
+                        "1. Try to break the loop you've trapped yourself in and find new unfamiliar waters(3-1)\n",
+                        "2. Start marking the rocks in the vicinity with distinct markings to recognise if you truly are in a loop(3-2)\n",
 
                         "3-1: After swimming for a short time, you again start to see familiar landmarks. Despite your best efforts you've looped back on yourself again. It's all you can do not to scream in frustration. How will you break yourself out of this torture?\n",
                         "3-2: Having started to place identifying markers on distinct outcrops, you continue travelling as you otherwise have been. You come across a marked rock, but now you know to take the opposite direction\n",
 
-                        "1. Focus on an object in the horizon and swim towards it (3-3)\n",
-                        "2. Find a local creature and follow it for a time (3-4)\n",
-                        "1. Travel the opposite direction to your last pass through this are (3-5)\n",
-                        "2. Inspect the rock closer (3-6)\n",
+                        "1. Focus on an object in the horizon and swim towards it(3-3)\n",
+                        "2. Find a local creature and follow it for a time(3-4)\n",
+                        "1. Travel the opposite direction to your last pass through this area(3-5)\n",
+                        "2. Inspect the rock closer(3-6)\n",
 
                         "3-3: You swim for a long time, never losing your focus on the horizon straight out in front of you. Eventually something flickers at the edge of your vision, causing you to lose focus. Looking around you find yourself in unfamiliar waters. At long last. As you thrash in happiness, a shadow crosses you. FMEM",
                         "3-4: Finding a suitably small and nonthreatening creature, you follow it around the area. It quickly notices you following it and swims away faster in terror. Despite it's best efforts you manage to keep track of it for long enough to find yourself in new territory. Having accomplished your goal, you quickly swallow up the creature. Only the strong survive little one. GSMF",
