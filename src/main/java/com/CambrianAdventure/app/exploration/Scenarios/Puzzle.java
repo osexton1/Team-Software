@@ -7,7 +7,7 @@ public class Puzzle extends Scenario {
 
     public Puzzle(){
         super(1, "Puzzle");
-        PuzzleNum = new Generate(3,2).int_random;
+        PuzzleNum = new Generate(4,2).int_random;
         Path = 0;
     }
 
