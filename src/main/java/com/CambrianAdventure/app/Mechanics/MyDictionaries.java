@@ -37,6 +37,7 @@ public class MyDictionaries {
          * 5,6 - part 3, following index 2
          */
 
+        public List<String> event01;
         public Hashtable<Integer, List<String>> randdesc;
         public Hashtable<Integer, String> Events;
         public Hashtable<Integer, String> Creatures;
@@ -166,6 +167,23 @@ public class MyDictionaries {
                 puzzleNum.put(3, puzzle03);
 
                 Events = new Hashtable<>();
+                event01 = new ArrayList<>(Arrays.asList(
+                        "Base Description\n",
+
+                        "Option 1 description",
+                        "Option 2 description",
+
+                        "Option Finned description",
+                        "Option Shelled description",
+                        "Option Spiked description",
+
+                        "Option 1 outcome",
+                        "Option 2 outcome",
+                        "Option Finned outcome",
+                        "Option Shelled outcome",
+                        "Option Spiked outcome"
+                ));
+
                 Creatures = new Hashtable<>();
                 BBEGpassed = new Hashtable<>();
                 BBEGpresent = new Hashtable<>();

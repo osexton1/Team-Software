@@ -80,6 +80,9 @@ public class Main {
                         if (Char.roomCount != 1) {
                             Layout.setDesText("");
                         }
+                        if (hunterPresent) {
+                            System.out.println("Hunter");
+                        }
                         Char.disToFlee = 2;
                         Char.combatHealth = Char.maxCombatHealth;
                         roomdesc(Char.Current.scenario);
@@ -138,10 +141,14 @@ public class Main {
                     }
                     else {
                         if (Char.hidden){
-                            Layout.setDesText("You avoided the enemy " + Char.Current.scenario.enemy.name);
+                            Layout.setDesText("You avoided the enemy " + Char.Current.scenario.enemy.name + ".");
+                            Char.hidden = false;
+                        }
+                        else if (Char.combatHealth < 0){
+                            Layout.setDesText("You lost the fight against the enemy " + Char.Current.scenario.enemy.name + ", and it ran away.");
                         }
                         else {
-                            Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name);
+                            Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name + ".");
                         }
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
@@ -156,6 +163,8 @@ public class Main {
                 else if (Objects.equals(gameState, "Event")) {
                     Layout.setAscText(Art.event);
                     Layout.addDesText("\nEvent");
+                    moveOn = true;
+                    possMove();
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
@@ -320,7 +329,8 @@ public class Main {
             if (Hunter.tUntilMove > 0) {
                 Hunter.tUntilMove -= 1;
                 System.out.println("time in " + Hunter.tUntilMove);
-            } else {
+            }
+            else {
                 Hunter.tUntilMove = 3;
                 Hunter.distanceBehind -= 1;
                 System.out.println("behind by " + Hunter.distanceBehind);
@@ -365,9 +375,10 @@ public class Main {
                         LevelUp = true;
                     }
                     Char.Move(intAction);
-                    waitForInput = false;
                     moveOn = false;
                     Hunter.distanceBehind += 1;
+                    waitForInput = false;
+                    gameState = Char.Current.scenario.Name;
                 }
                 catch(Throwable Error){
                     Layout.setError("Invalid Input");
@@ -412,8 +423,13 @@ public class Main {
                 }
             }
             else if(Objects.equals(gameState, "Event")){
-                Char.eventInput(Layout.textInput.getText());
-                waitForInput = false;
+                if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
+                    Char.eventInput(Layout.textInput.getText());
+                    waitForInput = false;
+                }
+                else{
+                    Layout.setError("Invalid Input");
+                }
             }
 
             Layout.textInput.setText("");

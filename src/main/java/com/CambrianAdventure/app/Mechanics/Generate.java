@@ -33,23 +33,23 @@ public class Generate {
     }
 
     public Scenario GenerateRoom(Integer currentRoom){
-//        List<Integer> rooms = new ArrayList<>(Arrays.asList(0, 1, 2)); //list of possible room types
-//        List<Integer> weightedList = new ArrayList<>();
-//        for (Integer room : rooms) { //create weighted list
-//            if (room != currentRoom){
-//                weightedList.add(room);
-//            }
-//            weightedList.add(room);//make 1 of them
-//        }
-//        Generate output = new Generate(weightedList.size()); //get random number from weighted list
-//        Scenario outputroom = null;
-//        switch (weightedList.get(output.int_random)) {
+        List<Integer> rooms = new ArrayList<>(Arrays.asList(1, 2)); //list of possible room types
+        List<Integer> weightedList = new ArrayList<>();
+        for (Integer room : rooms) { //create weighted list
+            if (room != currentRoom){
+                weightedList.add(room);
+            }
+            weightedList.add(room);//make 1 of them
+        }
+        Generate output = new Generate(weightedList.size()); //get random number from weighted list
+        Scenario outputroom = null;
+        switch (weightedList.get(output.int_random)) {
 //            case 0: outputroom = new Event(); break;
-//            case 1: outputroom = new Puzzle(); break;
-//            case 2: outputroom = new Encounter(); break;
-//            }
-//        return outputroom;
-        return new Puzzle();
+            case 1: outputroom = new Puzzle(); break;
+            case 2: outputroom = new Encounter(); break;
+            }
+        return outputroom;
+//        return new Puzzle();
 
     }
 
