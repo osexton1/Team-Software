@@ -305,15 +305,18 @@ public class Player extends Creature {
     public void Wait() {
         // this will be changing to draining food, and a chance at an encounter happening,
         // thus the trade-off is you might get more food, but you are wasting food by staying still
-//        Random rand = new Random();
-//        int encounter_chance = rand.nextInt(10); // 0-9 is 10 numbers so <3 is 30% of range
-//        // Thinking 30% encounter chance on wait but I'm flexible
-//        if (encounter_chance < 3) {
-//            System.out.println("After a period of waiting, you notice an enemy closing in on you.");
-//            System.out.println("You have no choice but to fight.");
-//            Encounter enemy = new Encounter();
-//        }
-//        this.foodLevel(-3);
+        this.foodLevel(-2);
+        int encounter_chance = new Generate(9).int_random; // 0-9 is 10 numbers so <3 is 30% of range
+        // Thinking 30% encounter chance on wait but I'm flexible
+        if (encounter_chance < 3) {
+            Layout.setError("After a period of waiting, you notice an enemy closing in on you.");
+            Layout.addError("You have no choice but to fight.");
+            Encounter enemy = new Encounter();
+            disToFlee = 2;
+            Current.scenario = enemy;
+            Current.scenario.changeState();
+            Current.LoadRoom();
+        }
         charDisplay();
     }
 
@@ -321,25 +324,26 @@ public class Player extends Creature {
         // 30% chance each to trigger event, puzzle or encounter
         // 10% to just find food
         // No matter the outcome, drains food
-        Random rand = new Random();
-        int inspection_chance = rand.nextInt(10);
+        this.foodLevel(-2);
+        int inspection_chance = new Generate(10).int_random;
         if (inspection_chance > 3 && inspection_chance <= 6) {
-            System.out.println("Your interactions with the environment revealed a puzzle.");
+            Layout.addError("Your interactions with the environment revealed a puzzle.");
             Scenario puzzle = new Puzzle();
-        } else if (inspection_chance  >= 1 && inspection_chance <= 3) {
-            System.out.println("Your inspections drew the attention of a bigger creature.");
-            System.out.println("You will have to fight.");
-            Scenario enemy = new Encounter();
-        } else if (inspection_chance < 1){
-            System.out.println("After inspecting the entire area, you find a small amount of food.");
-            int food_found = rand.nextInt(4);
-            foodLevel(food_found*2);
-            Layout.setError("You started carrying the food you just found.");
-        } else {
-            System.out.println("You triggered an event.");
-            Scenario event = new Event();
+            Current.scenario = puzzle;
+            Current.LoadRoom();
         }
-        this.foodLevel(-3);
+        else if (inspection_chance <= 3){
+            Layout.addError("After inspecting the entire area, you find a small amount of food.");
+            int food_found = new Generate(3, 1).int_random;
+            foodLevel(food_found*2);
+        }
+        else {
+            Layout.addError("You triggered an event.");
+            Scenario event = new Event();
+            Current.scenario = event;
+            Current.LoadRoom();
+        }
+        charDisplay();
     }
 
     public void Hide() {

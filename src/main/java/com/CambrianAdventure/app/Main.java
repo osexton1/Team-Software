@@ -282,7 +282,11 @@ public class Main {
                         break;
                     case 2:
                         hunterMove();
+                        if (!Char.Current.scenario.completed) {
+                            combatChange = true;
+                        }
                         Char.Inspect();
+                        ChangeStates();
                         break;
                     case 3:  //cant eat till enemy defeated?
                         hunterMove();
@@ -296,8 +300,11 @@ public class Main {
                         break;
                     case 4:
                         hunterMove();
+                        if (!Char.Current.scenario.completed) {
+                            combatChange = true;
+                        }
                         Char.Wait();
-                        combatChange = true;
+                        ChangeStates();
                         break;
                     case 5:
                         if (Char.Current.completed || Char.Current.scenario.completed){
