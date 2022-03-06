@@ -59,7 +59,7 @@ public class Main {
                 Layout.addFooterText("5. Spike Damage\n");
                 Layout.addFooterText("6. Armor Level\n");
             }
-            else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
+            else if ((Char.roomCount == Char.Current.length) && Char.Current.scenario.completed) { //end of biome
                 Layout.setDesText("You completed the " + Char.Current.Name);
                 Char.Current.completed = true;
                 if (!moveOn) {
@@ -91,7 +91,7 @@ public class Main {
                             Layout.addDesText("\nTo your horror; there is a Hunter in this area. You could hide or attempt to face it. All your instincts scream: \"RUN\"");
                         }
                         else {
-                            Layout.addDesText("\nThere seems to be a " + Char.Current.scenario.enemy.name + " moving slowly through the area.");
+                            Layout.addDesText("\nThere seems to be a wild " + Char.Current.scenario.enemy.name + " moving slowly through the area.");
                         }
                         possInputs();
                     }
@@ -162,9 +162,34 @@ public class Main {
                 }
                 else if (Objects.equals(gameState, "Event")) {
                     Layout.setAscText(Art.event);
-                    Layout.addDesText("\nEvent");
-                    moveOn = true;
-                    possMove();
+                    int Path = Char.Current.scenario.Path;
+                    String output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path);
+                    if (Char.Current.scenario.Path > 5) {//string splicing
+//                        String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(output.length() - 4, output.length());
+//                        Char.genEveOut(outcome);
+//                        output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(0, output.length() - 5);
+                        Char.Current.scenario.completed = true;
+                        Char.Current.scenario.State = "After";
+                        if (!moveOn) {
+                            possInputs();
+                        } else if (moveOn) {
+                            possMove();
+                        }
+                    } else if (Path == 0) {
+                        Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 1));
+                        Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 2));
+                        int counter = 3;
+                        if (Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3) != "" && Char.playerClass == "Shelled"){
+                            Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3));
+                        }
+                        if (Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4) != "" && Char.playerClass == "Finned"){
+                            Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4));
+                        }
+                        if (Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5) != "" && Char.playerClass == "Spiked"){
+                            Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5));
+                        }
+                    }
+                    Layout.addDesText(output);
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
@@ -173,12 +198,17 @@ public class Main {
                         String outcome = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(output.length()-4, output.length());
                         Char.genPuzOut(outcome);
                         output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(0, output.length()-5);
-                        moveOn = true;
+//                        moveOn = true;
                         Char.Current.scenario.completed = true;
-                        possMove();
+                        Char.Current.scenario.State = "After";
+                        if (!moveOn) {
+                            possInputs();
+                        }
+                        else if(moveOn){
+                            possMove();
+                        }
                     }
-                    Layout.addDesText(output);
-                    if(Char.Current.scenario.Path == 0){
+                    else if(Char.Current.scenario.Path == 0){
                         Layout.addFooterText("\n" + Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+1));
                         Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+2));}
                     else if (Char.Current.scenario.Path == 3){
@@ -190,9 +220,8 @@ public class Main {
                         Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+4));
                     }
 
-//                    Char.Current.scenario.completed = true;
-//                    roomdesc(Char.Current.scenario);
-//                    possInputs();
+                    Layout.addDesText(output);
+
                 }
             }
             waitForInput = true;
@@ -291,6 +320,7 @@ public class Main {
     }
 
     public static void possMove(){
+        Layout.setFooterText("");
         if (Char.Current.completed){
             String output = "Enter a number to move to a new Biome: \n1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
@@ -311,7 +341,7 @@ public class Main {
                 output += "\n3. " + Char.Current.scenario.rightPath.Name;
             }
             output += "";
-            Layout.addFooterText("\n" + output);
+            Layout.setFooterText("\n" + output);
         }
         if (hunterPresent) {
             Char.Current.scenario.middlePath = new Encounter();
@@ -351,8 +381,8 @@ public class Main {
                     int intAction = Integer.parseInt(Action);
                     switch (intAction) {
                         //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1: Char.maxCombatHealth += 2; Char.combatHealth += 2; break;
-                        case 2: Char.maxFood += 2; Char.food += 2; break;
+                        case 1: Char.maxCombatHealth += 3; Char.combatHealth += 3; break;
+                        case 2: Char.maxFood += 3; Char.food += 3; break;
                         case 3: Char.attackDamage += 1; break;
                         case 4: Char.Speed += 1; break;
                         case 5: Char.spikeDamage += 1; break;
@@ -414,21 +444,31 @@ public class Main {
                 waitForInput = false;
             }
             else if(Objects.equals(gameState, "Puzzle")){
-                if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
-                    Char.puzzleInput(Action);
+                if (Objects.equals(Char.Current.scenario.State, "After")){
+                    Inputting(Action);
                     waitForInput = false;
                 }
-                else{
-                    Layout.setError("Invalid Input");
+                else {
+                    if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
+                        Char.puzzleInput(Action);
+                        waitForInput = false;
+                    } else {
+                        Layout.setError("Invalid Input");
+                    }
                 }
             }
             else if(Objects.equals(gameState, "Event")){
-                if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
-                    Char.eventInput(Layout.textInput.getText());
+                if (Objects.equals(Char.Current.scenario.State, "After")){
+                    Inputting(Action);
                     waitForInput = false;
                 }
-                else{
-                    Layout.setError("Invalid Input");
+                else {
+                    if (Objects.equals(Action, "1") || Objects.equals(Action, "2") || Objects.equals(Action, "3")) {
+                        Char.eventInput(Layout.textInput.getText());
+                        waitForInput = false;
+                    } else {
+                        Layout.setError("Invalid Input");
+                    }
                 }
             }
 

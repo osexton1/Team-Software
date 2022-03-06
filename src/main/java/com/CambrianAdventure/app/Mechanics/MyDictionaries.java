@@ -40,7 +40,7 @@ public class MyDictionaries {
 
         public List<String> event01;
         public Hashtable<Integer, List<String>> randdesc;
-        public Hashtable<Integer, String> Events;
+        public Hashtable<Integer, List<String>> Events;
         public Hashtable<Integer, String> Creatures;
         public Hashtable<Integer, String> NumPaths;
         public Hashtable<Integer, List<String>> roomType;
@@ -190,23 +190,23 @@ public class MyDictionaries {
                 puzzleNum.put(3, puzzle03);
                 puzzleNum.put(4, puzzle04);
 
-                Events = new Hashtable<>();
+                Events = new Hashtable<Integer, List<String>>();
                 event01 = new ArrayList<>(Arrays.asList(
-                        "Base Description\n",
+                        "0 Base Description\n",
 
-                        "Option 1 description",
-                        "Option 2 description",
-
-                        "Option Finned description",
-                        "Option Shelled description",
-                        "Option Spiked description",
+                        "1. Option 1 description",
+                        "2. Option 2 description",
+                        "3. Option Shelled description",
+                        "3. Option Finned description",
+                        "3. Option Spiked description",
 
                         "Option 1 outcome",
                         "Option 2 outcome",
-                        "Option Finned outcome",
                         "Option Shelled outcome",
+                        "Option Finned outcome",
                         "Option Spiked outcome"
                 ));
+                Events.put(1, event01);
 
                 Creatures = new Hashtable<>();
                 BBEGpassed = new Hashtable<>();

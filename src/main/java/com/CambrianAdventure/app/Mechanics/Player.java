@@ -26,7 +26,6 @@ public class Player extends Creature {
         this.playerClass = PC;
         if (PC == "Finned") {
             Speed += 1;
-
         }
         else if (PC == "Shelled") {
             Speed -= 1;
@@ -212,9 +211,36 @@ public class Player extends Creature {
             case "FBGM": new Generate().GenBoss();break;
             case "DEAD": health = 0;break;
         }
+        Current.scenario.completed = true;
     }
 
-    public void eventInput(String Action){}
+    public void genEveOut(String out){
+        switch (out){
+            case "GSMF": foodLevel(2);break;
+            case "GBGF": foodLevel(4);break;
+            case "LSMF": foodLevel(-4);break;
+            case "LBGF": foodLevel(-8);break;
+            case "LOHP": health -= 1; break;
+            case "NTHN": break;
+            case "FSMM": new Generate().GenSmall();break;
+            case "FMEM": new Generate().GenLarge();break;
+            case "FBGM": new Generate().GenBoss();break;
+            case "DEAD": health = 0;break;
+        }
+        Current.scenario.completed = true;
+    }
+
+    public void eventInput(String Action){
+        if (Integer.parseInt(Action) < 3) {
+            Current.scenario.Path = Integer.parseInt(Action) + 5;
+        }
+        else{
+            if(playerClass == "Shelled"){Current.scenario.Path = Integer.parseInt(Action) + 5;}
+            else if(playerClass == "Finned"){Current.scenario.Path = Integer.parseInt(Action) + 6;}
+            else if(playerClass == "Spiked"){Current.scenario.Path = Integer.parseInt(Action) + 7;}
+
+        }
+    }
 
     public String combatMap(){
         String output = "\n\n";

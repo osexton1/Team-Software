@@ -16,7 +16,7 @@ public class Environment {
     public Environment(String Description, Integer Type, Integer Length) {
         Name = Description;
         type = Type;
-        length = Length;
+        length = 2;
         scenario = null;
         leftPath = null;
         middlePath = null;
