@@ -169,7 +169,7 @@ public class Main {
                             Layout.setDesText("You avoided the enemy " + Char.Current.scenario.enemy.name + ".");
                             Char.hidden = false;
                         }
-                        else if (Char.combatHealth < 0){
+                        else if (Char.combatHealth <= 0){
                             Layout.setDesText("You lost the fight against the enemy " + Char.Current.scenario.enemy.name + ", and it ran away.");
                         }
                         else {
@@ -191,6 +191,7 @@ public class Main {
                     String output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path);
                     if (Char.Current.scenario.Path > 5) {//string splicing
                         String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(output.length() - 4, output.length());
+                        System.out.println(outcome);
                         Char.genEveOut(outcome);
                         output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(0, output.length() - 5);
                         Char.Current.scenario.completed = true;
@@ -204,13 +205,13 @@ public class Main {
                         Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 1));
                         Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 2));
                         int counter = 3;
-                        if (Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3) != "" && Char.playerClass == "Shelled"){
+                        if ((Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3)) != "" && (Char.playerClass == "Shelled")){
                             Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3));
                         }
-                        if (Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4) != "" && Char.playerClass == "Finned"){
+                        if ((Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4)) != "" && (Char.playerClass == "Finned")){
                             Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4));
                         }
-                        if (Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5) != "" && Char.playerClass == "Spiked"){
+                        if ((Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5) != "") && (Char.playerClass == "Spiked")){
                             Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5));
                         }
                     }
@@ -310,8 +311,10 @@ public class Main {
                         if (!Char.Current.scenario.completed) {
                             combatChange = true;
                         }
-                        Char.Inspect();
-                        ChangeStates();
+                        else {
+                            Char.Inspect();
+                            ChangeStates();
+                        }
                         break;
                     case 3:  //cant eat till enemy defeated?
                         hunterMove();
@@ -328,8 +331,10 @@ public class Main {
                         if (!Char.Current.scenario.completed) {
                             combatChange = true;
                         }
-                        Char.Wait();
-                        ChangeStates();
+                        else {
+                            Char.Wait();
+                            ChangeStates();
+                        }
                         break;
                     case 5:
                         if (Char.Current.completed || Char.Current.scenario.completed){

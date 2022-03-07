@@ -4,6 +4,7 @@ import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.enemies.*;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
 import static com.CambrianAdventure.app.Main.Layout;
+import static com.CambrianAdventure.app.Main.LevelUp;
 
 import java.util.*;
 
@@ -72,6 +73,7 @@ public class Player extends Creature {
             }
             else{
                Layout.setError("Invalid input for movement between rooms");
+               LevelUp = false;
             }
         }
         else {
@@ -99,6 +101,7 @@ public class Player extends Creature {
             }
             else{
                 System.out.println("Invalid input for movement between biomes");
+                LevelUp = false;
             }
         }
         charDisplay();
@@ -204,12 +207,12 @@ public class Player extends Creature {
             case "GBGF": foodLevel(4);break;
             case "LSMF": foodLevel(-4);break;
             case "LBGF": foodLevel(-8);break;
-            case "LOHP": health -= 1; break;
+            case "LOHP": this.health -= 1; charDisplay(); break;
             case "NTHN": break;
             case "FSMM": new Generate().GenSmall();break;
             case "FMEM": new Generate().GenLarge();break;
             case "FBGM": new Generate().GenBoss();break;
-            case "DEAD": health = 0;break;
+            case "DEAD": this.health = 0; charDisplay(); break;
         }
         Current.scenario.completed = true;
     }
@@ -220,7 +223,7 @@ public class Player extends Creature {
             case "GBGF": foodLevel(4);break;
             case "LSMF": foodLevel(-4);break;
             case "LBGF": foodLevel(-8);break;
-            case "LOHP": health -= 1; break;
+            case "LOHP": this.health -= 1; charDisplay(); break;
             case "NTHN": break;
             case "FSMM": new Generate().GenSmall();break;
             case "FMEM": new Generate().GenLarge();break;
@@ -231,8 +234,8 @@ public class Player extends Creature {
                             spikeDamage -= 1;
                             foodLevel(5);
                          } break;
-            case "GSHL": armorLevel += 1; break;
-            case "DEAD": health = 0;break;
+            case "GSHL": this.armorLevel += 1; break;
+            case "DEAD": this.health = 0; charDisplay(); break;
         }
         Current.scenario.completed = true;
     }
@@ -245,7 +248,6 @@ public class Player extends Creature {
             if(playerClass == "Shelled"){Current.scenario.Path = Integer.parseInt(Action) + 5;}
             else if(playerClass == "Finned"){Current.scenario.Path = Integer.parseInt(Action) + 6;}
             else if(playerClass == "Spiked"){Current.scenario.Path = Integer.parseInt(Action) + 7;}
-
         }
     }
 
