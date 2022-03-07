@@ -7,7 +7,7 @@ import com.CambrianAdventure.app.exploration.Scenario;
 public class Event extends Scenario {
     public Event(){
         super(0, "Event");
-        PuzzleNum = new Generate(2,2).int_random;
+        PuzzleNum = new Generate(3,2).int_random;
 //        PuzzleNum = 1;
         Path = 0;
     }

@@ -42,6 +42,7 @@ public class MyDictionaries {
 
         public List<String> event01;
         public List<String> event02;
+        public List<String> event03;
 
         public Hashtable<Integer, List<String>> randdesc;
         public Hashtable<Integer, List<String>> Events;
@@ -249,8 +250,24 @@ public class MyDictionaries {
                         "",
                         "You need food and you're willing to trade anything for it. The master admires your spikes and offers to trade you some of his food stash for a few of your spikes. LSPL"
                 ));
+                event03 = new ArrayList<>(Arrays.asList(
+                        "When you settle down to rest in a nearby cave entrance, a creature comes out and offers a trade. In return for solving it's riddle, it will give you a useful item to boost your armour level. If you fail, it will eat you",
+
+                        "1. You flee immediately",
+                        "2. You attempt to answer the riddle",
+                        "3. You immediately withdraw into your shell",
+                        "",
+                        "3. You quickly prickle up your spikes",
+
+                        "Not leaving your survival to chance, you immediately flee from the cave. Although you feel you could solve any riddle, you don't trust the creature to keep it's word. NTHN",
+                        "You listen to the creature's riddle and when it finishes. you take time to think of the answer. Upon deciding on one, you answer the creature. Incorrectly. DEAD",
+                        "Annoyed by your speed of thought, the creature launches you with a quick whip of it's body. Since you are safely inside your shell, it can't eat you but being smashed against the cave walls still hurts. LOHP",
+                        "",
+                        "Impressed by your bravery, the creature decides to reward you despite the fact you didn't answer it's riddle. Your courage stands to you this time, and the creature enables you to take more damage for it. GSHL"
+                ));
                 Events.put(1, event01);
                 Events.put(2, event02);
+                Events.put(3, event03);
 
                 Creatures = new Hashtable<>();
                 BBEGpassed = new Hashtable<>();

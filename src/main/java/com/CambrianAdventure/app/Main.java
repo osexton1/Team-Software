@@ -190,9 +190,9 @@ public class Main {
                     int Path = Char.Current.scenario.Path;
                     String output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path);
                     if (Char.Current.scenario.Path > 5) {//string splicing
-//                        String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(output.length() - 4, output.length());
-//                        Char.genEveOut(outcome);
-//                        output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(0, output.length() - 5);
+                        String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(output.length() - 4, output.length());
+                        Char.genEveOut(outcome);
+                        output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(0, output.length() - 5);
                         Char.Current.scenario.completed = true;
                         Char.Current.scenario.State = "After";
                         if (!moveOn) {

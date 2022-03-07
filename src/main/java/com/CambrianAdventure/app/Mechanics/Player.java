@@ -231,6 +231,7 @@ public class Player extends Creature {
                             spikeDamage -= 1;
                             foodLevel(5);
                          } break;
+            case "GSHL": armorLevel += 1; break;
             case "DEAD": health = 0;break;
         }
         Current.scenario.completed = true;
