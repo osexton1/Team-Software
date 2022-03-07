@@ -46,7 +46,7 @@ public class Main {
                 Layout.setAscText(Art.death);
                 Layout.setDesText("You ran out of food and starved to death\n");
                 score = (Char.globalRoomCount * 50) + (Char.evolutionLevel * 200);
-                Layout.addDesText("Your score was: " + score);
+                Layout.addDesText("Your score was: " + score + "\n");
                 try {
                     File scoreFile = new File("HighScore.txt");
                     if (scoreFile.createNewFile()) {
@@ -61,6 +61,9 @@ public class Main {
                                 FileWriter scoreWriter = new FileWriter("HighScore.txt");
                                 scoreWriter.write( String.valueOf(score));
                                 scoreWriter.close();
+                            } else {
+                                Layout.addDesText("You did not beat the high score\n");
+                                Layout.addDesText("The high score is: " + highScore);
                             }
                         }
                     }
