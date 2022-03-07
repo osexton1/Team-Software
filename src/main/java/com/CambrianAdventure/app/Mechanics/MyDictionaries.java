@@ -39,6 +39,8 @@ public class MyDictionaries {
          */
 
         public List<String> event01;
+        public List<String> event02;
+
         public Hashtable<Integer, List<String>> randdesc;
         public Hashtable<Integer, List<String>> Events;
         public Hashtable<Integer, String> Creatures;
@@ -190,6 +192,9 @@ public class MyDictionaries {
                 puzzleNum.put(3, puzzle03);
                 puzzleNum.put(4, puzzle04);
 
+                // LSPL - Lose 1 Spike Level, Gain 5 food
+                // NTHN - Nothing
+
                 Events = new Hashtable<Integer, List<String>>();
                 event01 = new ArrayList<>(Arrays.asList(
                         "0 Base Description\n",
@@ -206,7 +211,24 @@ public class MyDictionaries {
                         "Option Finned outcome",
                         "Option Spiked outcome"
                 ));
+
+                event02 = new ArrayList<>(Arrays.asList(
+                        "After swimming for what seems like an eternity, you notice an unusual arrangement of rocks in the distance. As you draw closer, you notice many creatures coming near and leaving the rocks. Your interest piqued, you draw nearer and discover a grotto.",
+
+                        "1. Browse the wares",
+                        "2. Leave the grotto immediately",
+                        "",
+                        "",
+                        "3. Trade some of your spikes for some food",
+
+                        "Upon examination of the master's wares you discover none of them are of any use to you. They are mostly knickknacks and the master is hoping to trick people into giving up valuable resources for his wares. NTHN",
+                        "Having no use for the few wares you saw upon your cursory glance, you leave immediately. Something doesn't feel right about that place and you want no part of it. NTHN",
+                        "",
+                        "",
+                        "You need food and you're willing to trade anything for it. The master admires your spikes and offers to trade you some of his food stash for a few of your spikes. LSPL"
+                ));
                 Events.put(1, event01);
+                Events.put(2, event02);
 
                 Creatures = new Hashtable<>();
                 BBEGpassed = new Hashtable<>();

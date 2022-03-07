@@ -225,6 +225,12 @@ public class Player extends Creature {
             case "FSMM": new Generate().GenSmall();break;
             case "FMEM": new Generate().GenLarge();break;
             case "FBGM": new Generate().GenBoss();break;
+            case "LSPL": if ((spikeDamage - 1) < 0) {
+                            break;
+                         } else {
+                            spikeDamage -= 1;
+                            foodLevel(5);
+                         } break;
             case "DEAD": health = 0;break;
         }
         Current.scenario.completed = true;

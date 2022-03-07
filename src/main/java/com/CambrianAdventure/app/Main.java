@@ -6,9 +6,13 @@ import com.CambrianAdventure.app.enemies.Anomalocaris;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.exploration.Scenarios.Encounter;
 
+import java.io.File;
+import java.io.FileWriter;
+
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Main {
@@ -41,8 +45,26 @@ public class Main {
                 Char.charDisplay();
                 Layout.setAscText(Art.death);
                 Layout.setDesText("You ran out of food and starved to death\n");
-                score = (Char.globalRoomCount * 5) + (Char.evolutionLevel * 20);
+                score = (Char.globalRoomCount * 50) + (Char.evolutionLevel * 200);
                 Layout.addDesText("Your score was: " + score);
+                try {
+                    File scoreFile = new File("HighScore.txt");
+                    if (scoreFile.createNewFile()) {
+                        FileWriter scoreWriter = new FileWriter("HighScore.txt");
+                        scoreWriter.write( String.valueOf(score));
+                        scoreWriter.close();
+                    } else {
+                        Scanner scoreReader = new Scanner(scoreFile);
+                        while (scoreReader.hasNextLine()) {
+                            int highScore = Integer.parseInt(scoreReader.nextLine());
+                            if (score > highScore) {
+                                FileWriter scoreWriter = new FileWriter("HighScore.txt");
+                                scoreWriter.write( String.valueOf(score));
+                                scoreWriter.close();
+                            }
+                        }
+                    }
+                } catch (IOException e) {}
                 break;
             }
             else if (Char.Current.scenario == null){
