@@ -29,6 +29,8 @@ public class MyDictionaries {
         public List<String> puzzle02;
         public List<String> puzzle03;
         public List<String> puzzle04;
+        public List<String> puzzle05;
+
         /**
          * we'll probably change these to a short desc as the name but for now numbers work
          * all of the puzzle lists will have 7 values
@@ -186,11 +188,31 @@ public class MyDictionaries {
                         "3-5: The marker on the rock indicates you've visited this area before. Since you normally travelled to one side of the landmarks you were identifying, you decide to travel to the other. After swimming for a short period of time, you happen upon a cave. A deep rumbling sound comes from the cave and a long, strong tentacle grabs you. DEAD",
                         "3-6: Upon closer inspection of the rock, you realise you haven't actually come across it before. Armed with this knowledge, you travel the opposite direction of where the marking suggested you should go. As you swim away from the rock, you feel water rushing past and you can sense the anger of the creature that caused it. You dodged a bullet. NTHN"
                 ));
+                puzzle05 = new ArrayList<>(Arrays.asList(
+                        "Surrounded by rock walls you notice the area getting darker and darker. As you travel further into the abyss you start to see signs you're in a maze. It is essential that you get out of the maze as quickly as possible. You are able to sense an aggressive presence somewhere in here with you\n",
+
+                        "1. You pick a wall and hug it the entire time as you traverse the maze (4-1)\n",
+                        "2. You try to backtrack the way you came (4-2)",
+
+                        "4-1: As you travel further into the depths, the aggressive presence seems to draw closer to you. At one point you feel it right on top of you and you are thankful for the walls and roof keeping it away from you. Although you can't see it, it terrifies you\n",
+                        "4-2: Backtracking as you have leads you closer to danger. The carcasses of creature past litter the corridors. The aggressive presence appears to have sensed your panicked flailing as you try to find where you came from. It is slowly but surely drawing closer and closer to you\n",
+
+                        "1. Continue hugging the wall as you have been doing (4-3)\n",
+                        "2. Break from the wall and take a risk to get out faster (4-4)\n",
+                        "1. Swim faster (4-5)\n",
+                        "2. Hide (4-6)\n",
+
+                        "4-3: Hugging the wall as you have been does eventually get you out of the maze. This tried and true method has helped you escape and you've retained most of you sanity, despite the presence of the creature, whatever it was. You are rather hungry now though. LBGF",
+                        "4-4: Breaking from the wall, although counterintuitive does get you out of the maze faster than if you had continued hugging it. Shortly after breaking from the wall, you feel a cool but consistent current flowing against you. Following it, you reach the exit of the maze. LSMF",
+                        "4-5: Your increased movement speed causes the monster lurking behind you to also speed up. It being much bigger than you, it easily outpaces your frantic attempts to escape. A gaping jaw full of shattered glass swallows you whole. DEAD",
+                        "4-6: Immediately finding a cubby to hide yourself in, you shiver in fear. A loud thud reverberates through the corridor as the creature smashes the walls surrounding the cubby entrance trying to reach you. It eventually leaves, and you finally escape the maze. LOHP"
+                ));
 
                 puzzleNum.put(1, puzzle01);
                 puzzleNum.put(2, puzzle02);
                 puzzleNum.put(3, puzzle03);
                 puzzleNum.put(4, puzzle04);
+                puzzleNum.put(5, puzzle05);
 
                 // LSPL - Lose 1 Spike Level, Gain 5 food
                 // NTHN - Nothing
