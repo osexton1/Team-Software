@@ -217,6 +217,7 @@ public class MyDictionaries {
 
                 // LSPL - Lose 1 Spike Level, Gain 5 food
                 // NTHN - Nothing
+                // GSHL - Gain 1 Shell Level
 
                 Events = new Hashtable<Integer, List<String>>();
                 event01 = new ArrayList<>(Arrays.asList(
