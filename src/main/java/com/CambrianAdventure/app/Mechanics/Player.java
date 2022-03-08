@@ -148,7 +148,7 @@ public class Player extends Creature {
                 }
             }
             else{
-                System.out.println("Invalid input for movement between biomes");
+                Layout.setError("Invalid input for movement between biomes");
                 LevelUp = false;
             }
         }
@@ -432,7 +432,7 @@ public class Player extends Creature {
         }
         this.food += foodChange;
         if (this.food <= 0) {
-            this.food = 0;
+            this.food = 3;
             this.health -= 1;
             Layout.addError("You desperately need to find food. You are starving.\nYou now have " + health + " health remaining.\n");
         }
@@ -458,8 +458,6 @@ public class Player extends Creature {
         int encounter_chance = new Generate(9).int_random; // 0-9 is 10 numbers so <3 is 30% of range
         // Thinking 30% encounter chance on wait but I'm flexible
         if (encounter_chance < 3) {
-            Layout.setError("After a period of waiting, you notice an enemy closing in on you.");
-            Layout.addError("You have no choice but to fight.");
             Encounter enemy = new Encounter();
             enemy.numPaths = Current.scenario.numPaths;
             enemy.leftPath = Current.scenario.leftPath;
@@ -468,6 +466,8 @@ public class Player extends Creature {
             disToFlee = 2;
             Current.scenario = enemy;
             Current.scenario.State = "During";
+            Layout.setError("After a period of waiting, you notice an enemy closing in on you.");
+            Layout.addError("You have no choice but to fight.");
         }
         charDisplay();
     }
@@ -479,28 +479,33 @@ public class Player extends Creature {
         this.foodLevel(-2);
         int inspection_chance = new Generate(10).int_random;
         if (inspection_chance > 3 && inspection_chance <= 6) {
-            Layout.addError("Your interactions with the environment revealed a puzzle.");
             Scenario puzzle = new Puzzle();
             Current.scenario = puzzle;
             Current.LoadRoom();
+            Layout.addError("Your interactions with the environment revealed a puzzle.");
         }
         else if (inspection_chance <= 3){
-            Layout.addError("After inspecting the entire area, you find a small amount of food.");
             int food_found = new Generate(3, 1).int_random;
             foodLevel(food_found*2);
+            Layout.addError("After inspecting the entire area, you find a small amount of food.");
         }
         else {
-            Layout.addError("You triggered an event.");
             Scenario event = new Event();
             Current.scenario = event;
             Current.LoadRoom();
+            Layout.addError("You triggered an event.");
         }
         charDisplay();
     }
 
     public void Hide() {
-        Layout.addError("You quickly find a rock to hide from the creature.\n");
-        this.hidden = true;
-        this.foodLevel(-2);
+        if (Current.scenario.completed) {
+            this.hidden = true;
+            this.foodLevel(-2);
+            Layout.addError("You quickly find a rock to hide from the creature.\n");
+        }
+        else{
+            Layout.addError("No Violent creatures to hide from\n");
+        }
     }
 }

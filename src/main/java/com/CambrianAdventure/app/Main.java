@@ -112,9 +112,6 @@ public class Main {
                         if (Char.roomCount != 1) {
                             Layout.setDesText("");
                         }
-                        if (hunterPresent) {
-                            System.out.println("Hunter");
-                        }
                         Char.disToFlee = 2;
                         Char.combatHealth = Char.maxCombatHealth;
                         roomdesc(Char.Current.scenario);
@@ -399,15 +396,12 @@ public class Main {
         if (Hunter.distanceBehind > 0) {
             if (Hunter.tUntilMove > 0) {
                 Hunter.tUntilMove -= 1;
-                System.out.println("time in " + Hunter.tUntilMove);
             }
             else {
                 Hunter.tUntilMove = 3;
                 Hunter.distanceBehind -= 1;
-                System.out.println("behind by " + Hunter.distanceBehind);
             }
         } else {
-            System.out.println("hunter is next room");
             hunterPresent = true;
         }
     }
