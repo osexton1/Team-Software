@@ -15,8 +15,7 @@ public class Scenario {
     public Scenario leftPath;
     public Integer Path;
     public Creature enemy;
-    public Integer path1;
-    public Integer path2;
+    public Integer PuzzleNum;
 
     public boolean BBEGPresent;
     public boolean BBEGPassed;
@@ -38,6 +37,7 @@ public class Scenario {
         middlePath = null;
         rightPath = null;
         leftPath = null;
+        Path = 0;
     }
 
     @Override
@@ -54,11 +54,9 @@ public class Scenario {
     public void changeState(){
         if(Objects.equals(State, "Pre")){
             State = "During";
-            System.out.println("During");
         }
         else{
             State = "After";
-            System.out.println("After");
         }
 
     }

@@ -22,6 +22,7 @@ public class Creature {
     public Integer spikeDamage = 0;
     public Integer attackDamage = 5;
     public Integer reach = 1;
+    public String description;
     public Integer movementDistance = 1;
     public Integer Aggression;
 
@@ -31,17 +32,16 @@ public class Creature {
         combatHealth = 20;
         food = 20;
         disToFlee = 2;
-        Aggression = combatHealth + food + personality.Bonus;
     }
 
-    public Creature(String Name, Persona Personality){
+    public Creature(String Name, int maxComHealth){
         name = Name;
-        health = 3;
-        combatHealth = new Generate(20, 15).int_random;;
+        combatHealth = maxComHealth;
         food = new Generate(20, 15).int_random;
-        personality = Personality;
+        personality = new Generate().GeneratePersonal();
         disPlay = new Generate(5, 2).int_random;
         disToFlee = 2;
+        Aggression = combatHealth + food + personality.Bonus;
     }
     //combat stuff goes here
     public void attack(Creature attacker, Creature target){
@@ -53,7 +53,6 @@ public class Creature {
             distance = attacker.disPlay;
         }
         if (distance < attacker.reach){
-            System.out.println("adjacent, hit");
             int damage = attacker.attackDamage - target.armorLevel;
             if (damage > 0) {
                 target.combatHealth -= (damage);
@@ -62,11 +61,16 @@ public class Creature {
                 }
             }
             if (target.combatHealth <= 0){
-                System.out.println("Murder");
+                Layout.setError("You have killed the Enemy");
             }
         }
         else{
-            System.out.println("Whiff");
+            if (name == "Player") {
+                Layout.addError("You missed");
+            }
+            else{
+                Layout.addError("The Enemy missed");
+            }
         }
     }
 
@@ -74,11 +78,11 @@ public class Creature {
         Integer threatRand = new Generate(3).int_random;
         switch(threatRand){
             case 0: Aggression += 20;
-                    Layout.setError("That made them mad!");
+                    Layout.setError("That made them mad!"); break;
             case 1: Aggression += 10;
-                    Layout.setError("They attempt to threaten you back!");
+                    Layout.setError("They attempt to threaten you back!"); break;
             case 2: Aggression -= 25;
-                    Layout.setError("The creature cowers for a moment!");
+                    Layout.setError("The creature cowers for a moment!"); break;
         }
 
     }
@@ -89,7 +93,7 @@ public class Creature {
         String output = "";
         // 50 - 30 hard focus attack
         // 29 - 15 coinflip based on personality
-        // 14 - -9 flee
+        // 14 - 9 flee
         if (Aggression >= 30) {
             if (this.disPlay >= this.reach) {
                 output = "Advance";
@@ -140,11 +144,10 @@ public class Creature {
                 this.disPlay -= 1;
             }
             else{
-                System.out.println("The " + this.name + " bumped into you");
+                Layout.addError("The " + this.name + " bumped into you");
             }
         }
         else if (Objects.equals(Action, "Attack")){
-            System.out.println("CPU Attack");
             //attack
             attack(this, Player);
             Char.charDisplay();
@@ -157,12 +160,18 @@ public class Creature {
             }
             else{
                 this.combatHealth = 0;
-                System.out.println("CPU Leave the battlefield");
             }
         }
     }
-    public void comInspect(){
-        Layout.setError("You try to gather the mentality of the enemy in front of you.");
+    public void comInspect(Creature enemy){
+        String output = "The creature seems to";
+        String sep = "";
+        if (enemy.spikeDamage > 0 ){ output += " have spikes"; sep = ", and";}
+        if (enemy.armorLevel > 0 ){ output += sep + " have a shell"; sep = ", and";}
+        if (enemy.movementDistance > 1 ){ output += sep + " have extra fins"; sep = ", and";}
+        if (enemy.reach > 1 ){ output += sep + " have a long appendage"; sep = ", and";}
+        if (enemy.attackDamage > 5 ){ output += sep + " have big teeth"; sep = ", and";}
+        Layout.setError(output + ".");
     }
 
     public void comWait(){

@@ -2,16 +2,24 @@ package com.CambrianAdventure.app;
 
 import com.CambrianAdventure.app.Mechanics.*;
 import com.CambrianAdventure.app.Mechanics.Environments.*;
+import com.CambrianAdventure.app.enemies.Anomalocaris;
 import com.CambrianAdventure.app.exploration.Scenario;
+import com.CambrianAdventure.app.exploration.Scenarios.Encounter;
+
+import java.io.File;
+import java.io.FileWriter;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Main {
     public static MyDictionaries Dict;
     public static Player Char;
+    public static Anomalocaris Hunter;
+    public static boolean hunterPresent;
     public static Art Art;
     public static String gameState = "Intro";
     public static Layout Layout;
@@ -19,17 +27,49 @@ public class Main {
     public static boolean waitForInput;
     public static boolean combatChange;
     public static boolean moveOn;
+    public static int score = 0;
+    public static ActionListener Listener;
+    public static boolean FirstFight = true;
+
     public static void main(String[] args) throws IOException, InterruptedException {
         setup();
         while (true) {
             while (waitForInput) {
                 Thread.sleep(100);
             }
+            Layout.setDesText("");
             Layout.setFooterText("");
-            biomechangeDesc(Char.Current);
+            if (Char.roomCount == 1) {
+                biomechangeDesc(Char.Current);
+            }
             if (Char.health <= 0) {
+                Char.charDisplay();
+                Layout.textInput.removeActionListener(Listener);
                 Layout.setAscText(Art.death);
-                Layout.setDesText("R.I.P.");
+                Layout.setDesText("You ran out of food and starved to death\n");
+                score = (Char.globalRoomCount * 50) + (Char.evolutionLevel * 200);
+                Layout.addDesText("Your score was: " + score + "\n");
+                try {
+                    File scoreFile = new File("HighScore.txt");
+                    if (scoreFile.createNewFile()) {
+                        FileWriter scoreWriter = new FileWriter("HighScore.txt");
+                        scoreWriter.write( String.valueOf(score));
+                        scoreWriter.close();
+                    } else {
+                        Scanner scoreReader = new Scanner(scoreFile);
+                        while (scoreReader.hasNextLine()) {
+                            int highScore = Integer.parseInt(scoreReader.nextLine());
+                            if (score > highScore) {
+                                FileWriter scoreWriter = new FileWriter("HighScore.txt");
+                                scoreWriter.write( String.valueOf(score));
+                                scoreWriter.close();
+                            } else {
+                                Layout.addDesText("You did not beat the high score\n");
+                                Layout.addDesText("The high score is: " + highScore);
+                            }
+                        }
+                    }
+                } catch (IOException e) {}
                 break;
             }
             else if (Char.Current.scenario == null){
@@ -46,10 +86,11 @@ public class Main {
                 Layout.addFooterText("5. Spike Damage\n");
                 Layout.addFooterText("6. Armor Level\n");
             }
-            else if (Objects.equals(Char.roomCount, Char.Current.length) && Char.Current.scenario.completed) { //end of biome
-                Layout.addDesText("You completed the " + Char.Current.Name);
+            else if ((Char.roomCount == Char.Current.length) && Char.Current.scenario.completed) { //end of biome
+                Layout.setDesText("You completed the " + Char.Current.Name);
                 Char.Current.completed = true;
                 if (!moveOn) {
+                    hunterMove();
                     possInputs();
                 }
                 else if(moveOn){
@@ -57,30 +98,97 @@ public class Main {
                 }
             }
             else {
-                if (Char.Current.scenario.Name == "Encounter") {
-                    Layout.setAscText(Art.monster);
+                if (Objects.equals(Char.Current.scenario.Name, "Encounter")) {
+                    if (hunterPresent) {
+                        Char.Current.scenario.enemy = Hunter;
+                    }
+                    if (Char.Current.scenario.enemy.name == "Hymenocaris") {
+                        Layout.setAscText(Art.hymenocaris);
+                    } else {
+                        Layout.setAscText(Art.monster);
+                    }
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
+                        Char.hidden = false;
+                        if (Char.roomCount != 1) {
+                            Layout.setDesText("");
+                        }
+                        if (hunterPresent) {
+                            System.out.println("Hunter");
+                        }
                         Char.disToFlee = 2;
                         Char.combatHealth = Char.maxCombatHealth;
                         roomdesc(Char.Current.scenario);
                         Layout.addDesText("\n" + Dict.eventEncounter.get(0));
+                        if (Char.Current.scenario.enemy.name.equals("Hunter")) {
+                            Layout.addDesText("\nTo your horror; there is a Hunter in this area. You could hide or attempt to face it. All your instincts scream: \"RUN\"");
+                        }
+                        else {
+                            Layout.addDesText("\nThere seems to be a wild " + Char.Current.scenario.enemy.name + " moving slowly through the area.");
+                        }
                         possInputs();
                     }
                     else if (Objects.equals(Char.Current.scenario.State, "During")) {
+                        if (hunterPresent) {
+                            hunterPresent = false;
+                            Hunter.combatHealth = 120;
+                            Hunter.tUntilMove = 3;
+                            Hunter.distanceBehind = 2;
+                        }
                         //during combat
                         //enemy description probably needed
-                        roomdesc(Char.Current.scenario);
+//                        roomdesc(Char.Current.scenario);
+                        String output;
+                        if (Char.Current.scenario.enemy.name.equals("Hunter")) {
+                            output = "Your eyes lock with the Hunter's. There is no escape.";
+                        }
+                        else {
+                            output = "The " + Char.Current.scenario.enemy.name + " turns towards you and locks eyes with you.";
+                        }
+                        switch(Char.Current.scenario.enemy.personality.Name){
+                            case "Rabid":
+                                if (Char.Current.scenario.enemy.name.equals("Hunter")) {
+                                    output += "\nThe Hunter exists only to kill. It will not retreat.";
+                                }
+                                else {
+                                    output += "\nIt seems very aggressive.\n";
+                                }
+                                break;
+                            case "Brawny": output += "\nIt seems slightly aggressive towards you.\n"; break;
+                            case "Neutral": output += "\nIt seems indecisive towards fighting you.\n"; break;
+                            case "Shy": output += "\nIt seems sheepish.\n"; break;
+                            case "Fearful": output += "\nIt seems avoidant.\n"; break;
+                        }
+                        Layout.setDesText(output);
+                        Layout.addDesText(Char.Current.scenario.enemy.description);
                         Layout.addDesText(Char.combatMap());
                         Layout.setFooterText("\n\n1. Inspect the enemy\n");
                         Layout.addFooterText("2. Advance towards the enemy\n");
                         Layout.addFooterText("3. Retreat away from the enemy\n");
                         Layout.addFooterText("4. Wait for the enemy to do something\n");
                         Layout.addFooterText("5. Attack the spot in front of you");
+
+                        if (FirstFight){
+                            Layout.tutorial();
+                            FirstFight = false;
+                        }
 //                        Layout.addDesText("\n" + Char.Current.scenario.enemy);
                     }
                     else {
-                        System.out.println("Move on");
-                        Layout.addDesText("You defeated the enemy");
+                        if (Char.hidden){
+                            Layout.setDesText("You avoided the enemy " + Char.Current.scenario.enemy.name + ".");
+                            if ((hunterPresent) && (Char.Current.scenario.enemy.name == "Hunter")) {
+                                hunterPresent = false;
+                                Hunter.combatHealth = 120;
+                                Hunter.tUntilMove = 3;
+                                Hunter.distanceBehind = 2;
+                            }
+                        }
+                        else if (Char.combatHealth <= 0){
+                            Layout.setDesText("You lost the fight against the enemy " + Char.Current.scenario.enemy.name + ", and it ran away.");
+                        }
+                        else {
+                            Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name + ".");
+                        }
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
                         Char.charDisplay();
                         if (!moveOn) {
@@ -93,42 +201,80 @@ public class Main {
                 }
                 else if (Objects.equals(gameState, "Event")) {
                     Layout.setAscText(Art.event);
-                    Layout.addDesText("\nEvent");
+                    int Path = Char.Current.scenario.Path;
+                    String output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path);
+                    if (Char.Current.scenario.Path > 5) {//string splicing
+                        output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(0, output.length() - 5);
+                        if (!moveOn) {
+                            possInputs();
+                        } else if (moveOn) {
+                            possMove();
+                        }
+                    } else if (Path == 0) {
+                        Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 1));
+                        Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 2));
+                        int counter = 3;
+                        if ((Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3)) != "" && (Char.playerClass == "Shelled")){
+                            Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 3));
+                        }
+                        if ((Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4)) != "" && (Char.playerClass == "Finned")){
+                            Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 4));
+                        }
+                        if ((Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5) != "") && (Char.playerClass == "Spiked")){
+                            Layout.addFooterText("\n" + Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path + 5));
+                        }
+                    }
+                    Layout.addDesText(output);
                 }
                 else if (Objects.equals(gameState, "Puzzle")) {
                     Layout.setAscText(Art.puzzle);
-                    Layout.addDesText("\nPuzzle");
-                    Layout.addDesText("\n" + Dict.puzzleNum.get(1).get(Char.Current.scenario.Path));
-//                    Char.Current.scenario.completed = true;
-//                    roomdesc(Char.Current.scenario);
-//                    possInputs();
+                    String output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path);
+                    if(Char.Current.scenario.Path > 8){//string splicing
+                        output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(0, output.length()-5);
+                        if (!moveOn) {
+                            possInputs();
+                        }
+                        else if(moveOn){
+                            possMove();
+                        }
+                    }
+                    else if(Char.Current.scenario.Path == 0){
+                        Layout.addFooterText("\n" + Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+1));
+                        Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+2));}
+                    else if (Char.Current.scenario.Path == 3){
+                        Layout.addFooterText("\n" +Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+2));
+                        Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+3));
+                    }
+                    else if (Char.Current.scenario.Path == 4) {
+                        Layout.addFooterText("\n" +Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+3));
+                        Layout.addFooterText(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path+4));
+                    }
+
+                    Layout.addDesText(output);
+
                 }
             }
             waitForInput = true;
         }
     }
 
-
-
     public static void biomechangeDesc(Environment biome) {
-        Layout.setDesText(Dict.roomType.get(0).get(biome.type));
+        Layout.setDesText(Dict.roomType.get(0).get(biome.type)+ "\n\n");
     }
 
-    //    note that it may not be necessary to split these methods. I'm just doing it this way at the moment
-//    because that fits better with how I made the hashtables.
     public static void roomdesc(Scenario room) {
         //random descriptor
         if (room.Description == null) {
             room.Description = Dict.randdesc.get(Char.Current.type).get(new Generate(2).int_random);
         }
-        Layout.addDesText("\n" + room.Description); //Used for Hashtable
+        Layout.addDesText(room.Description); //Used for Hashtable
     }
 
     public static void possInputs(){
-        String printer = "\n1. Hide from possible violent enemies\n 2. Eat food from the room \n3. Inspect the surrounding area\n 4. Wait for something to happen";
+        String printer = "\n1. Hide from possible violent enemies\n2. Inspect the surrounding area\n3. Eat food from the room\n4. Wait for something to happen";
 
         if (Char.Current.completed || Char.Current.scenario.completed){
-            printer += "\n 5. Move Onward ";
+            printer += "\n5. Move Onward ";
         }
         Layout.setFooterText("\n" + printer);
 
@@ -154,25 +300,49 @@ public class Main {
         try {
             if (!input.equals("") && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 5) {
                 int inputting = Integer.parseInt(input);
-                Layout.setError("Option: " + inputting + ". " + " picked");
                 switch (inputting) {
                     case 1:
+                        hunterMove();
                         Char.Hide();
+                        Char.Current.scenario.foodAmount = 0;
+                        Char.Current.scenario.foodGen = false;
+                        Char.Current.scenario.changeState();
                         combatChange = true;
+                        Char.Current.scenario.completed = true;
                         break;
                     case 2:
-                        Char.Eat();
+                        hunterMove();
+                        if (!Char.Current.scenario.completed) {
+                            combatChange = true;
+                        }
+                        else {
+                            Char.Inspect();
+                            ChangeStates();
+                        }
                         break;
-                    case 3:
-                        Char.Inspect();
-                        combatChange = true;
+                    case 3:  //cant eat till enemy defeated?
+                        hunterMove();
+                        if(!Char.Current.scenario.completed) {
+                            combatChange = true;
+                            Layout.setError("The enemy attacked before you could eat the food");
+                        }
+                        else {
+                            Char.Eat();
+                        }
                         break;
                     case 4:
-                        Char.Wait();
-                        combatChange = true;
+                        hunterMove();
+                        if (!Char.Current.scenario.completed) {
+                            combatChange = true;
+                        }
+                        else {
+                            Char.Wait();
+                            ChangeStates();
+                        }
                         break;
                     case 5:
                         if (Char.Current.completed || Char.Current.scenario.completed){
+                            hunterMove();
                             moveOn = true;
                         }
                         else{
@@ -191,13 +361,23 @@ public class Main {
     }
 
     public static void possMove(){
+        Layout.setFooterText("");
+        if (hunterPresent) {
+            Char.Current.scenario.middlePath = new Encounter();
+            if (Char.Current.scenario.leftPath != null) {
+                Char.Current.scenario.leftPath = new Encounter();
+            }
+            if (Char.Current.scenario.rightPath != null) {
+                Char.Current.scenario.rightPath = new Encounter();
+            }
+        }
         if (Char.Current.completed){
             String output = "Enter a number to move to a new Biome: \n1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
-                output += "\n 2. " + Char.Current.leftPath.Name;
+                output += "\n2. " + Char.Current.leftPath.Name;
             }
             if (Char.Current.rightPath != null) {
-                output += "\n 3. " + Char.Current.rightPath.Name;
+                output += "\n3. " + Char.Current.rightPath.Name;
             }
             output += "";
             Layout.setFooterText("\n" + output);
@@ -211,40 +391,67 @@ public class Main {
                 output += "\n3. " + Char.Current.scenario.rightPath.Name;
             }
             output += "";
-            Layout.addFooterText("\n" + output);
+            Layout.setFooterText("\n" + output);
+        }
+    }
+
+    public static void hunterMove() {
+        if (Hunter.distanceBehind > 0) {
+            if (Hunter.tUntilMove > 0) {
+                Hunter.tUntilMove -= 1;
+                System.out.println("time in " + Hunter.tUntilMove);
+            }
+            else {
+                Hunter.tUntilMove = 3;
+                Hunter.distanceBehind -= 1;
+                System.out.println("behind by " + Hunter.distanceBehind);
+            }
+        } else {
+            System.out.println("hunter is next room");
+            hunterPresent = true;
         }
     }
 
     public static ActionListener InputListener(){
-        return e -> {
+        Listener = e -> {
             Layout.setError("");
             String Action = Layout.textInput.getText();
             if(LevelUp){
                 try {
                     int intAction = Integer.parseInt(Action);
-                    switch (intAction) {
-                        //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1:
-                            Char.combatHealth += 1;
-                            break;
-                        case 2:
-                            Char.maxFood += 1;
-                            break;
-                        case 3:
-                            Char.attackDamage += 1;
-                            break;
-                        case 4:
-                            Char.Speed += 1;
-                            break;
-                        case 5:
-                            Char.spikeDamage += 1;
-                            break;
-                        case 6:
-                            Char.armorLevel += 1;
-                            break;
+                    if (intAction > 0 && intAction < 7) {
+                        switch (intAction) {
+                            //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
+                            case 1:
+                                Char.maxCombatHealth += 3;
+                                Char.combatHealth += 3;
+                                break;
+                            case 2:
+                                Char.maxFood += 3;
+                                Char.food += 3;
+                                break;
+                            case 3:
+                                Char.attackDamage += 1;
+                                break;
+                            case 4:
+                                Char.Speed += 1;
+                                break;
+                            case 5:
+                                Char.spikeDamage += 1;
+                                break;
+                            case 6:
+                                Char.armorLevel += 1;
+                                break;
+                        }
+                        Char.charDisplay();
+                        Char.evolutionLevel += 1;
+                        Layout.setFooterText("");
+                        waitForInput = false;
+                        LevelUp = false;
                     }
-                    Char.evolutionLevel += 1;
-                    LevelUp = false;
+                    else{
+                        Layout.setError("Invalid Input for Level up");
+                    }
                 }
                 catch(Throwable Error){
                     Layout.setError("Invalid Input");
@@ -257,19 +464,19 @@ public class Main {
                         LevelUp = true;
                     }
                     Char.Move(intAction);
-                    waitForInput = false;
                     moveOn = false;
-
+                    Hunter.distanceBehind += 1;
+                    waitForInput = false;
+                    gameState = Char.Current.scenario.Name;
                 }
                 catch(Throwable Error){
-                    System.out.println("please");
+                    Layout.setError("Invalid Input");
                 }
             }
             else if (Objects.equals(gameState, "Intro")) {
                 String playerClass = Intro(Action);
                 if (!playerClass.equals("Invalid Input")){
                     Char.setPlayerClass(playerClass);
-                    Layout.err.setText("Option: " + Action + ", " + playerClass + " picked");
                     ChangeStates();
                     Char.charDisplay();
                     waitForInput = false;
@@ -296,28 +503,65 @@ public class Main {
                 waitForInput = false;
             }
             else if(Objects.equals(gameState, "Puzzle")){
-                if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
-                    Char.puzzleInput(Action);
+                if (Objects.equals(Char.Current.scenario.State, "After")){
+                    Inputting(Action);
                     waitForInput = false;
                 }
-                else{
-                    Layout.setError("Invalid Input");
+                else {
+                    if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
+                        Char.puzzleInput(Action);
+
+                        hunterMove();
+                        waitForInput = false;
+                        if (Char.Current.scenario.Path > 5) {//string splicing
+                            String outcome = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length() - 4, Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length());
+                            if (!Char.Current.scenario.completed) {
+                                Char.Current.scenario.completed = true;
+                                Char.Current.scenario.State = "After";
+                                Char.genPuzOut(outcome);
+                                ChangeStates();
+                            }
+                        }
+                    } else {
+                        Layout.setError("Invalid Input");
+                    }
                 }
             }
             else if(Objects.equals(gameState, "Event")){
-                System.out.println("Event");
-                Char.eventInput(Layout.textInput.getText());
-                waitForInput = false;
+                if (Objects.equals(Char.Current.scenario.State, "After")){
+                    Inputting(Action);
+                    waitForInput = false;
+                }
+                else {
+                    if (Objects.equals(Action, "1") || Objects.equals(Action, "2") || Objects.equals(Action, "3")) {
+                        Char.eventInput(Layout.textInput.getText());
+                        hunterMove();
+                        waitForInput = false;
+                        if (Char.Current.scenario.Path > 5) {//string splicing
+                            String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length() - 4, Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length());
+                            if (!Char.Current.scenario.completed) {
+                                Char.Current.scenario.completed = true;
+                                Char.Current.scenario.State = "After";
+                                Char.genEveOut(outcome);
+                                ChangeStates();
+                            }
+                        }
+                    } else {
+                        Layout.setError("Invalid Input");
+                    }
+                }
             }
 
             Layout.textInput.setText("");
         };
+        return Listener;
     }
 
     public static void setup(){
         Dict = new MyDictionaries(); //hashtable
         Art = new Art();
         Char = new Player();
+        Hunter = new Anomalocaris();
 
         Layout = new Layout();
         Layout.textInput.addActionListener(InputListener());

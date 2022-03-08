@@ -7,6 +7,10 @@ import com.CambrianAdventure.app.exploration.Scenario;
 public class Encounter extends Scenario {
     public Encounter(){
         super(2, "Encounter");
-        enemy = new Hallucigenia();
+        enemy = new Generate().GenerateEnemy();
+    }
+    public Encounter(Creature Enemy){
+        super(2, "Encounter");
+        enemy = Enemy;
     }
 }

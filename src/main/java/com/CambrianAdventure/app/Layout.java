@@ -1,8 +1,11 @@
 package com.CambrianAdventure.app;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Layout {
     public JPanel outer;
@@ -24,20 +27,20 @@ public class Layout {
 
         DescriptionHeader = new JTextArea("Description");
         DescriptionHeader.setLineWrap(true);
-        DescriptionHeader.setPreferredSize(new Dimension(470, 380));
+        DescriptionHeader.setPreferredSize(new Dimension(470, 180));
         DescriptionHeader.setEditable(false);
         DescriptionHeader.setBackground(new Color(8, 0, 8)); //Text bg
         DescriptionHeader.setForeground(Color.white);
         DescriptionHeader.setWrapStyleWord(true);
 
         DescriptionFooter = new JTextArea("Choices");
-        DescriptionFooter.setLineWrap(false);
-        DescriptionFooter.setMinimumSize(new Dimension(470, 180));
-        DescriptionHeader.setPreferredSize(new Dimension(470, 180));
+        DescriptionFooter.setLineWrap(true);
+        DescriptionFooter.setPreferredSize(new Dimension(300, 180));
         DescriptionFooter.setEditable(false);
         DescriptionFooter.setBackground(new Color(8,0,8));
-        DescriptionFooter.setWrapStyleWord(false);
-        DescriptionFooter.setForeground(Color.red);
+        DescriptionFooter.setWrapStyleWord(true);
+        DescriptionFooter.setForeground(new Color(255, 115, 115));
+
 
 
 
@@ -90,15 +93,21 @@ public class Layout {
 
 
         charInput = new JLabel("User Input");
+        charInput.setForeground(Color.white);
+
 
         textInput = new JTextField("", 20);
         textInput.setMaximumSize(( new Dimension( 800, 100)));
+        textInput.setBackground(new Color(20, 20, 20));
+        textInput.setForeground(Color.white);
 
         err = new JTextArea("");
         err.setLineWrap(true);
         err.setWrapStyleWord(true);
         err.setPreferredSize(new Dimension(700, 70));
         err.setEditable(false);
+        err.setBackground(new Color(20, 20, 20));
+        err.setForeground(Color.white);
 
         Input = new JPanel();
         Input.setPreferredSize(new Dimension(770, 140));
@@ -127,6 +136,21 @@ public class Layout {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
+
+    }
+    public void tutorial() throws IOException {
+        JFrame frame1 = new JFrame("Tutorial (Close this window when ready!)");
+        BufferedImage tutor = ImageIO.read(new File("src/main/resources/tutor.png"));
+        JLabel picLabel = new JLabel(new ImageIcon(tutor));
+        frame1.add(picLabel);
+        frame1.setSize(1280, 750);
+        frame1.setLocationRelativeTo(null);
+        frame1.setResizable(false);
+        frame1.setVisible(true);
+        frame1.pack();
+        //frame1.add(picLabel);
+
+
     }
     public void setDesText(String In){
         DescriptionHeader.setText(In);
@@ -134,6 +158,7 @@ public class Layout {
     public void addDesText(String In){
         DescriptionHeader.append(In);
     }
+
     public void setFooterText(String In) {DescriptionFooter.setText(In);}
     public void addFooterText(String In){DescriptionFooter.append(In);}
 
@@ -149,5 +174,6 @@ public class Layout {
     public void setError(String In){
         err.setText(In);
     }
+    public void addError(String In){err.append(In);}
 
 }
