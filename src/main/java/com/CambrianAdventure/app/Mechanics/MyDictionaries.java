@@ -250,7 +250,7 @@ public class MyDictionaries {
                         "Having no use for the few wares you saw upon your cursory glance, you leave immediately. Something doesn't feel right about that place and you want no part of it. NTHN",
                         "",
                         "",
-                        "You need food and you're willing to trade anything for it. The Master admires your spikes and offers to trade you some of his food stash for a few of your spikes. LSPL"
+                        "You need food and you're willing to trade anything for it. The Master admires your spikes and offers to trade you some of his food stash for a few of your spikes. TSPL"
                 ));
                 event03 = new ArrayList<>(Arrays.asList(
                         "When you settle down to rest in a nearby cave entrance, a creature comes out and offers a trade. In return for solving it's riddle, it will give you a useful item to boost your armour level. If you fail, it will eat you",
@@ -276,11 +276,11 @@ public class MyDictionaries {
                         "3. Try to flee before the rocks reach you",
                         "3. Attempt to use your spikes as a shield",
 
-                        "You try to move quickly and dodge between the rocks as they fall. You manage to get around the first one, but to your horror, the second comes in much faster and pins you to the seabed. Your vision fades.",
-                        "You get as close to the outcropping as you can and hide under a small ledge, pressing your body into the stone. The rocks tumble down beside you, narrowly missing the outcropping. Somehow, you're alive.",
-                        "You turn your shell up and tense up your carapace as the rocks tumble down. Most miss you but some make contact and smash against your shell. You are bruised but your shell is hardened by the experience.",
-                        "You don't hesitate for a moment and dash away from the outcropping. You're long gone by the time the rocks reach the spot you were at mere moments ago. Your speed has saved your life.",
-                        "Although this is not their intended purpose, you're out of time and ideas. As the rocks come down, you flare out your spikes in an attempt to deflect some of the rubble. You take a couple of hits but it works better than expected. You're not hurt, but your spikes have been dulled significantly."
+                        "You try to move quickly and dodge between the rocks as they fall. You manage to get around the first one, but to your horror, the second comes in much faster and pins you to the seabed. Your vision fades to black. DEAD",
+                        "You get as close to the outcropping as you can and hide under a small ledge, pressing your body into the stone. The rocks tumble down beside you, narrowly missing the outcropping. Somehow, you're alive. NTHN",
+                        "You turn your shell up and tense up your carapace as the rocks tumble down. Most miss you but some make contact and smash against your shell. You are bruised but your shell is hardened by the experience. GSHL",
+                        "You don't hesitate for a moment and dash away from the outcropping. You're long gone by the time the rocks reach the spot you were at mere moments ago. Your speed has saved your life. NTHN",
+                        "Although this is not their intended purpose, you're out of time and ideas. As the rocks come down, you flare out your spikes in an attempt to deflect some of the rubble. You take a couple of hits but it works better than expected. You're not hurt, but your spikes have been dulled significantly. LSPL"
                 ));
                 Events.put(1, event01);
                 Events.put(2, event02);

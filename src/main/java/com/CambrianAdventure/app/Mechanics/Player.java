@@ -316,13 +316,17 @@ public class Player extends Creature {
     public void genEveOut(String out){
         switch (out){
             case "GSMF": foodLevel(2);
-                Layout.setError("You gained a small level of food");break;
+                Layout.setError("You gained a small amount of food");break;
             case "GBGF": foodLevel(4);
-                Layout.setError("You gained a large level of food");break;
+                Layout.setError("You gained a large amount of food");break;
             case "LSMF": foodLevel(-4);
-                Layout.setError("You lost a small level of food");break;
+                Layout.setError("You lost a small amount of food");break;
             case "LBGF": foodLevel(-8);
-                Layout.setError("You lost a large level of food");break;
+                Layout.setError("You lost a large amount of food");break;
+            case "LSPL": if (spikeDamage > 0) {
+                spikeDamage -= 1;
+                Layout.setError("Your spikes have dulled");
+            } break;
             case "LOHP": this.health -= 1; charDisplay();
                 Layout.setError("You lost a health point"); break;
             case "NTHN":
@@ -366,12 +370,12 @@ public class Player extends Creature {
                 Current.scenario.State = "During";
                 Layout.setError("A boss creature appeared");
                 break;
-            case "LSPL": if ((spikeDamage - 1) < 0) {
-                            break;
-                         } else {
+            case "TSPL": if (spikeDamage > 0) {
                             spikeDamage -= 1;
                             foodLevel(5);
                             Layout.setError("You traded your spikes for some food");
+                         } else {
+                            Layout.setError("Your spikes are too dull to trade");
                          } break;
             case "GSHL": this.armorLevel += 1;
                 Layout.setError("You gained a level of armor"); break;
