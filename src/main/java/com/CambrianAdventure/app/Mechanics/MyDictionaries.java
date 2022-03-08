@@ -245,11 +245,11 @@ public class MyDictionaries {
                         "",
                         "3. Trade some of your spikes for some food",
 
-                        "Upon examination of the master's wares you discover none of them are of any use to you. They are mostly knickknacks and the master is hoping to trick people into giving up valuable resources for his wares. NTHN",
+                        "Upon examination of the Master's wares you discover none of them are of any use to you. They are mostly knickknacks and the Master is hoping to trick people into giving up valuable resources for his wares. LSMF",
                         "Having no use for the few wares you saw upon your cursory glance, you leave immediately. Something doesn't feel right about that place and you want no part of it. NTHN",
                         "",
                         "",
-                        "You need food and you're willing to trade anything for it. The master admires your spikes and offers to trade you some of his food stash for a few of your spikes. LSPL"
+                        "You need food and you're willing to trade anything for it. The Master admires your spikes and offers to trade you some of his food stash for a few of your spikes. LSPL"
                 ));
                 event03 = new ArrayList<>(Arrays.asList(
                         "When you settle down to rest in a nearby cave entrance, a creature comes out and offers a trade. In return for solving it's riddle, it will give you a useful item to boost your armour level. If you fail, it will eat you",
@@ -312,22 +312,10 @@ public class MyDictionaries {
                         ));
                 roomType.put(0,biomeType);
 
-                eventEvent = new ArrayList<>(Arrays.asList(
-                                "There is only one way forward. You will have to travel in that direction.",
-                                ""
-                        ));
-                eventPuzzle = new ArrayList<>(Arrays.asList(
-                                "A chill passes down your carapace. This locale is particularly unique.",
-                                ""
-                        ));
                 eventEncounter = new ArrayList<>(Arrays.asList(
                                 "You feel on edge. A quick scan of the area confirms your caution.",
                                 ""
                         ));
 
-                creatures = new ArrayList<>(Arrays.asList(
-                                "",
-                                ""
-                        ));
         }
 }
