@@ -102,7 +102,11 @@ public class Main {
                     if (hunterPresent) {
                         Char.Current.scenario.enemy = Hunter;
                     }
-                    Layout.setAscText(Art.monster);
+                    if (Char.Current.scenario.enemy.name == "Hymenocaris") {
+                        Layout.setAscText(Art.hymenocaris);
+                    } else {
+                        Layout.setAscText(Art.monster);
+                    }
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
                         Char.hidden = false;
                         if (Char.roomCount != 1) {
