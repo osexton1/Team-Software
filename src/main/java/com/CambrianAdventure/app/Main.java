@@ -180,10 +180,16 @@ public class Main {
                                 Hunter.distanceBehind = 2;
                             }
                         }
+                        else if (Char.disToFlee <= 0) {
+                            Layout.setDesText("You fled the battlefield");
+                        }
                         else if (Char.combatHealth <= 0){
                             Layout.setDesText("You lost the fight against the enemy " + Char.Current.scenario.enemy.name + ", and it ran away.");
                         }
-                        else {
+                        else if (Char.Current.scenario.enemy.disToFlee <= 0) {
+                            Layout.setDesText("The enemy " + Char.Current.scenario.enemy.name + " fled the battlefield");
+                        }
+                        else if (Char.Current.scenario.enemy.combatHealth <= 0){
                             Layout.setDesText("You killed the enemy " + Char.Current.scenario.enemy.name + ".");
                         }
                         Layout.addDesText("\n\n" + Dict.NumPaths.get(Char.Current.scenario.numPaths));
