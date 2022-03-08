@@ -251,28 +251,24 @@ public class Player extends Creature {
 
     public void genPuzOut(String out){
         switch (out){
-            case "GSMF": foodLevel(2);break;
-            case "GBGF": foodLevel(4);break;
-            case "LSMF": foodLevel(-4);break;
-            case "LBGF": foodLevel(-8);break;
-            case "LOHP": this.health -= 1; charDisplay(); break;
-            case "NTHN": break;
-            case "FSMM": new Generate().GenSmall();break;
-            case "FMEM": new Generate().GenLarge();break;
-            case "FBGM": new Generate().GenBoss();break;
-            case "DEAD": this.health = 0; charDisplay(); break;
-        }
-        Current.scenario.completed = true;
-    }
-
-    public void genEveOut(String out){
-        switch (out){
-            case "GSMF": foodLevel(2);break;
-            case "GBGF": foodLevel(4);break;
-            case "LSMF": foodLevel(-4);break;
-            case "LBGF": foodLevel(-8);break;
-            case "LOHP": this.health -= 1; charDisplay(); break;
-            case "NTHN": break;
+            case "GSMF": foodLevel(2);
+                Current.scenario.completed = true;
+                Layout.setError("You gained a small amount of food");
+                break;
+            case "GBGF": foodLevel(4);
+                Current.scenario.completed = true;
+                Layout.setError("You gained a large amount of food");break;
+            case "LSMF": foodLevel(-4);
+                Current.scenario.completed = true;
+                Layout.setError("You lost a small amount of food");break;
+            case "LBGF": foodLevel(-8);
+                Current.scenario.completed = true;
+                Layout.setError("You lost a large amount of food");break;
+            case "LOHP": this.health -= 1; charDisplay();
+                Current.scenario.completed = true;
+                Layout.setError("You lost a health point"); break;
+            case "NTHN":
+                Layout.setError("Nothing happened");break;
             case "FSMM":
                 Encounter enemy = new Encounter();
                 enemy.enemy = new Generate().GenSmall();
@@ -284,9 +280,8 @@ public class Player extends Creature {
                 Current.scenario = enemy;
                 Current.scenario.completed = false;
                 Current.scenario.State = "During";
-                        break;
-            case "FMEM":
-                enemy = new Encounter();
+                Layout.setError("A small creature appeared");break;
+            case "FMEM": enemy = new Encounter();
                 enemy.enemy = new Generate().GenLarge();
                 enemy.numPaths = Current.scenario.numPaths;
                 enemy.leftPath = Current.scenario.leftPath;
@@ -296,6 +291,7 @@ public class Player extends Creature {
                 Current.scenario = enemy;
                 Current.scenario.completed = false;
                 Current.scenario.State = "During";
+                Layout.setError("A Large creature appeared");
                 break;
             case "FBGM":
                 enemy = new Encounter();
@@ -308,15 +304,79 @@ public class Player extends Creature {
                 Current.scenario = enemy;
                 Current.scenario.completed = false;
                 Current.scenario.State = "During";
+                Layout.setError("A boss creature appeared");
+            case "DEAD": this.health = 0;
+                Current.scenario.completed = true;
+                charDisplay();
+                Layout.setError("You died");
+                break;
+        }
+    }
+
+    public void genEveOut(String out){
+        switch (out){
+            case "GSMF": foodLevel(2);
+                Layout.setError("You gained a small level of food");break;
+            case "GBGF": foodLevel(4);
+                Layout.setError("You gained a large level of food");break;
+            case "LSMF": foodLevel(-4);
+                Layout.setError("You lost a small level of food");break;
+            case "LBGF": foodLevel(-8);
+                Layout.setError("You lost a large level of food");break;
+            case "LOHP": this.health -= 1; charDisplay();
+                Layout.setError("You lost a health point"); break;
+            case "NTHN":
+                Layout.setError("Nothing happened");break;
+            case "FSMM":
+                Encounter enemy = new Encounter();
+                enemy.enemy = new Generate().GenSmall();
+                enemy.numPaths = Current.scenario.numPaths;
+                enemy.leftPath = Current.scenario.leftPath;
+                enemy.middlePath = Current.scenario.middlePath;
+                enemy.rightPath = Current.scenario.rightPath;
+                disToFlee = 2;
+                Current.scenario = enemy;
+                Current.scenario.completed = false;
+                Current.scenario.State = "During";
+                Layout.setError("A small creature appeared");
+                        break;
+            case "FMEM":
+                enemy = new Encounter();
+                enemy.enemy = new Generate().GenLarge();
+                enemy.numPaths = Current.scenario.numPaths;
+                enemy.leftPath = Current.scenario.leftPath;
+                enemy.middlePath = Current.scenario.middlePath;
+                enemy.rightPath = Current.scenario.rightPath;
+                disToFlee = 2;
+                Current.scenario = enemy;
+                Current.scenario.completed = false;
+                Current.scenario.State = "During";
+                Layout.setError("A Large creature appeared");
+                break;
+            case "FBGM":
+                enemy = new Encounter();
+                enemy.enemy = new Generate().GenBoss();
+                enemy.numPaths = Current.scenario.numPaths;
+                enemy.leftPath = Current.scenario.leftPath;
+                enemy.middlePath = Current.scenario.middlePath;
+                enemy.rightPath = Current.scenario.rightPath;
+                disToFlee = 2;
+                Current.scenario = enemy;
+                Current.scenario.completed = false;
+                Current.scenario.State = "During";
+                Layout.setError("A boss creature appeared");
                 break;
             case "LSPL": if ((spikeDamage - 1) < 0) {
                             break;
                          } else {
                             spikeDamage -= 1;
                             foodLevel(5);
+                            Layout.setError("You traded your spikes for some food");
                          } break;
-            case "GSHL": this.armorLevel += 1; break;
-            case "DEAD": this.health = 0; charDisplay(); break;
+            case "GSHL": this.armorLevel += 1;
+                Layout.setError("You gained a level of armor"); break;
+            case "DEAD": this.health = 0; charDisplay();
+                Layout.setError("You died"); break;
         }
     }
 

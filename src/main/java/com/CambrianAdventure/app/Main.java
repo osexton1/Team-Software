@@ -28,6 +28,7 @@ public class Main {
     public static boolean combatChange;
     public static boolean moveOn;
     public static int score = 0;
+    public static ActionListener Listener;
     public static boolean FirstFight = true;
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -43,6 +44,7 @@ public class Main {
             }
             if (Char.health <= 0) {
                 Char.charDisplay();
+                Layout.textInput.removeActionListener(Listener);
                 Layout.setAscText(Art.death);
                 Layout.setDesText("You ran out of food and starved to death\n");
                 score = (Char.globalRoomCount * 50) + (Char.evolutionLevel * 200);
@@ -407,7 +409,7 @@ public class Main {
     }
 
     public static ActionListener InputListener(){
-        return e -> {
+        Listener = e -> {
             Layout.setError("");
             String Action = Layout.textInput.getText();
             if(LevelUp){
@@ -515,7 +517,6 @@ public class Main {
                                 Char.genPuzOut(outcome);
                                 ChangeStates();
                             }
-                            System.out.println(Char.Current.completed);
                         }
                     } else {
                         Layout.setError("Invalid Input");
@@ -538,7 +539,6 @@ public class Main {
                                 Char.Current.scenario.completed = true;
                                 Char.Current.scenario.State = "After";
                                 Char.genEveOut(outcome);
-                                System.out.println(Char.Current.scenario.completed);
                                 ChangeStates();
                             }
                         }
@@ -550,6 +550,7 @@ public class Main {
 
             Layout.textInput.setText("");
         };
+        return Listener;
     }
 
     public static void setup(){

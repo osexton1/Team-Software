@@ -311,15 +311,6 @@ public class MyDictionaries {
                         + "\nYou find yourself in the Volcanic Depths."
                         ));
                 roomType.put(0,biomeType);
-
-                eventEvent = new ArrayList<>(Arrays.asList(
-                                "There is only one way forward. You will have to travel in that direction.",
-                                ""
-                        ));
-                eventPuzzle = new ArrayList<>(Arrays.asList(
-                                "A chill passes down your carapace. This locale is particularly unique.",
-                                ""
-                        ));
                 eventEncounter = new ArrayList<>(Arrays.asList(
                                 "You feel on edge. A quick scan of the area confirms your caution.",
                                 ""
