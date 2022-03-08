@@ -3,10 +3,10 @@ import com.CambrianAdventure.app.enemies.Creature;
 import com.CambrianAdventure.app.exploration.Scenario;
 import com.CambrianAdventure.app.enemies.*;
 import com.CambrianAdventure.app.exploration.Scenarios.*;
-import static com.CambrianAdventure.app.Main.Layout;
-import static com.CambrianAdventure.app.Main.LevelUp;
 
 import java.util.*;
+
+import static com.CambrianAdventure.app.Main.*;
 
 
 public class Player extends Creature {
@@ -55,6 +55,7 @@ public class Player extends Creature {
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
+                this.combatHealth = this.maxCombatHealth;
                 this.foodLevel(-1);
             }
             else if (Objects.equals(input, 2) && Current.scenario.leftPath != null) {
@@ -62,6 +63,7 @@ public class Player extends Creature {
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
+                this.combatHealth = this.maxCombatHealth;
                 this.foodLevel(-1);
             }
             else if (Objects.equals(input, 3) && Current.scenario.rightPath != null) {
@@ -69,6 +71,7 @@ public class Player extends Creature {
                 Current.LoadRoom();
                 roomCount += 1;
                 globalRoomCount += 1;
+                this.combatHealth = this.maxCombatHealth;
                 this.foodLevel(-1);
             }
             else{
@@ -82,22 +85,67 @@ public class Player extends Creature {
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
+                this.combatHealth = this.maxCombatHealth;
                 Current.LoadBiomes();
-                Current.LoadRoom();
+                if (hunterPresent){
+                    if (Current.scenario == null){
+                        Current.scenario = new Encounter();
+                    }
+                    if (Current.scenario.numPaths > 2){
+                        Current.scenario.rightPath = new Encounter();
+                    }
+                    if (Current.scenario.numPaths > 1){
+                        Current.scenario.leftPath = new Encounter();
+                    }
+                    Current.scenario.middlePath = new Encounter();
+                }
+                else {
+                    Current.LoadRoom();
+                }
             } else if (Objects.equals(input, 2) && Current.leftPath != null) {
                 Current = Current.leftPath;
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
+                this.combatHealth = this.maxCombatHealth;
                 Current.LoadBiomes();
-                Current.LoadRoom();
+                if (hunterPresent){
+                    if (Current.scenario == null){
+                        Current.scenario = new Encounter();
+                    }
+                    if (Current.scenario.numPaths > 2){
+                        Current.scenario.rightPath = new Encounter();
+                    }
+                    if (Current.scenario.numPaths > 1){
+                        Current.scenario.leftPath = new Encounter();
+                    }
+                    Current.scenario.middlePath = new Encounter();
+                }
+                else {
+                    Current.LoadRoom();
+                }
             } else if (Objects.equals(input, 3) && Current.rightPath != null) {
                 Current = Current.rightPath;
                 biomeCount += 1;
                 roomCount = 1;
                 globalRoomCount += 1;
+                this.combatHealth = this.maxCombatHealth;
                 Current.LoadBiomes();
-                Current.LoadRoom();
+                if (hunterPresent){
+                    if (Current.scenario == null){
+                        Current.scenario = new Encounter();
+                    }
+                    if (Current.scenario.numPaths > 2){
+                        Current.scenario.rightPath = new Encounter();
+                    }
+                    if (Current.scenario.numPaths > 1){
+                        Current.scenario.leftPath = new Encounter();
+                    }
+                    Current.scenario.middlePath = new Encounter();
+                }
+                else {
+                    Current.LoadRoom();
+                }
             }
             else{
                 System.out.println("Invalid input for movement between biomes");
@@ -225,9 +273,42 @@ public class Player extends Creature {
             case "LBGF": foodLevel(-8);break;
             case "LOHP": this.health -= 1; charDisplay(); break;
             case "NTHN": break;
-            case "FSMM": new Generate().GenSmall();break;
-            case "FMEM": new Generate().GenLarge();break;
-            case "FBGM": new Generate().GenBoss();break;
+            case "FSMM":
+                Encounter enemy = new Encounter();
+                enemy.enemy = new Generate().GenSmall();
+                enemy.numPaths = Current.scenario.numPaths;
+                enemy.leftPath = Current.scenario.leftPath;
+                enemy.middlePath = Current.scenario.middlePath;
+                enemy.rightPath = Current.scenario.rightPath;
+                disToFlee = 2;
+                Current.scenario = enemy;
+                Current.scenario.completed = false;
+                Current.scenario.State = "During";
+                        break;
+            case "FMEM":
+                enemy = new Encounter();
+                enemy.enemy = new Generate().GenLarge();
+                enemy.numPaths = Current.scenario.numPaths;
+                enemy.leftPath = Current.scenario.leftPath;
+                enemy.middlePath = Current.scenario.middlePath;
+                enemy.rightPath = Current.scenario.rightPath;
+                disToFlee = 2;
+                Current.scenario = enemy;
+                Current.scenario.completed = false;
+                Current.scenario.State = "During";
+                break;
+            case "FBGM":
+                enemy = new Encounter();
+                enemy.enemy = new Generate().GenBoss();
+                enemy.numPaths = Current.scenario.numPaths;
+                enemy.leftPath = Current.scenario.leftPath;
+                enemy.middlePath = Current.scenario.middlePath;
+                enemy.rightPath = Current.scenario.rightPath;
+                disToFlee = 2;
+                Current.scenario = enemy;
+                Current.scenario.completed = false;
+                Current.scenario.State = "During";
+                break;
             case "LSPL": if ((spikeDamage - 1) < 0) {
                             break;
                          } else {
@@ -237,7 +318,6 @@ public class Player extends Creature {
             case "GSHL": this.armorLevel += 1; break;
             case "DEAD": this.health = 0; charDisplay(); break;
         }
-        Current.scenario.completed = true;
     }
 
     public void eventInput(String Action){
@@ -321,10 +401,13 @@ public class Player extends Creature {
             Layout.setError("After a period of waiting, you notice an enemy closing in on you.");
             Layout.addError("You have no choice but to fight.");
             Encounter enemy = new Encounter();
+            enemy.numPaths = Current.scenario.numPaths;
+            enemy.leftPath = Current.scenario.leftPath;
+            enemy.middlePath = Current.scenario.middlePath;
+            enemy.rightPath = Current.scenario.rightPath;
             disToFlee = 2;
             Current.scenario = enemy;
-            Current.scenario.changeState();
-            Current.LoadRoom();
+            Current.scenario.State = "During";
         }
         charDisplay();
     }

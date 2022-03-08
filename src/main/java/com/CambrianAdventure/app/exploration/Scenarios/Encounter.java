@@ -9,4 +9,8 @@ public class Encounter extends Scenario {
         super(2, "Encounter");
         enemy = new Generate().GenerateEnemy();
     }
+    public Encounter(Creature Enemy){
+        super(2, "Encounter");
+        enemy = Enemy;
+    }
 }

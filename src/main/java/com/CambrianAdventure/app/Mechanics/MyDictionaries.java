@@ -222,14 +222,14 @@ public class MyDictionaries {
                 event01 = new ArrayList<>(Arrays.asList(
                         "0 Base Description\n",
 
-                        "1. Option 1 description",
-                        "2. Option 2 description",
+                        "1. Small Monster",
+                        "2. Large Monster",
                         "3. Option Shelled description",
                         "3. Option Finned description",
                         "3. Option Spiked description",
 
-                        "Option 1 outcome",
-                        "Option 2 outcome",
+                        "Small Monster FSMM",
+                        "Large Monster FMEM",
                         "Option Shelled outcome",
                         "Option Finned outcome",
                         "Option Spiked outcome"

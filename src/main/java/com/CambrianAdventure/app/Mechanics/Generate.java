@@ -49,7 +49,6 @@ public class Generate {
             case 2: outputroom = new Encounter(); break;
             }
         return outputroom;
-
     }
 
     public Environment GenerateBiome(Integer currentBiome){

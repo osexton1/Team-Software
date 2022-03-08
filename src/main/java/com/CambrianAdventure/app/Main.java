@@ -102,6 +102,7 @@ public class Main {
                     }
                     Layout.setAscText(Art.monster);
                     if (Objects.equals(Char.Current.scenario.State, "Pre")){//pre combat
+                        Char.hidden = false;
                         if (Char.roomCount != 1) {
                             Layout.setDesText("");
                         }
@@ -124,6 +125,8 @@ public class Main {
                         if (hunterPresent) {
                             hunterPresent = false;
                             Hunter.combatHealth = 120;
+                            Hunter.tUntilMove = 3;
+                            Hunter.distanceBehind = 2;
                         }
                         //during combat
                         //enemy description probably needed
@@ -167,7 +170,12 @@ public class Main {
                     else {
                         if (Char.hidden){
                             Layout.setDesText("You avoided the enemy " + Char.Current.scenario.enemy.name + ".");
-                            Char.hidden = false;
+                            if ((hunterPresent) && (Char.Current.scenario.enemy.name == "Hunter")) {
+                                hunterPresent = false;
+                                Hunter.combatHealth = 120;
+                                Hunter.tUntilMove = 3;
+                                Hunter.distanceBehind = 2;
+                            }
                         }
                         else if (Char.combatHealth <= 0){
                             Layout.setDesText("You lost the fight against the enemy " + Char.Current.scenario.enemy.name + ", and it ran away.");
@@ -190,12 +198,7 @@ public class Main {
                     int Path = Char.Current.scenario.Path;
                     String output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path);
                     if (Char.Current.scenario.Path > 5) {//string splicing
-                        String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(output.length() - 4, output.length());
-                        System.out.println(outcome);
-                        Char.genEveOut(outcome);
                         output = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Path).substring(0, output.length() - 5);
-                        Char.Current.scenario.completed = true;
-                        Char.Current.scenario.State = "After";
                         if (!moveOn) {
                             possInputs();
                         } else if (moveOn) {
@@ -221,12 +224,7 @@ public class Main {
                     Layout.setAscText(Art.puzzle);
                     String output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path);
                     if(Char.Current.scenario.Path > 8){//string splicing
-                        String outcome = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(output.length()-4, output.length());
-                        Char.genPuzOut(outcome);
                         output = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(0, output.length()-5);
-//                        moveOn = true;
-                        Char.Current.scenario.completed = true;
-                        Char.Current.scenario.State = "After";
                         if (!moveOn) {
                             possInputs();
                         }
@@ -358,6 +356,15 @@ public class Main {
 
     public static void possMove(){
         Layout.setFooterText("");
+        if (hunterPresent) {
+            Char.Current.scenario.middlePath = new Encounter();
+            if (Char.Current.scenario.leftPath != null) {
+                Char.Current.scenario.leftPath = new Encounter();
+            }
+            if (Char.Current.scenario.rightPath != null) {
+                Char.Current.scenario.rightPath = new Encounter();
+            }
+        }
         if (Char.Current.completed){
             String output = "Enter a number to move to a new Biome: \n1. " + Char.Current.middlePath.Name;
             if (Char.Current.leftPath != null) {
@@ -380,15 +387,6 @@ public class Main {
             output += "";
             Layout.setFooterText("\n" + output);
         }
-        if (hunterPresent) {
-            Char.Current.scenario.middlePath = new Encounter();
-            if (Char.Current.scenario.leftPath != null) {
-                Char.Current.scenario.leftPath = new Encounter();
-            }
-            if (Char.Current.scenario.rightPath != null) {
-                Char.Current.scenario.rightPath = new Encounter();
-            }
-        }
     }
 
     public static void hunterMove() {
@@ -403,8 +401,7 @@ public class Main {
                 System.out.println("behind by " + Hunter.distanceBehind);
             }
         } else {
-            Hunter.tUntilMove = 3;
-            Hunter.distanceBehind = 2;
+            System.out.println("hunter is next room");
             hunterPresent = true;
         }
     }
@@ -416,20 +413,39 @@ public class Main {
             if(LevelUp){
                 try {
                     int intAction = Integer.parseInt(Action);
-                    switch (intAction) {
-                        //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
-                        case 1: Char.maxCombatHealth += 3; Char.combatHealth += 3; break;
-                        case 2: Char.maxFood += 3; Char.food += 3; break;
-                        case 3: Char.attackDamage += 1; break;
-                        case 4: Char.Speed += 1; break;
-                        case 5: Char.spikeDamage += 1; break;
-                        case 6: Char.armorLevel += 1; break;
+                    if (intAction > 0 && intAction < 7) {
+                        switch (intAction) {
+                            //1. Combat Health, 2. Max Food Level, 3. Attack Damage, 4. Combat Speed, 5. Spike Damage, 6. Armor Level
+                            case 1:
+                                Char.maxCombatHealth += 3;
+                                Char.combatHealth += 3;
+                                break;
+                            case 2:
+                                Char.maxFood += 3;
+                                Char.food += 3;
+                                break;
+                            case 3:
+                                Char.attackDamage += 1;
+                                break;
+                            case 4:
+                                Char.Speed += 1;
+                                break;
+                            case 5:
+                                Char.spikeDamage += 1;
+                                break;
+                            case 6:
+                                Char.armorLevel += 1;
+                                break;
+                        }
+                        Char.charDisplay();
+                        Char.evolutionLevel += 1;
+                        Layout.setFooterText("");
+                        waitForInput = false;
+                        LevelUp = false;
                     }
-                    Char.charDisplay();
-                    Char.evolutionLevel += 1;
-                    Layout.setFooterText("");
-                    waitForInput = false;
-                    LevelUp = false;
+                    else{
+                        Layout.setError("Invalid Input for Level up");
+                    }
                 }
                 catch(Throwable Error){
                     Layout.setError("Invalid Input");
@@ -488,7 +504,19 @@ public class Main {
                 else {
                     if (Objects.equals(Action, "1") || Objects.equals(Action, "2")) {
                         Char.puzzleInput(Action);
+
+                        hunterMove();
                         waitForInput = false;
+                        if (Char.Current.scenario.Path > 5) {//string splicing
+                            String outcome = Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length() - 4, Dict.puzzleNum.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length());
+                            if (!Char.Current.scenario.completed) {
+                                Char.Current.scenario.completed = true;
+                                Char.Current.scenario.State = "After";
+                                Char.genPuzOut(outcome);
+                                ChangeStates();
+                            }
+                            System.out.println(Char.Current.completed);
+                        }
                     } else {
                         Layout.setError("Invalid Input");
                     }
@@ -502,7 +530,18 @@ public class Main {
                 else {
                     if (Objects.equals(Action, "1") || Objects.equals(Action, "2") || Objects.equals(Action, "3")) {
                         Char.eventInput(Layout.textInput.getText());
+                        hunterMove();
                         waitForInput = false;
+                        if (Char.Current.scenario.Path > 5) {//string splicing
+                            String outcome = Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).substring(Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length() - 4, Dict.Events.get(Char.Current.scenario.PuzzleNum).get(Char.Current.scenario.Path).length());
+                            if (!Char.Current.scenario.completed) {
+                                Char.Current.scenario.completed = true;
+                                Char.Current.scenario.State = "After";
+                                Char.genEveOut(outcome);
+                                System.out.println(Char.Current.scenario.completed);
+                                ChangeStates();
+                            }
+                        }
                     } else {
                         Layout.setError("Invalid Input");
                     }
