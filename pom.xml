@@ -24,6 +24,7 @@
   </dependencies>
   <build>
     <defaultGoal>install</defaultGoal>
+    <finalName>Cambrian-Adventure</finalName>
 
     <plugins>
       <plugin>
@@ -60,6 +61,7 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <finalName>Cambrian-Adventure</finalName>
         </configuration>
       </plugin>
     </plugins>
