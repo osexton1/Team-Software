@@ -140,7 +140,7 @@ public class Layout {
     }
     public void tutorial() throws IOException {
         JFrame frame1 = new JFrame("Tutorial (Close this window when ready!)");
-        BufferedImage tutor = ImageIO.read(new File("src/main/resources/tutor.png"));
+        BufferedImage tutor = ImageIO.read(new File("classes/tutor.png"));
         JLabel picLabel = new JLabel(new ImageIcon(tutor));
         frame1.add(picLabel);
         frame1.setSize(1280, 750);
